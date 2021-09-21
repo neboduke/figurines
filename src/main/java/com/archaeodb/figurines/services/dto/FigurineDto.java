@@ -1,4 +1,4 @@
-package com.archaeo.figurines.services.dto;
+package com.archaeodb.figurines.services.dto;
 
 public class FigurineDto {
     private int figurineId;

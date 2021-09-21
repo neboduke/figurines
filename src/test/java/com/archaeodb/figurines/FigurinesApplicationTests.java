@@ -1,12 +1,12 @@
-package com.archaeo.figurines;
+package com.archaeodb.figurines;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 class FigurinesApplicationTests {
 
-	@Test
+	//@Test
 	void contextLoads() {
 	}
 
