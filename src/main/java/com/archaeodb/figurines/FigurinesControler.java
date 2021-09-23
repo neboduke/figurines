@@ -11,7 +11,7 @@ public class FigurinesControler {
     @GetMapping(value = "/hello")
     public Collection<String> sayHello() {
         return IntStream.range(0, 10)
-                .mapToObj(i -> "Hello number " + i)
+                .mapToObj(i -> "Hello numberx " + i)
                 .collect(Collectors.toList());
     }
 

@@ -1,14 +1,9 @@
-package com.archaeodb.figurines.services.model;
+package com.archaeodb.figurines.services.component;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.stereotype.Component;
 
-@Entity
-public class Figurine {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Component
+public class FigurineDto {
     private int figurineId;
     private String title;
     private int keywordId;
@@ -136,9 +131,8 @@ public class Figurine {
         this.materialDescription = materialDescription;
     }
 
-
-    @Override
     public String toString() {
         return "figurineId=" + figurineId + ", title=" + title;
     }
+
 }
