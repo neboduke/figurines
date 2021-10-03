@@ -6,12 +6,8 @@ import com.archaeodb.figurines.model.Chronology;
 import com.archaeodb.figurines.model.Figurine;
 import org.mapstruct.Mapper;
 
-@Mapper()
-public interface FigurineMapper {
+@Mapper
+public interface ChronologyMapper {
     ChronologyDto chronologyFromDb (Chronology chronology);
     Chronology chronologyToDb(ChronologyDto chronologyDto);
-
-    FigurineDto figurineFromDb(Figurine figurine);
-    Figurine figurineToDb (FigurineDto figurine);
-
 }

@@ -1,8 +1,15 @@
 package com.archaeodb.figurines.repository;
-import org.springframework.data.repository.CrudRepository;
-import com.archaeodb.figurines.services.model.Figurine;
+import com.archaeodb.figurines.model.Chronology;
+import com.archaeodb.figurines.model.Figurine;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface FigurineRepository extends CrudRepository<Figurine, Integer> {
+import java.util.List;
+
+@Repository
+public interface FigurineRepository extends JpaRepository<Figurine, Integer> {
+
+    public List<Figurine> getFigurinesByChronology(Chronology chronology);
 
 
 }
