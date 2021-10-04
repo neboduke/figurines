@@ -4,7 +4,7 @@ package com.archaeodb.figurines.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = 'figurine_material')
+@Table(name = "figurine_material")
 public class FigurineMaterial {
 
     @EmbeddedId

@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ChronologyRepository extends JpaRepository<Chronology,Integer> {
+
+    public Chronology getChronologyByChronologyId(Integer id);
 }

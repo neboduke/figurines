@@ -4,35 +4,36 @@ package com.archaeodb.figurines.model;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Embeddable
 public class FigurineMaterialId implements Serializable {
     @Column(name = "figurine_id")
-    private Integer figurineId;
+    private int figurineId;
     @Column(name = "material_id")
-    private Integer materialId;
+    private int materialId;
 
     public FigurineMaterialId() {
     }
 
-    public FigurineMaterialId(Integer figurineId, Integer materialId) {
+    public FigurineMaterialId(int figurineId, int materialId) {
         this.figurineId = figurineId;
         this.materialId = materialId;
     }
 
-    public Integer getFigurineId() {
+    public int getFigurineId() {
         return figurineId;
     }
 
-    public void setFigurineId(Integer figurineId) {
+    public void setFigurineId(int figurineId) {
         this.figurineId = figurineId;
     }
 
-    public Integer getMaterialId() {
+    public int getMaterialId() {
         return materialId;
     }
 
-    public void setMaterialId(Integer materialId) {
+    public void setMaterialId(int materialId) {
         this.materialId = materialId;
     }
 

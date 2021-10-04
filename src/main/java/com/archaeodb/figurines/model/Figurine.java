@@ -4,6 +4,8 @@ package com.archaeodb.figurines.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Figurine {
@@ -28,6 +30,21 @@ public class Figurine {
     @JsonBackReference
     public Chronology getChronology() {
         return chronology;
+    }
+
+    @OneToMany (
+            mappedBy = "figurine",
+            fetch = FetchType.LAZY)
+    private List<FigurineMaterial> figurineMaterialList = new ArrayList<>();
+
+
+
+    public List<FigurineMaterial> getFigurineMaterialList() {
+        return figurineMaterialList;
+    }
+
+    public void setFigurineMaterialList(List<FigurineMaterial> figurineMaterialList) {
+        this.figurineMaterialList = figurineMaterialList;
     }
 
     public void setChronology(Chronology chronology) {

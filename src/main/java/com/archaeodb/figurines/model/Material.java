@@ -1,8 +1,8 @@
 package com.archaeodb.figurines.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Material {
@@ -10,6 +10,11 @@ public class Material {
     @GeneratedValue()
     private int materialId;
     private String title;
+
+    @OneToMany(
+            mappedBy = "material",
+            fetch = FetchType.LAZY)
+    private List<FigurineMaterial> figurineMaterialList = new ArrayList<>();
 
     public Material() {
     }

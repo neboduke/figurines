@@ -4,15 +4,17 @@ import com.archaeodb.figurines.dto.ChronologyDto;
 import com.archaeodb.figurines.dto.FigurineDto;
 import com.archaeodb.figurines.mapper.ChronologyMapper;
 import com.archaeodb.figurines.mapper.FigurineMapper;
+import com.archaeodb.figurines.mapper.MaterialMapper;
 import com.archaeodb.figurines.model.Chronology;
 import com.archaeodb.figurines.model.Figurine;
+import com.archaeodb.figurines.model.Material;
 import com.archaeodb.figurines.repository.ChronologyRepository;
 import com.archaeodb.figurines.repository.FigurineRepository;
+import com.archaeodb.figurines.repository.MaterialRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,8 +23,10 @@ public class FigurineService {
 
     private final FigurineRepository figurineRepository;
     private final ChronologyRepository chronologyRepository;
+    private final MaterialRepository materialRepository;
     private final FigurineMapper figurineMapper = Mappers.getMapper(FigurineMapper.class);
     private final ChronologyMapper chronologyMapper = Mappers.getMapper(ChronologyMapper.class);
+    private final MaterialMapper materialMapper= Mappers.getMapper(MaterialMapper.class);
 
     public FigurineDto getFigurineById(Integer figurineId) {
 
@@ -40,8 +44,8 @@ public class FigurineService {
         return getFigurineDtos(figurines);
     }
 
-    public List<FigurineDto> getFigurinesByChronology(Chronology chronology) {
-
+    public List<FigurineDto> getFigurinesByChronology(int chronologyId) {
+        Chronology chronology = chronologyRepository.getById(chronologyId);
         List<Figurine> figurines = figurineRepository.getFigurinesByChronology(chronology);
         return getFigurineDtos(figurines);
 
@@ -53,6 +57,12 @@ public class FigurineService {
                         .map(f -> figurineMapper.figurineFromDb(f))
                         .collect(Collectors.toList());
         return figurineDtos;
+    }
+
+    public List<FigurineDto> getFigurinesByMaterial( int materialId) {
+        Material material = materialRepository.getById(materialId);
+        List<Figurine> figurines = figurineRepository.getFigurinesByFigurineMaterialList(material);
+        return getFigurineDtos(figurines);
     }
 
     public List<ChronologyDto> getChronolgies() {
@@ -67,8 +77,9 @@ public class FigurineService {
     }
 
     @Inject
-    public FigurineService(FigurineRepository figurineRepository, ChronologyRepository chronologyRepository) {
+    public FigurineService(FigurineRepository figurineRepository, ChronologyRepository chronologyRepository, MaterialRepository materialRepository) {
         this.figurineRepository = figurineRepository;
         this.chronologyRepository = chronologyRepository;
+        this.materialRepository = materialRepository;
     }
 }
