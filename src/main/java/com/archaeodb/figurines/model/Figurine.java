@@ -32,19 +32,22 @@ public class Figurine {
         return chronology;
     }
 
-    @OneToMany (
-            mappedBy = "figurine",
-            fetch = FetchType.LAZY)
-    private List<FigurineMaterial> figurineMaterialList = new ArrayList<>();
+    @ManyToMany (
+            fetch = FetchType.LAZY
+    )
+    @JoinTable(
+            name = "figurine_material",
+            joinColumns = @JoinColumn(name = "figurine_id"),
+            inverseJoinColumns = @JoinColumn (name ="material_id")
+    )
+    private List<Material> materials = new ArrayList<>();
 
-
-
-    public List<FigurineMaterial> getFigurineMaterialList() {
-        return figurineMaterialList;
+    public List<Material> getMaterials() {
+        return materials;
     }
 
-    public void setFigurineMaterialList(List<FigurineMaterial> figurineMaterialList) {
-        this.figurineMaterialList = figurineMaterialList;
+    public void setMaterials(List<Material> materials) {
+        this.materials = materials;
     }
 
     public void setChronology(Chronology chronology) {
@@ -117,6 +120,17 @@ public class Figurine {
         this.materialDescription = materialDescription;
         this.exibitNr = exibitNr;
         this.chronology = chronology;
+    }
+
+    public Figurine(String title, String descriptionIconography, String descriptionIconology, String dateAbs, String materialDescription, String exibitNr, Chronology chronology, List<Material> materials) {
+        this.title = title;
+        this.descriptionIconography = descriptionIconography;
+        this.descriptionIconology = descriptionIconology;
+        this.dateAbs = dateAbs;
+        this.materialDescription = materialDescription;
+        this.exibitNr = exibitNr;
+        this.chronology = chronology;
+        this.materials = materials;
     }
 
     @Override

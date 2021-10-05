@@ -3,6 +3,8 @@ package com.archaeodb.figurines.dto;
 import com.archaeodb.figurines.model.Chronology;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class FigurineDto {
     private int figurineId;
@@ -13,7 +15,11 @@ public class FigurineDto {
     private String materialDescription;
     private String exibitNr;
     private ChronologyDto chronology;
+    private List<MaterialDto> materials;
 
+
+    public FigurineDto() {
+    }
 
     public FigurineDto(int figurineId, String title,
                        String descriptionIconography,
@@ -32,7 +38,24 @@ public class FigurineDto {
         this.chronology = chronology;
     }
 
-    public FigurineDto() {
+    public FigurineDto(int figurineId,
+                       String title,
+                       String descriptionIconography,
+                       String descriptionIconology,
+                       String dateAbs,
+                       String materialDescription,
+                       String exibitNr,
+                       ChronologyDto chronology,
+                       List<MaterialDto> materials) {
+        this.figurineId = figurineId;
+        this.title = title;
+        this.descriptionIconography = descriptionIconography;
+        this.descriptionIconology = descriptionIconology;
+        this.dateAbs = dateAbs;
+        this.materialDescription = materialDescription;
+        this.exibitNr = exibitNr;
+        this.chronology = chronology;
+        this.materials = materials;
     }
 
     public int getFigurineId() {
@@ -97,6 +120,14 @@ public class FigurineDto {
 
     public void setChronology(ChronologyDto chronology) {
         this.chronology = chronology;
+    }
+
+    public List<MaterialDto> getMaterials() {
+        return materials;
+    }
+
+    public void setMaterials(List<MaterialDto> materials) {
+        this.materials = materials;
     }
 
     @Override

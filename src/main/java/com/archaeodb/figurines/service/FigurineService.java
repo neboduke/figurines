@@ -60,8 +60,8 @@ public class FigurineService {
     }
 
     public List<FigurineDto> getFigurinesByMaterial( int materialId) {
-        Material material = materialRepository.getById(materialId);
-        List<Figurine> figurines = figurineRepository.getFigurinesByFigurineMaterialList(material);
+        Material material = materialRepository.getMaterialsByMaterialId(materialId);
+        List<Figurine> figurines = figurineRepository.getFigurinesByMaterials(material);
         return getFigurineDtos(figurines);
     }
 

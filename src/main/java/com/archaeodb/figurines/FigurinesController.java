@@ -27,16 +27,16 @@ public class FigurinesController {
         return figurineService.getFigurineById(id);
     }
 
-    @GetMapping(value = "/figurine/material/{materialId}")
-    public @ResponseBody List<FigurineDto> getFigurinesByMaterial(@PathVariable int materialId){
+    @GetMapping(value = "/figurine/material/{materialid}")
+    public @ResponseBody List<FigurineDto> getFigurinesByMaterial(@PathVariable int materialid){
 
-        return figurineService.getFigurinesByMaterial(materialId);
+        return figurineService.getFigurinesByMaterial(materialid);
     }
 
-    @GetMapping(value = "/figurine/chronology/{chronologyId}")
-    public @ResponseBody List<FigurineDto> getFigurineByChronology(@PathVariable int chronologyId) {
+    @GetMapping(value = "/figurine/chronology/{chronologyid}")
+    public @ResponseBody List<FigurineDto> getFigurinesByChronology(@PathVariable int chronologyid) {
 
-        return figurineService.getFigurinesByChronology(chronologyId);
+        return figurineService.getFigurinesByChronology(chronologyid);
     }
 
     /*CHRONOLOGY*/

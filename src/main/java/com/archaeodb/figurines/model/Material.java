@@ -11,10 +11,13 @@ public class Material {
     private int materialId;
     private String title;
 
-    @OneToMany(
-            mappedBy = "material",
-            fetch = FetchType.LAZY)
-    private List<FigurineMaterial> figurineMaterialList = new ArrayList<>();
+
+
+    @ManyToMany (
+            fetch = FetchType.LAZY,
+            mappedBy = "materials"
+    )
+    private List<Figurine> figurines = new ArrayList<>();
 
     public Material() {
     }
@@ -36,5 +39,13 @@ public class Material {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public List<Figurine> getFigurines() {
+        return figurines;
+    }
+
+    public void setFigurines(List<Figurine> figurines) {
+        this.figurines = figurines;
     }
 }
