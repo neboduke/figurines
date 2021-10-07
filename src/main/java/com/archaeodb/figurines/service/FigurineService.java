@@ -2,19 +2,24 @@ package com.archaeodb.figurines.service;
 
 import com.archaeodb.figurines.dto.ChronologyDto;
 import com.archaeodb.figurines.dto.FigurineDto;
+import com.archaeodb.figurines.dto.MaterialDto;
 import com.archaeodb.figurines.mapper.ChronologyMapper;
 import com.archaeodb.figurines.mapper.FigurineMapper;
+import com.archaeodb.figurines.mapper.LiteratureMapper;
 import com.archaeodb.figurines.mapper.MaterialMapper;
 import com.archaeodb.figurines.model.Chronology;
 import com.archaeodb.figurines.model.Figurine;
+import com.archaeodb.figurines.model.Literature;
 import com.archaeodb.figurines.model.Material;
 import com.archaeodb.figurines.repository.ChronologyRepository;
 import com.archaeodb.figurines.repository.FigurineRepository;
+import com.archaeodb.figurines.repository.LiteratureRepository;
 import com.archaeodb.figurines.repository.MaterialRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,9 +29,11 @@ public class FigurineService {
     private final FigurineRepository figurineRepository;
     private final ChronologyRepository chronologyRepository;
     private final MaterialRepository materialRepository;
+    private final LiteratureRepository literatureRepository;
     private final FigurineMapper figurineMapper = Mappers.getMapper(FigurineMapper.class);
     private final ChronologyMapper chronologyMapper = Mappers.getMapper(ChronologyMapper.class);
-    private final MaterialMapper materialMapper= Mappers.getMapper(MaterialMapper.class);
+    private final MaterialMapper materialMapper = Mappers.getMapper(MaterialMapper.class);
+    private final LiteratureMapper literatureMapper = Mappers.getMapper(LiteratureMapper.class);
 
     public FigurineDto getFigurineById(Integer figurineId) {
 
@@ -35,12 +42,13 @@ public class FigurineService {
         return figurineDto;
     }
 
-//    public Figurine getFigurineById(Integer figurineId){
-//        return figurineRepository.getById(figurineId);
-//    }
+    public List<FigurineDto> getFigurinesByKeyword(String keyword) {
+        List<Figurine> figurines = figurineRepository.findFigurinesByKeywordLike("%"+keyword+"%");
+        return getFigurineDtos(figurines);
+    }
 
     public List<FigurineDto> getFigurines() {
-        List<Figurine> figurines=figurineRepository.findAll();
+        List<Figurine> figurines = figurineRepository.findAll();
         return getFigurineDtos(figurines);
     }
 
@@ -51,18 +59,28 @@ public class FigurineService {
 
     }
 
-    private List<FigurineDto> getFigurineDtos(List<Figurine> figurines){
-        List<FigurineDto> figurineDtos=
+    private List<FigurineDto> getFigurineDtos(List<Figurine> figurines) {
+        List<FigurineDto> figurineDtos =
                 figurines.stream()
                         .map(f -> figurineMapper.figurineFromDb(f))
                         .collect(Collectors.toList());
         return figurineDtos;
     }
 
-    public List<FigurineDto> getFigurinesByMaterial( int materialId) {
+    public List<FigurineDto> getFigurinesByMaterial(int materialId) {
         Material material = materialRepository.getMaterialsByMaterialId(materialId);
         List<Figurine> figurines = figurineRepository.getFigurinesByMaterials(material);
         return getFigurineDtos(figurines);
+    }
+
+    public List<FigurineDto> getFigurinesByLiterature(int literatureId) {
+        Literature literature = literatureRepository.getLiteratureByLiteratureId(literatureId);
+        if(literature != null){
+            List<Figurine> figurines = figurineRepository.getFigurinesByLiterature(literature);
+            return getFigurineDtos(figurines);
+        }
+        return new ArrayList<FigurineDto>();
+
     }
 
     public List<ChronologyDto> getChronolgies() {
@@ -76,10 +94,25 @@ public class FigurineService {
         return chronologyDtos;
     }
 
+    public List<MaterialDto> getMaterials() {
+
+        List<Material> materials = materialRepository.findAll();
+        List<MaterialDto> materialDtos =
+                materials.stream()
+                        .map(m -> materialMapper.materialFromDb(m))
+                        .collect(Collectors.toList());
+
+        return materialDtos;
+    }
+
     @Inject
-    public FigurineService(FigurineRepository figurineRepository, ChronologyRepository chronologyRepository, MaterialRepository materialRepository) {
+    public FigurineService(FigurineRepository figurineRepository,
+                           ChronologyRepository chronologyRepository,
+                           MaterialRepository materialRepository,
+                           LiteratureRepository literatureRepository) {
         this.figurineRepository = figurineRepository;
         this.chronologyRepository = chronologyRepository;
         this.materialRepository = materialRepository;
+        this.literatureRepository = literatureRepository;
     }
 }

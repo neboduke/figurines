@@ -18,16 +18,18 @@ public class Figurine {
     private String dateAbs;
     private String materialDescription;
     private String exibitNr;
+    private String keyword;
 
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(
             name = "chronology_id"
+
     )
 //    @JsonBackReference
     private Chronology chronology;
 
-    @JsonBackReference
+//    @JsonBackReference
     public Chronology getChronology() {
         return chronology;
     }
@@ -42,17 +44,16 @@ public class Figurine {
     )
     private List<Material> materials = new ArrayList<>();
 
-    public List<Material> getMaterials() {
-        return materials;
-    }
+    @ManyToMany(
+            fetch = FetchType.LAZY
+    )
+    @JoinTable(
+            name = "figurine_literature",
+            joinColumns = @JoinColumn(name = "figurine_id"),
+            inverseJoinColumns = @JoinColumn(name = "literature_id")
+    )
+    private List<Literature> literature = new ArrayList<>();
 
-    public void setMaterials(List<Material> materials) {
-        this.materials = materials;
-    }
-
-    public void setChronology(Chronology chronology) {
-        this.chronology = chronology;
-    }
 
     public int getFigurineId() {
         return figurineId;
@@ -110,27 +111,55 @@ public class Figurine {
         this.exibitNr = exibitNr;
     }
 
-    public Figurine() {}
+    public String getKeyword() {
+        return keyword;
+    }
 
-    public Figurine(String title, String descriptionIconography, String descriptionIconology, String dateAbs, String materialDescription, String exibitNr, Chronology chronology) {
-        this.title = title;
-        this.descriptionIconography = descriptionIconography;
-        this.descriptionIconology = descriptionIconology;
-        this.dateAbs = dateAbs;
-        this.materialDescription = materialDescription;
-        this.exibitNr = exibitNr;
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+    public List<Literature> getLiterature() {
+        return literature;
+    }
+
+    public void setLiterature(List<Literature> literature) {
+        this.literature = literature;
+    }
+
+    public List<Material> getMaterials() {
+        return materials;
+    }
+
+    public void setMaterials(List<Material> materials) {
+        this.materials = materials;
+    }
+
+    public void setChronology(Chronology chronology) {
         this.chronology = chronology;
     }
 
-    public Figurine(String title, String descriptionIconography, String descriptionIconology, String dateAbs, String materialDescription, String exibitNr, Chronology chronology, List<Material> materials) {
+    public Figurine() {}
+
+    public Figurine(String title,
+                    String descriptionIconography,
+                    String descriptionIconology,
+                    String dateAbs,
+                    String materialDescription,
+                    String exibitNr,
+                    String keyword,
+                    Chronology chronology,
+                    List<Material> materials,
+                    List<Literature> literature) {
         this.title = title;
         this.descriptionIconography = descriptionIconography;
         this.descriptionIconology = descriptionIconology;
         this.dateAbs = dateAbs;
         this.materialDescription = materialDescription;
         this.exibitNr = exibitNr;
+        this.keyword = keyword;
         this.chronology = chronology;
         this.materials = materials;
+        this.literature = literature;
     }
 
     @Override

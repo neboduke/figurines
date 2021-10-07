@@ -12,7 +12,6 @@ public class Material {
     private String title;
 
 
-
     @ManyToMany (
             fetch = FetchType.LAZY,
             mappedBy = "materials"
@@ -23,6 +22,11 @@ public class Material {
     }
     public Material(String title) {
         this.title = title;
+    }
+
+    public Material(String title, List<Figurine> figurines) {
+        this.title = title;
+        this.figurines = figurines;
     }
 
     public int getMaterialId() {

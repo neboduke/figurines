@@ -1,6 +1,5 @@
 package com.archaeodb.figurines.dto;
 
-import com.archaeodb.figurines.model.Chronology;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,28 +13,13 @@ public class FigurineDto {
     private String dateAbs;
     private String materialDescription;
     private String exibitNr;
+    private String keywords;
     private ChronologyDto chronology;
     private List<MaterialDto> materials;
+    private List<LiteratureDto> literature;
 
 
     public FigurineDto() {
-    }
-
-    public FigurineDto(int figurineId, String title,
-                       String descriptionIconography,
-                       String descriptionIconology,
-                       String dateAbs,
-                       String materialDescription,
-                       String exibitNr,
-                       ChronologyDto chronology) {
-        this.figurineId = figurineId;
-        this.title = title;
-        this.descriptionIconography = descriptionIconography;
-        this.descriptionIconology = descriptionIconology;
-        this.dateAbs = dateAbs;
-        this.materialDescription = materialDescription;
-        this.exibitNr = exibitNr;
-        this.chronology = chronology;
     }
 
     public FigurineDto(int figurineId,
@@ -45,8 +29,10 @@ public class FigurineDto {
                        String dateAbs,
                        String materialDescription,
                        String exibitNr,
+                       String keyword,
                        ChronologyDto chronology,
-                       List<MaterialDto> materials) {
+                       List<MaterialDto> materials,
+                       List<LiteratureDto> literature) {
         this.figurineId = figurineId;
         this.title = title;
         this.descriptionIconography = descriptionIconography;
@@ -54,8 +40,10 @@ public class FigurineDto {
         this.dateAbs = dateAbs;
         this.materialDescription = materialDescription;
         this.exibitNr = exibitNr;
+        this.keywords = keyword;
         this.chronology = chronology;
         this.materials = materials;
+        this.literature = literature;
     }
 
     public int getFigurineId() {
@@ -128,6 +116,22 @@ public class FigurineDto {
 
     public void setMaterials(List<MaterialDto> materials) {
         this.materials = materials;
+    }
+
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
+    public List<LiteratureDto> getLiterature() {
+        return literature;
+    }
+
+    public void setLiterature(List<LiteratureDto> literature) {
+        this.literature = literature;
     }
 
     @Override

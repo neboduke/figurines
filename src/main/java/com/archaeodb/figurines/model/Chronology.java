@@ -18,7 +18,7 @@ public class Chronology {
             mappedBy = "chronology",
             fetch = FetchType.LAZY
     )
-    @JsonManagedReference
+//    @JsonManagedReference
     private final List<Figurine> figurines = new ArrayList<>();
 
     public int getChronologyId() {
