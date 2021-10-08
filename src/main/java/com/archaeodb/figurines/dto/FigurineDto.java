@@ -13,10 +13,13 @@ public class FigurineDto {
     private String dateAbs;
     private String materialDescription;
     private String exibitNr;
-    private String keywords;
+    private String keyword;
     private ChronologyDto chronology;
     private List<MaterialDto> materials;
     private List<LiteratureDto> literature;
+    private CarrierDto carrier;
+    private LocationDto location;
+    private LocationDto exibitLocation;
 
 
     public FigurineDto() {
@@ -32,7 +35,10 @@ public class FigurineDto {
                        String keyword,
                        ChronologyDto chronology,
                        List<MaterialDto> materials,
-                       List<LiteratureDto> literature) {
+                       List<LiteratureDto> literature,
+                       CarrierDto carrier,
+                       LocationDto location,
+                       LocationDto exibitLocation) {
         this.figurineId = figurineId;
         this.title = title;
         this.descriptionIconography = descriptionIconography;
@@ -40,10 +46,13 @@ public class FigurineDto {
         this.dateAbs = dateAbs;
         this.materialDescription = materialDescription;
         this.exibitNr = exibitNr;
-        this.keywords = keyword;
+        this.keyword = keyword;
         this.chronology = chronology;
         this.materials = materials;
         this.literature = literature;
+        this.carrier = carrier;
+        this.location = location;
+        this.exibitLocation = exibitLocation;
     }
 
     public int getFigurineId() {
@@ -118,12 +127,12 @@ public class FigurineDto {
         this.materials = materials;
     }
 
-    public String getKeywords() {
-        return keywords;
+    public String getKeyword() {
+        return keyword;
     }
 
-    public void setKeywords(String keywords) {
-        this.keywords = keywords;
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     public List<LiteratureDto> getLiterature() {
@@ -132,6 +141,30 @@ public class FigurineDto {
 
     public void setLiterature(List<LiteratureDto> literature) {
         this.literature = literature;
+    }
+
+    public CarrierDto getCarrier() {
+        return carrier;
+    }
+
+    public void setCarrier(CarrierDto carrier) {
+        this.carrier = carrier;
+    }
+
+    public LocationDto getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationDto location) {
+        this.location = location;
+    }
+
+    public LocationDto getExibitLocation() {
+        return exibitLocation;
+    }
+
+    public void setExibitLocation(LocationDto exibitLocation) {
+        this.exibitLocation = exibitLocation;
     }
 
     @Override

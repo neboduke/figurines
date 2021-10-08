@@ -105,6 +105,13 @@ public class FigurineService {
         return materialDtos;
     }
 
+    public FigurineDto addFigurine(FigurineDto figurineDto) {
+        Figurine figurine = figurineMapper.figurineToDb(figurineDto);
+        Figurine newFigurine = figurineRepository.save(figurine);
+        FigurineDto newFigurineDto = figurineMapper.figurineFromDb(newFigurine);
+        return newFigurineDto;
+    }
+
     @Inject
     public FigurineService(FigurineRepository figurineRepository,
                            ChronologyRepository chronologyRepository,
@@ -115,4 +122,6 @@ public class FigurineService {
         this.materialRepository = materialRepository;
         this.literatureRepository = literatureRepository;
     }
+
+
 }

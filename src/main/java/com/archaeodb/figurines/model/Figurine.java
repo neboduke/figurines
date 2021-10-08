@@ -1,8 +1,6 @@
 package com.archaeodb.figurines.model;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +22,6 @@ public class Figurine {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(
             name = "chronology_id"
-
     )
 //    @JsonBackReference
     private Chronology chronology;
@@ -53,6 +50,18 @@ public class Figurine {
             inverseJoinColumns = @JoinColumn(name = "literature_id")
     )
     private List<Literature> literature = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "carrier_id")
+    private Carrier carrier;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id")
+    private Location location;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "exibit_location_id")
+    private Location exibitLocation;
 
 
     public int getFigurineId() {
@@ -118,6 +127,7 @@ public class Figurine {
     public void setKeyword(String keyword) {
         this.keyword = keyword;
     }
+
     public List<Literature> getLiterature() {
         return literature;
     }
@@ -138,6 +148,30 @@ public class Figurine {
         this.chronology = chronology;
     }
 
+    public Carrier getCarrier() {
+        return carrier;
+    }
+
+    public void setCarrier(Carrier carrier) {
+        this.carrier = carrier;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public Location getExibitLocation() {
+        return exibitLocation;
+    }
+
+    public void setExibitLocation(Location exibitLocation) {
+        this.exibitLocation = exibitLocation;
+    }
+
     public Figurine() {}
 
     public Figurine(String title,
@@ -149,7 +183,10 @@ public class Figurine {
                     String keyword,
                     Chronology chronology,
                     List<Material> materials,
-                    List<Literature> literature) {
+                    List<Literature> literature,
+                    Carrier carrier,
+                    Location location,
+                    Location exibitLocation) {
         this.title = title;
         this.descriptionIconography = descriptionIconography;
         this.descriptionIconology = descriptionIconology;
@@ -160,6 +197,9 @@ public class Figurine {
         this.chronology = chronology;
         this.materials = materials;
         this.literature = literature;
+        this.carrier = carrier;
+        this.location = location;
+        this.exibitLocation = exibitLocation;
     }
 
     @Override

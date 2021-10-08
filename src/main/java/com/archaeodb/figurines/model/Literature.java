@@ -12,7 +12,7 @@ public class Literature {
     private String title;
     private String isin;
     private String citation;
-    private int parent_id;
+    private Integer parent_id;
     @ManyToMany(
             fetch = FetchType.LAZY,
             mappedBy = "literature"
@@ -32,7 +32,7 @@ public class Literature {
                       String title,
                       String isin,
                       String citation,
-                      int parent_id) {
+                      Integer parent_id) {
         this.literatureId = literatureId;
         this.title = title;
         this.isin = isin;
@@ -76,7 +76,7 @@ public class Literature {
         return parent_id;
     }
 
-    public void setParent_id(int parent_id) {
+    public void setParent_id(Integer parent_id) {
         this.parent_id = parent_id;
     }
 

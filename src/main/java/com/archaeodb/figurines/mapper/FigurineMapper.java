@@ -1,13 +1,7 @@
 package com.archaeodb.figurines.mapper;
 
-import com.archaeodb.figurines.dto.ChronologyDto;
-import com.archaeodb.figurines.dto.FigurineDto;
-import com.archaeodb.figurines.dto.LiteratureDto;
-import com.archaeodb.figurines.dto.MaterialDto;
-import com.archaeodb.figurines.model.Chronology;
-import com.archaeodb.figurines.model.Figurine;
-import com.archaeodb.figurines.model.Literature;
-import com.archaeodb.figurines.model.Material;
+import com.archaeodb.figurines.dto.*;
+import com.archaeodb.figurines.model.*;
 import org.mapstruct.Mapper;
 
 @Mapper()
@@ -23,5 +17,11 @@ public interface FigurineMapper {
 
     LiteratureDto literatureFromDb(Literature literature);
     Literature literatureToDb(LiteratureDto literatureDto);
+
+    CarrierDto carrierFromDb(Carrier carrier);
+    Carrier carrierToDb(CarrierDto carrierDto);
+
+    LocationDto locationFromDb(Location location);
+    Location locationToDb(LocationDto locationDto);
 
 }

@@ -52,6 +52,12 @@ public class FigurinesController {
         return figurineService.getFigurinesByChronology(chronologyid);
     }
 
+    @PostMapping(value ="/figurine/add")
+    public @ResponseBody FigurineDto addFigurine(@RequestBody FigurineDto figurine){
+        FigurineDto newFigurine = figurineService.addFigurine(figurine);
+        return newFigurine;
+    }
+
     /*CHRONOLOGY*/
     @GetMapping(value = "/chronology")
     public @ResponseBody List<ChronologyDto> getChronologies() {
