@@ -101,7 +101,8 @@ public class FigurineService {
                 materials.stream()
                         .map(m -> materialMapper.materialFromDb(m))
                         .collect(Collectors.toList());
-
+//        can do:
+//        materials.stream().map(materialMapper::materialFromDb).collect(Collectors.toList());
         return materialDtos;
     }
 
@@ -110,6 +111,13 @@ public class FigurineService {
         Figurine newFigurine = figurineRepository.save(figurine);
         FigurineDto newFigurineDto = figurineMapper.figurineFromDb(newFigurine);
         return newFigurineDto;
+    }
+
+    public ChronologyDto addChronology(ChronologyDto chronologyDto) {
+        Chronology chronology=chronologyMapper.chronologyToDb(chronologyDto);
+        Chronology newChronology = chronologyRepository.save(chronology);
+        ChronologyDto newChronologyDto = chronologyMapper.chronologyFromDb(newChronology);
+        return newChronologyDto;
     }
 
     @Inject
@@ -122,6 +130,7 @@ public class FigurineService {
         this.materialRepository = materialRepository;
         this.literatureRepository = literatureRepository;
     }
+
 
 
 }

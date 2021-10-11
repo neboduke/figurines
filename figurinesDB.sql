@@ -25,10 +25,10 @@ DROP TABLE IF EXISTS `carrier`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `carrier` (
-  `carrierId` int NOT NULL AUTO_INCREMENT,
+  `carrier_id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(500) NOT NULL,
   `description` text,
-  PRIMARY KEY (`carrierId`)
+  PRIMARY KEY (`carrier_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -55,7 +55,7 @@ CREATE TABLE `chronology` (
   `year_from` int DEFAULT NULL,
   `year_to` int DEFAULT NULL,
   PRIMARY KEY (`chronology_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,7 +64,7 @@ CREATE TABLE `chronology` (
 
 LOCK TABLES `chronology` WRITE;
 /*!40000 ALTER TABLE `chronology` DISABLE KEYS */;
-INSERT INTO `chronology` VALUES (1,'LT A',450,380),(2,'LT B',380,250),(3,'LT C',250,150),(4,'LT D',150,15),(5,'Ha C',778,620),(6,'Ha D1',620,550),(7,'Ha D2',550,510),(8,'Ha D3',510,450);
+INSERT INTO `chronology` VALUES (1,'LT A',450,380),(2,'LT B',380,250),(3,'LT C',250,150),(4,'LT D',150,15),(5,'Ha C',778,620),(6,'Ha D1',620,550),(7,'Ha D2',550,510),(8,'Ha D3',510,450),(9,'Este III',NULL,NULL);
 /*!40000 ALTER TABLE `chronology` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -99,13 +99,15 @@ DROP TABLE IF EXISTS `country`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `country` (
-  `countryId` int NOT NULL,
+  `country_id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `coordinate` varchar(500) DEFAULT NULL,
   `coordinateLng` varchar(20) DEFAULT NULL,
-  `coordinateLtd` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`countryId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `coordinateLat` varchar(20) DEFAULT NULL,
+  `coordinate_lat` varchar(255) DEFAULT NULL,
+  `coordinate_lng` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`country_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -114,6 +116,7 @@ CREATE TABLE `country` (
 
 LOCK TABLES `country` WRITE;
 /*!40000 ALTER TABLE `country` DISABLE KEYS */;
+INSERT INTO `country` VALUES (1,'Tirol / AT',NULL,NULL,NULL,NULL,NULL),(2,'Vorarlberg / AT',NULL,NULL,NULL,NULL,NULL),(3,'Schweiz',NULL,NULL,NULL,NULL,NULL),(4,'Südtirol / IT',NULL,NULL,NULL,NULL,NULL),(5,'Trentino / IT',NULL,NULL,NULL,NULL,NULL),(6,'Italien',NULL,NULL,NULL,NULL,NULL),(7,'Salzburg / AT',NULL,NULL,NULL,NULL,NULL),(8,'Kärnten / AT',NULL,NULL,NULL,NULL,NULL),(9,'Steiermark / AT',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `country` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -133,10 +136,19 @@ CREATE TABLE `figurine` (
   `date_abs` varchar(255) DEFAULT NULL,
   `exibit_nr` varchar(255) DEFAULT NULL,
   `material_description` varchar(255) DEFAULT NULL,
-  `keyword` varchar(2500) DEFAULT NULL,
+  `keyword` varchar(500) DEFAULT NULL,
+  `carrier_id` int NOT NULL,
+  `location_id` int NOT NULL,
+  `exibit_location_id` int DEFAULT NULL,
   PRIMARY KEY (`figurine_id`),
   KEY `fk_chronology_idx_idx` (`chronology_id`),
-  CONSTRAINT `fk_chronology_idx` FOREIGN KEY (`chronology_id`) REFERENCES `chronology` (`chronology_id`) ON UPDATE CASCADE
+  KEY `fk_carrier_idx_idx` (`carrier_id`),
+  KEY `fk_location_idx` (`location_id`),
+  KEY `fk_exibit_location_idx` (`exibit_location_id`),
+  CONSTRAINT `fk_carrier_idx` FOREIGN KEY (`carrier_id`) REFERENCES `carrier` (`carrier_id`),
+  CONSTRAINT `fk_chronology_idx` FOREIGN KEY (`chronology_id`) REFERENCES `chronology` (`chronology_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_exibit_location` FOREIGN KEY (`exibit_location_id`) REFERENCES `location` (`location_id`),
+  CONSTRAINT `fk_location` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -146,7 +158,7 @@ CREATE TABLE `figurine` (
 
 LOCK TABLES `figurine` WRITE;
 /*!40000 ALTER TABLE `figurine` DISABLE KEYS */;
-INSERT INTO `figurine` VALUES (1,'Sänger aus Oberhofen','ikonologie','ikonografie',3,NULL,'123',NULL,'sänger horn trinker figur'),(2,'Krieger aus Oberhofen',NULL,'Figur einer Person mit einem Neaguer Helm am Kopf. In der rechten Hand hält sie ein ovales Objekt das als eine Maske oder als ein Kopf assoziert wird. ',3,NULL,'321','bronze','krieger maske figur');
+INSERT INTO `figurine` VALUES (1,'Sänger aus Oberhofen','ikonologie','ikonografie',3,'4567','123','description of material','sänger horn trinker figur',1,2,1),(2,'Krieger aus Oberhofen',NULL,'Figur einer Person mit einem Neaguer Helm am Kopf. In der rechten Hand hält sie ein ovales Objekt das als eine Maske oder als ein Kopf assoziert wird. ',3,NULL,'321','bronze','krieger maske figur',2,1,NULL);
 /*!40000 ALTER TABLE `figurine` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -224,7 +236,7 @@ CREATE TABLE `hibernate_sequence` (
 
 LOCK TABLES `hibernate_sequence` WRITE;
 /*!40000 ALTER TABLE `hibernate_sequence` DISABLE KEYS */;
-INSERT INTO `hibernate_sequence` VALUES (1);
+INSERT INTO `hibernate_sequence` VALUES (2);
 /*!40000 ALTER TABLE `hibernate_sequence` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -288,18 +300,21 @@ DROP TABLE IF EXISTS `location`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `location` (
-  `locationId` int NOT NULL,
-  `locationTypeId` int NOT NULL,
+  `location_id` int NOT NULL AUTO_INCREMENT,
+  `location_type_Id` int DEFAULT NULL,
   `name` varchar(500) NOT NULL,
-  `address` varchar(200) NOT NULL,
-  `plz` varchar(10) NOT NULL,
-  `place` varchar(100) NOT NULL,
-  `coordinate` varchar(500) NOT NULL,
-  `coordinateLng` varchar(20) NOT NULL,
-  `coordinateLtd` varchar(20) NOT NULL,
-  `countryId` int NOT NULL,
-  PRIMARY KEY (`locationId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `address` varchar(200) DEFAULT NULL,
+  `place` varchar(30) DEFAULT NULL,
+  `coordinate` varchar(500) DEFAULT NULL,
+  `coordinateLng` varchar(20) DEFAULT NULL,
+  `coordinateLat` varchar(20) DEFAULT NULL,
+  `country_id` int DEFAULT NULL,
+  `coordinate_lat` varchar(255) DEFAULT NULL,
+  `coordinate_lng` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`location_id`),
+  KEY `fk_location_country_idx` (`country_id`),
+  CONSTRAINT `fk_location_country` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -308,6 +323,7 @@ CREATE TABLE `location` (
 
 LOCK TABLES `location` WRITE;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
+INSERT INTO `location` VALUES (1,NULL,'Acker',NULL,'Oberhofen',NULL,NULL,NULL,1,NULL,NULL),(2,NULL,'Wald',NULL,'Oberhofen',NULL,NULL,NULL,4,NULL,NULL);
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -391,4 +407,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-08  1:58:38
+-- Dump completed on 2021-10-11  9:38:14

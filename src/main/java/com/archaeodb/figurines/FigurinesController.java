@@ -64,6 +64,17 @@ public class FigurinesController {
         return figurineService.getChronolgies();
     }
 
+//    @DeleteMapping (value = "/chronology/remove")
+//    public @ResponseBody ChronologyDto removeChronology(@RequestBody ChronologyDto chronologyDto) {
+//        return figurineService.getChronolgies();
+//    }
+
+    @PostMapping(value = "/chronology/add")
+    public @ResponseBody ChronologyDto addChronology(@RequestBody ChronologyDto chronologyDto){
+        ChronologyDto newChronology = figurineService.addChronology(chronologyDto);
+        return newChronology;
+    }
+
     /*MATERIAL*/
     @GetMapping(value = "/material")
     public @ResponseBody List<MaterialDto> getMaterials() {

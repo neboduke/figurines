@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 public class Chronology {
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int chronologyId;
     private String name;
 
