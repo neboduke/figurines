@@ -17,6 +17,7 @@ import com.archaeodb.figurines.repository.LiteratureRepository;
 import com.archaeodb.figurines.repository.MaterialRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@CrossOrigin
 public class FigurineService {
 
     private final FigurineRepository figurineRepository;

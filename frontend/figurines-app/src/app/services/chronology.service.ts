@@ -9,23 +9,23 @@ import { environment } from 'src/environments/environment';
 })
 export class ChronologyService {
 
-  private apiServerUrl = environment.apiBaseUrl;
+  private apiBaseUrl = environment.apiBaseUrl;
 
   constructor(private http: HttpClient) { }
 
   public getChronologies(): Observable<Chronology[]>{
-    return this.http.get<Chronology[]>(`${this.apiServerUrl}/chronology`);
+    return this.http.get<Chronology[]>(`${this.apiBaseUrl}/chronology`);
   }
 
   public addChronologies(chronology: Chronology): Observable<Chronology>{
-    return this.http.post<Chronology>(`${this.apiServerUrl}/chronology/add`, chronology);
+    return this.http.post<Chronology>(`${this.apiBaseUrl}/chronology/add`, chronology);
   }
 
   public updateChronologies(chronology: Chronology): Observable<Chronology>{
-    return this.http.put<Chronology>(`${this.apiServerUrl}/chronology/update`, chronology);
+    return this.http.put<Chronology>(`${this.apiBaseUrl}/chronology/update`, chronology);
   }
 
   public deleteChronologies(chronologyId: number): Observable<void>{
-    return this.http.delete<void>(`${this.apiServerUrl}/chronology/remove/${chronologyId}`);
+    return this.http.delete<void>(`${this.apiBaseUrl}/chronology/remove/${chronologyId}`);
   }
 }

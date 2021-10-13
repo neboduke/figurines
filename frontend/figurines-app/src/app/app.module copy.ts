@@ -1,8 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgbActiveModal,NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,10 +8,9 @@ import { FigurinesComponent } from './components/figurines/figurines.component';
 import { ChronologyComponent } from './components/chronology/chronology.component';
 import { ChronologyService } from './services/chronology.service';
 import { FigurineService } from './services/figurine.service';
-import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { ToastComponent } from './common/toast/toast.component';
 import { LoaderComponent } from './common/loader/loader.component';
-import { ChronologyModalComponent } from './components/chronology/chronology-modal/chronology-modal.component';
 
 @NgModule({
   declarations: [
@@ -21,19 +18,15 @@ import { ChronologyModalComponent } from './components/chronology/chronology-mod
     FigurinesComponent,
     ChronologyComponent,
     ToastComponent,
-    LoaderComponent,
-    ChronologyModalComponent
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgbModule,
-    RxReactiveFormsModule
+    FormsModule
   ],
-  providers: [ChronologyService,FigurineService,NgbActiveModal],
+  providers: [ChronologyService,FigurineService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

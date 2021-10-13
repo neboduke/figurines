@@ -1,7 +1,12 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Chronology } from "src/app/entity/chronology";
+import { ChronologyFormResult } from "src/app/interfaces/chronology-form-result";
 import { ChronologyService } from "src/app/services/chronology.service";
+import { ChronologyModalComponent } from "./chronology-modal/chronology-modal.component";
+
 
 @Component({
     selector: 'app-chronology',
@@ -12,8 +17,10 @@ export class ChronologyComponent implements OnInit{
   
 
     public chronologies: Chronology[] = [];
+    public editableChronology: Chronology | undefined;
+    
 
-    constructor(private chronologyService: ChronologyService) { }
+    constructor(private chronologyService: ChronologyService, public modalService: NgbModal)  { }
 
     ngOnInit(){
         this.getChronologies();
@@ -31,16 +38,67 @@ export class ChronologyComponent implements OnInit{
     }
 
     //getting modal window
-    public onOpenModal( target: string , chronology?: Chronology):void {
-        const container = document.getElementById('chronology_container');
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.style.display = 'none';
-        button.setAttribute('data-bs-toggle','modal');
-        button.setAttribute('data-bs-target', target);
+    public onOpenModal( isAddNew: boolean, chronology?: Chronology):void {
+        
+        const modalRef = this.modalService.open(ChronologyModalComponent);
+        // @Input chronology
+        modalRef.componentInstance.chronology = chronology;
+        modalRef.componentInstance.isAddNew = isAddNew;
+        modalRef.componentInstance.formMode = 'Edit';
+        modalRef.result.then(
+            (result: ChronologyFormResult) => {
+                if (result) {
+                    
+                    if (result.crudType == 'u') {
+                      if (result.status) {
+                        // toaster for CRUD\Update
+                        //this.displayToaster('Confirmation', 'Data is updated');
+                      }
+                    }
+                    if (result.crudType == 'd') {
+                      if (result.status) {
+                        this.refreshPage();
+                        // toaster for CRUD\Delete
+                        //this.displayToaster('Confirmation', 'Data is deleted');
+                      }
+                    }
+                    if (result.crudType == 'c') {
+                      if (result.status) {
+                        this.refreshPage();
+                        // toaster for CRUD\Create
+                        //this.displayToaster('Confirmation', 'Data is saved');
+                      }
+                    }
+                    if (result.crudType == '') {
+                        // toaster for cancel
+                        //this.displayToaster('Confirmation', 'Form is cancel');
+                    }
+                  }
+            },(reason) => {
+                
+              }
+        )
 
-        container?.appendChild(button);
-        button.click();
     }
+   
+
+    refreshPage() {
+        window.location.reload();
+      }
+    
+    // toaster service
+    displayToaster(headerText: string, bodyText: string) {
+        //this.toastService.show(bodyText, {
+        //    classname: 'bg-success text-light',
+        //    delay: 2000,
+        //    autohide: true,
+        //    headertext: headerText,
+        //});
+    }
+
+    
     
 }
+
+
+

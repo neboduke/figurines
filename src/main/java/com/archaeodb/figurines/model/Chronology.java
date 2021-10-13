@@ -13,6 +13,11 @@ public class Chronology {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int chronologyId;
     private String name;
+    @Column(name="year_from")
+    private Integer yearFrom;
+    @Column(name="year_to")
+    private Integer yearTo;
+
 
     @OneToMany(
             mappedBy = "chronology",
@@ -41,11 +46,33 @@ public class Chronology {
         this.name = name;
     }
 
+    public Integer getYearFrom() {
+        return yearFrom;
+    }
+
+    public void setYearFrom(Integer yearFrom) {
+        this.yearFrom = yearFrom;
+    }
+
+    public Integer getYearTo() {
+        return yearTo;
+    }
+
+    public void setYearTo(Integer yearTo) {
+        this.yearTo = yearTo;
+    }
+
     public Chronology() {
     }
 
     public Chronology(String name) {
         this.name = name;
+    }
+
+    public Chronology(String name, Integer yearFrom, Integer yearTo) {
+        this.name = name;
+        this.yearFrom = yearFrom;
+        this.yearTo = yearTo;
     }
 
     @Override

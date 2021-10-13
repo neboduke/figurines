@@ -1,0 +1,136 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container" id="chronology_container">
+    <table class="table  table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Name</th>
+            <th scope="col">Jahr von</th>
+            <th scope="col">Jahr bis</th>
+            <th scope="col">
+              
+              <a class="btn btn-secondary tooltips" (click)="onOpenModal('#addChronology')" data-placement="top" data-toggle="tooltip">Neu</a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let chronology of chronologies">
+            <th scope="row"></th>
+            <td>{{chronology.name}}</td>
+            <td>{{chronology.yearFrom}}</td>
+            <td>{{chronology.yearTo}}</td>
+            <td><a href="#" class="btn btn-primary tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit" (click)="onOpenModal('#editChronology', chronology)"><i class="fa fa-pencil"></i> </a>
+                <a href="#" class="btn btn-secondary tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete" (click)="onOpenModal('#removeChronology', chronology)"><i class="fa fa-times"></i></a>
+            </td>
+          </tr>
+          
+        </tbody>
+      </table>
+</div>
+
+  
+  <!-- add -->
+  <div class="modal fade" id="addChronology" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Neue Chronologie</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form #addChronologyForm="ngForm"  name ="addChronologyForm" (ngSubmit)="onAddChronology(addChronologyForm)">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Chronologie</label>
+                  <div class="col-sm-10">
+                    <input type="text" ngModel name="name" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Jahr von</label>
+                  <div class="col-sm-10">
+                    <input type="text" ngModel name="yearFrom" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Jahr bis</label>
+                  <div class="col-sm-10">
+                    <input type="text" ngModel name="yearTo" class="form-control">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" id="disadd" class="btn btn-secondary" data-bs-dismiss="modal">Verwerfen</button>
+              <button [disabled]="addChronologyForm.invalid" type="submit" class="btn btn-primary">Speichern</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- edit -->
+  <div class="modal fade" id="editChronology" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Chronologie bearbeiten</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form #editChronologyForm="ngForm" name="editChronologyForm">
+            <input type="hidden" name="chronologyId" ngModel="{{editableChronology?.chronologyId}}">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Chronologie</label>
+                  <div class="col-sm-10">
+                    <input type="text" ngModel="{{editableChronology?.name}}" name="name" class="form-control" value="">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Jahr von</label>
+                  <div class="col-sm-10">
+                    <input type="text" ngModel="{{editableChronology?.yearFrom}}" name="yearFrom" class="form-control" value="">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Jahr bis</label>
+                  <div class="col-sm-10">
+                    <input type="text" ngModel="{{editableChronology?.yearTo}}" name="yearTo" class="form-control" value="">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Verwerfen</button>
+              <button (click)="onEditChronology(editChronologyForm.value)"  type="button" class="btn btn-primary">Speichern</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- remove -->
+  <div class="modal fade" id="removeChronology" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Chronologie löschen</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+         
+          <form #removeChronologyForm="ngForm" name="removeChronologyForm" >
+            Soll Chronologie <b>{{editableChronology?.name}}</b> gelöscht werden?
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Verwerfen</button>
+              <button (click)="onRemoveChronology(editableChronology?.chronologyId)"  type="button" class="btn btn-primary">Löschen</button>
+            </div>
+          </form>
+      </div>
+      </div>
+    </div>
+  </div>

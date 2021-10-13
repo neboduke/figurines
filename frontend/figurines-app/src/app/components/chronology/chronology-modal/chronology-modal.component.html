@@ -1,0 +1,108 @@
+
+  <div class="modal fade" id="editChronology" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Chronologie </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="chronologyForm" novalidate>
+           
+            <input type="hidden" formControlName="chronologyId" autocomplete="chronologyId">
+            
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Chronologie</label>
+                  <div class="col-sm-10">
+                    <input type="text" formControlName="name" class="form-control">
+                    <span hidden translate>Chronology Name</span>
+                    <small
+                    [hidden]="chronologyForm?.controls?.name?.valid || chronologyForm?.controls?.name?.untouched"
+                        class="text-danger"
+                        translate
+                        >
+                        Chronologie Name darf nicht leer sein
+                    </small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Jahr von</label>
+                  <div class="col-sm-10">
+                    <input type="text" formControlName="yearFrom" class="form-control" value="">
+                    <span hidden translate>PositionDescription</span>
+                    <small
+                        [hidden]="chronologyForm?.controls?.yearFrom?.valid || chronologyForm?.controls?.yearFrom?.untouched"
+                        class="text-danger"
+                        translate
+                    >
+                    Das Wert muss numerisch sein
+                    </small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Jahr bis</label>
+                  <div class="col-sm-10">
+                    <input type="text"  formControlName="yearTo" class="form-control" value="">
+                    <span hidden translate>PositionDescription</span>
+                    <small
+                [hidden]="chronologyForm?.controls?.yearTo?.valid || chronologyForm?.controls?.yearTo?.untouched"
+                        class="text-danger"
+                        translate
+                    >
+                    Das Wert muss numerisch sein
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="modal-footer">
+                <div class="float-left">
+                  <!-- HTML markup for Create button -->
+                  <button
+                    (click)="onAddChronology()"
+                    class="btn btn-primary w-20"
+                    type="submit"
+                    [disabled]="chronologyForm?.invalid || !isAddNew"
+                    *ngIf="this.isAddNew"
+                  >
+                    <span translate><i class="fas fa-plus"></i> Speichern</span>
+                  </button>
+                  <!-- HTML markup for Update button -->
+                  <button
+                    (click)="onEditChronology(chronology)"
+                    class="btn btn-primary w-20"
+                    type="submit"
+                    [disabled]="chronologyForm?.invalid || isAddNew"
+                    *ngIf="!this.isAddNew"
+                  >
+                    <span translate><i class="fas fa-edit"></i> Speichern</span>
+                  </button>
+                  <!-- HTML markup for Delete button -->
+                  <button
+                    (click)="onRemoveChronology()"
+                    class="btn btn-danger w-20"
+                    type="submit"
+                    [disabled]="chronologyForm?.invalid || isAddNew"
+                    *ngIf="!this.isAddNew"
+                  >
+                    <span translate><i class="fas fa-trash-alt"></i> Löschen</span>
+                  </button>
+                </div>
+                <div class="float-right">
+                  <!-- HTML markup for Back button -->
+                  <button  class="btn btn-secondary w-20" type="submit">
+                    <span translate><i class="fa fa-arrow-left"></i> Abbrechen</span>
+                  </button>
+                </div>
+            </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  

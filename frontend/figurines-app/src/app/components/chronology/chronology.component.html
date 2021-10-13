@@ -9,7 +9,7 @@
             <th scope="col">Jahr bis</th>
             <th scope="col">
               
-              <a class="btn btn-secondary tooltips" (click)="onOpenModal('#addNewChronology')" data-placement="top" data-toggle="tooltip">Neu</a>
+              <a class="btn btn-secondary tooltips" (click)="onOpenModal(true)" data-placement="top" data-toggle="tooltip">Neu</a>
             </th>
           </tr>
         </thead>
@@ -19,8 +19,8 @@
             <td>{{chronology.name}}</td>
             <td>{{chronology.yearFrom}}</td>
             <td>{{chronology.yearTo}}</td>
-            <td><a href="#" class="btn btn-primary tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
-                <a href="#" class="btn btn-secondary tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-times"></i></a>
+            <td><a href="#" class="btn btn-primary tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit" (click)="onOpenModal(false, chronology)"><i class="fa fa-pencil"></i> </a>
+                <a href="#" class="btn btn-secondary tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete" (click)="onOpenModal(false, chronology)"><i class="fa fa-times"></i></a>
             </td>
           </tr>
           
@@ -28,22 +28,3 @@
       </table>
 </div>
 
-  
-  <!-- Modal -->
-  <div class="modal fade" id="addNewChronology" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Understood</button>
-        </div>
-      </div>
-    </div>
-  </div>

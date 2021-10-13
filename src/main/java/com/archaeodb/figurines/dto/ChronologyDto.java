@@ -7,6 +7,8 @@ import java.util.List;
 public class ChronologyDto {
     private int chronologyId;
     private String name;
+    private Integer yearFrom;
+    private Integer yearTo;
 
 
     public ChronologyDto() {
@@ -15,6 +17,13 @@ public class ChronologyDto {
     public ChronologyDto(int chronologyId, String name) {
         this.chronologyId = chronologyId;
         this.name = name;
+
+    }
+    public ChronologyDto(int chronologyId, String name, Integer yearFrom, Integer yearTo) {
+        this.chronologyId = chronologyId;
+        this.name = name;
+        this.yearFrom = yearFrom;
+        this.yearTo = yearTo;
 
     }
 
@@ -34,5 +43,19 @@ public class ChronologyDto {
         this.name = name;
     }
 
+    public Integer getYearFrom() {
+        return yearFrom;
+    }
 
+    public void setYearFrom(Integer yearFrom) {
+        this.yearFrom = yearFrom;
+    }
+
+    public Integer getYearTo() {
+        return yearTo;
+    }
+
+    public void setYearTo(Integer yearTo) {
+        this.yearTo = yearTo;
+    }
 }
