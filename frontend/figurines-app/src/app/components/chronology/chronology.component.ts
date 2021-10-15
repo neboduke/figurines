@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
 import { Chronology } from "src/app/entity/chronology";
 import { ChronologyFormResult } from "src/app/interfaces/chronology-form-result";
 import { ChronologyService } from "src/app/services/chronology.service";
@@ -18,9 +18,15 @@ export class ChronologyComponent implements OnInit{
 
     public chronologies: Chronology[] = [];
     public editableChronology: Chronology | undefined;
+    modalOptions:NgbModalOptions | undefined;
     
 
-    constructor(private chronologyService: ChronologyService, public modalService: NgbModal)  { }
+    constructor(private chronologyService: ChronologyService, public modalService: NgbModal)  {
+        this.modalOptions = {
+            backdrop:'static',
+            backdropClass:'customBackdrop'
+          }
+     }
 
     ngOnInit(){
         this.getChronologies();

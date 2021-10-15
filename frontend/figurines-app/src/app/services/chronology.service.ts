@@ -17,15 +17,15 @@ export class ChronologyService {
     return this.http.get<Chronology[]>(`${this.apiBaseUrl}/chronology`);
   }
 
-  public addChronologies(chronology: Chronology): Observable<Chronology>{
+  public addChronology(chronology: Chronology): Observable<Chronology>{
     return this.http.post<Chronology>(`${this.apiBaseUrl}/chronology/add`, chronology);
   }
 
-  public updateChronologies(chronology: Chronology): Observable<Chronology>{
-    return this.http.put<Chronology>(`${this.apiBaseUrl}/chronology/update`, chronology);
+  public updateChronology(chronology: Chronology): Observable<Chronology>{
+    return this.http.put<Chronology>(`${this.apiBaseUrl}/chronology/edit`, chronology);
   }
 
-  public deleteChronologies(chronologyId: number): Observable<void>{
-    return this.http.delete<void>(`${this.apiBaseUrl}/chronology/remove/${chronologyId}`);
+  public deleteChronology(chronologyId: number): Observable<void> {
+     return this.http.delete<void>(`${this.apiBaseUrl}/chronology/remove/${chronologyId}` );
   }
 }

@@ -5,6 +5,9 @@ import com.archaeodb.figurines.dto.FigurineDto;
 import com.archaeodb.figurines.dto.MaterialDto;
 import com.archaeodb.figurines.model.Chronology;
 import com.archaeodb.figurines.service.FigurineService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -75,8 +78,21 @@ public class FigurinesController {
         return newChronology;
     }
 
+    @PutMapping(value = "/chronology/edit")
+    public @ResponseBody ChronologyDto updateChronology(@RequestBody ChronologyDto chronologyDto){
+        ChronologyDto newChronology = figurineService.updateChronology(chronologyDto);
+        return newChronology;
+    }
+    @DeleteMapping(value = "/chronology/remove/{chronologyId}")
+    @Transactional
+    public ResponseEntity<?> deleteChronology(@PathVariable int chronologyId){
+         figurineService.deleteChronology(chronologyId);
+         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     /*MATERIAL*/
     @GetMapping(value = "/material")
+
     public @ResponseBody List<MaterialDto> getMaterials() {
         return figurineService.getMaterials();
     }

@@ -3,6 +3,7 @@ import { Component, Input, OnInit,Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
+import { Observable } from 'rxjs';
 import { Chronology } from "src/app/entity/chronology";
 import { ChronologyFormResult } from "src/app/interfaces/chronology-form-result";
 import { ChronologyService } from "src/app/services/chronology.service";
@@ -49,7 +50,7 @@ export class ChronologyModalComponent implements OnInit {
   }
 
   public onAddChronology(): void {
-    this.chronologyService.addChronologies(this.chronologyForm?.value).subscribe(
+    this.chronologyService.addChronology(this.chronologyForm?.value).subscribe(
         (response: Chronology) => {
             console.log(response);
             
@@ -65,31 +66,43 @@ export class ChronologyModalComponent implements OnInit {
     )
 }
 
-public onEditChronology( value: Chronology): void {
-    alert('---EDIT---')
-    
-  /*  this.chronologyService.updateChronologies(chronology).subscribe(
+public onEditChronology( chronology: Chronology): void {
+   
+    this.chronologyService.updateChronology(chronology).subscribe(
         (response: Chronology) => {
             console.log(response);
-            this.getChronologies();
+
+            //this.id = response.data; //guid return in data
+            if (this.chronologyForm.dirty) {
+              this.chronology.chronologyId = response.chronologyId;
+              this.chronology.name = response.name;
+              this.chronology.yearFrom = response.yearFrom;
+              this.chronology.yearTo= response.yearTo;
+
+              this.result = { chronology: this.chronology, crudType: 'u', status: true };
+              this.activeModal.close(this.result);
+            }
+            
         },
         (error: HttpErrorResponse) => {
             alert(error.message);
         }
-    )*/
+    )
 }
 
 public onRemoveChronology(): void {
-    alert('---REMOVE---')
-    /*  this.chronologyService.deleteChronologies(chronologyId).subscribe(
+      let chronologyId: number = this.chronologyForm.get('chronologyId')?.value;
+      this.chronologyService.deleteChronology(chronologyId).subscribe(
         (response: void) => {
             console.log(response);
-            this.getChronologies();
+            this.result = { chronology: this.chronology, crudType: 'd', status: true };
+            this.activeModal.close(this.result);
+            this.chronologyForm?.reset();
         },
         (error: HttpErrorResponse) => {
             alert(error.message);
         }
-    )*/
+    )
 }
 
 }

@@ -9,5 +9,7 @@ import java.util.Optional;
 @Repository
 public interface ChronologyRepository extends JpaRepository<Chronology,Integer> {
 
-    public Optional<Chronology> getChronologyByChronologyId(Integer id);
+    public Optional<Chronology> getChronologyByChronologyId(Integer chronologyId);
+
+    public void deleteChronologyByChronologyId(Integer chronologyId);
 }

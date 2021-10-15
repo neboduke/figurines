@@ -121,6 +121,15 @@ public class FigurineService {
         ChronologyDto newChronologyDto = chronologyMapper.chronologyFromDb(newChronology);
         return newChronologyDto;
     }
+    public ChronologyDto updateChronology(ChronologyDto chronologyDto) {
+        Chronology chronology=chronologyMapper.chronologyToDb(chronologyDto);
+        Chronology updatedChronology = chronologyRepository.save(chronology);
+        ChronologyDto updatedChronologyDto = chronologyMapper.chronologyFromDb(updatedChronology);
+        return updatedChronologyDto;
+    }
+    public void deleteChronology(Integer chronologyId) {
+        chronologyRepository.deleteChronologyByChronologyId(chronologyId);
+    }
 
     @Inject
     public FigurineService(FigurineRepository figurineRepository,
