@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `archaeodb_figurines` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `archaeodb_figurines`;
 -- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
 --
 -- Host: localhost    Database: archaeodb_figurines
@@ -55,7 +53,7 @@ CREATE TABLE `chronology` (
   `year_from` int DEFAULT NULL,
   `year_to` int DEFAULT NULL,
   PRIMARY KEY (`chronology_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,7 +62,7 @@ CREATE TABLE `chronology` (
 
 LOCK TABLES `chronology` WRITE;
 /*!40000 ALTER TABLE `chronology` DISABLE KEYS */;
-INSERT INTO `chronology` VALUES (1,'LT A',450,380),(2,'LT B',380,250),(3,'LT C',250,150),(4,'LT D',150,15),(5,'Ha C',778,620),(6,'Ha D1',620,550),(7,'Ha D2',550,510),(8,'Ha D3',510,450),(9,'Este III',NULL,NULL);
+INSERT INTO `chronology` VALUES (1,'LT A',450,380),(2,'LT B',380,250),(3,'LT C',250,150),(4,'LT D',150,15),(5,'Ha C',778,620),(6,'Ha D1',621,550),(7,'Ha D2',550,510),(8,'Ha D3',510,450),(12,'Este II',342,NULL),(13,'Este I',34,45),(15,'Javorani I',720,652),(17,'Javorani II',650,580),(20,'julis',2005,2121),(21,'Zetwas',NULL,NULL);
 /*!40000 ALTER TABLE `chronology` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -102,8 +100,6 @@ CREATE TABLE `country` (
   `country_id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `coordinate` varchar(500) DEFAULT NULL,
-  `coordinateLng` varchar(20) DEFAULT NULL,
-  `coordinateLat` varchar(20) DEFAULT NULL,
   `coordinate_lat` varchar(255) DEFAULT NULL,
   `coordinate_lng` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`country_id`)
@@ -116,7 +112,7 @@ CREATE TABLE `country` (
 
 LOCK TABLES `country` WRITE;
 /*!40000 ALTER TABLE `country` DISABLE KEYS */;
-INSERT INTO `country` VALUES (1,'Tirol / AT',NULL,NULL,NULL,NULL,NULL),(2,'Vorarlberg / AT',NULL,NULL,NULL,NULL,NULL),(3,'Schweiz',NULL,NULL,NULL,NULL,NULL),(4,'Südtirol / IT',NULL,NULL,NULL,NULL,NULL),(5,'Trentino / IT',NULL,NULL,NULL,NULL,NULL),(6,'Italien',NULL,NULL,NULL,NULL,NULL),(7,'Salzburg / AT',NULL,NULL,NULL,NULL,NULL),(8,'Kärnten / AT',NULL,NULL,NULL,NULL,NULL),(9,'Steiermark / AT',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `country` VALUES (1,'Tirol / AT',NULL,NULL,NULL),(2,'Vorarlberg / AT',NULL,NULL,NULL),(3,'Schweiz',NULL,NULL,NULL),(4,'Südtirol / IT',NULL,NULL,NULL),(5,'Trentino / IT',NULL,NULL,NULL),(6,'Italien',NULL,NULL,NULL),(7,'Salzburg / AT',NULL,NULL,NULL),(8,'Kärnten / AT',NULL,NULL,NULL),(9,'Steiermark / AT',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `country` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -301,13 +297,10 @@ DROP TABLE IF EXISTS `location`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `location` (
   `location_id` int NOT NULL AUTO_INCREMENT,
-  `location_type_Id` int DEFAULT NULL,
   `name` varchar(500) NOT NULL,
   `address` varchar(200) DEFAULT NULL,
   `place` varchar(30) DEFAULT NULL,
   `coordinate` varchar(500) DEFAULT NULL,
-  `coordinateLng` varchar(20) DEFAULT NULL,
-  `coordinateLat` varchar(20) DEFAULT NULL,
   `country_id` int DEFAULT NULL,
   `coordinate_lat` varchar(255) DEFAULT NULL,
   `coordinate_lng` varchar(255) DEFAULT NULL,
@@ -323,7 +316,7 @@ CREATE TABLE `location` (
 
 LOCK TABLES `location` WRITE;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
-INSERT INTO `location` VALUES (1,NULL,'Acker',NULL,'Oberhofen',NULL,NULL,NULL,1,NULL,NULL),(2,NULL,'Wald',NULL,'Oberhofen',NULL,NULL,NULL,4,NULL,NULL);
+INSERT INTO `location` VALUES (1,'Acker',NULL,'Oberhofen',NULL,1,NULL,NULL),(2,'Wald',NULL,'Oberhofen',NULL,4,NULL,NULL);
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -407,4 +400,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-11  9:38:14
+-- Dump completed on 2021-10-17 21:44:00
