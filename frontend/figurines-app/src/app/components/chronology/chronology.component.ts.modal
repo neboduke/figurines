@@ -1,15 +1,9 @@
-import { DecimalPipe } from "@angular/common";
 import { HttpErrorResponse } from "@angular/common/http";
-import { Component, OnInit, QueryList, ViewChildren } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
-import { Observable, of } from "rxjs";
-import { catchError, map } from "rxjs/operators";
-import { SortableDirective } from "src/app/directives/sortable.directive";
 import { Chronology } from "src/app/entity/chronology";
 import { ChronologyFormResult } from "src/app/interfaces/chronology-form-result";
-import { SortEvent } from "src/app/interfaces/sort-event";
-import { ChronologySortService } from "src/app/services/chronology-sort.service";
 import { ChronologyService } from "src/app/services/chronology.service";
 import { ChronologyModalComponent } from "./chronology-modal/chronology-modal.component";
 
@@ -17,54 +11,37 @@ import { ChronologyModalComponent } from "./chronology-modal/chronology-modal.co
 @Component({
     selector: 'app-chronology',
     templateUrl: './chronology.component.html',
-    styleUrls: ['./chronology.component.css'],
-    providers: [ChronologySortService, DecimalPipe]
+    styleUrls: ['./chronology.component.css']
 })
 export class ChronologyComponent implements OnInit{
   
 
-    private allChronologies: Chronology[] = [];
-    public chronologies: Observable<Chronology[]> = of([]);
+    public chronologies: Chronology[] = [];
     public editableChronology: Chronology | undefined;
     modalOptions:NgbModalOptions | undefined;
-    public total: Observable<number> | undefined;
     
 
-    constructor(private chronologyService: ChronologyService, public chronologySortService: ChronologySortService, public modalService: NgbModal)  {
+    constructor(private chronologyService: ChronologyService, public modalService: NgbModal)  {
         this.modalOptions = {
             backdrop:'static',
             backdropClass:'customBackdrop'
           }
-        console.log('---- CONSTRUCTOR TABLE---')
-        this.chronologies = this.chronologySortService.chronologies;
-        this.total = this.chronologySortService.total;
-         
      }
-
-   
-     @ViewChildren(SortableDirective) headers: QueryList<SortableDirective> | undefined;
-   
-
-     onSort({column, direction}: SortEvent) {
-       // resetting other headers
-       this.headers?.forEach(header => {
-         if (header.sortable !== column) {
-           header.direction = '';
-         }
-       });
-   
-       this.chronologySortService.sortColumn = column;
-       this.chronologySortService.sortDirection = direction;
-     }
-
 
     ngOnInit(){
-      console.log('---- LOAD ALL ON INIT ---')
-       
-        
+        this.getChronologies();
     }
 
-
+    public getChronologies():void{
+        this.chronologyService.getChronologies().subscribe(
+             responseData => {
+                this.chronologies = responseData;
+             },
+            (error: HttpErrorResponse) => {
+                alert(error.message)
+            }
+        );
+    }
 
     //getting modal window
     public onOpenModal( isAddNew: boolean, chronology?: Chronology):void {

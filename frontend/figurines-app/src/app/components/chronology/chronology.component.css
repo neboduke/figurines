@@ -1,7 +1,9 @@
 
 
-    .btn-primary {
+  .btn-new {
       color: #fff;
-      background-color: #0d6efd;
-      border-color: #0d6efd;
+      background-color: rgba(102, 79, 79, 0.548);
+      border-color: black;
+      height:1.2em;
   }
+   

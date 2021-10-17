@@ -1,8 +1,6 @@
 package com.archaeodb.figurines;
 
-import com.archaeodb.figurines.dto.ChronologyDto;
-import com.archaeodb.figurines.dto.FigurineDto;
-import com.archaeodb.figurines.dto.MaterialDto;
+import com.archaeodb.figurines.dto.*;
 import com.archaeodb.figurines.model.Chronology;
 import com.archaeodb.figurines.service.FigurineService;
 import org.springframework.http.HttpStatus;
@@ -20,50 +18,58 @@ public class FigurinesController {
 
     /*FIGURINE*/
     @GetMapping(value = "/figurine")
-    public @ResponseBody List<FigurineDto> getFigurines() {
+    @ResponseBody
+    public List<FigurineDto> getFigurines() {
 
         return figurineService.getFigurines();
     }
 
     @GetMapping(value = "/figurine/id/{id}")
-    public @ResponseBody FigurineDto getFigurineById(@PathVariable Integer id) {
+    @ResponseBody
+    public FigurineDto getFigurineById(@PathVariable Integer id) {
 
         return figurineService.getFigurineById(id);
     }
 
     @GetMapping(value = "/figurine/keyword/{keyword}")
-    public @ResponseBody List<FigurineDto> getFigurinesByKeyword(@PathVariable String keyword) {
+    @ResponseBody
+    public  List<FigurineDto> getFigurinesByKeyword(@PathVariable String keyword) {
 
         return figurineService.getFigurinesByKeyword(keyword);
     }
 
     @GetMapping(value = "/figurine/material/{materialid}")
-    public @ResponseBody List<FigurineDto> getFigurinesByMaterial(@PathVariable int materialid){
+    @ResponseBody
+    public List<FigurineDto> getFigurinesByMaterial(@PathVariable int materialid){
 
         return figurineService.getFigurinesByMaterial(materialid);
     }
 
     @GetMapping(value = "/figurine/literature/{literatureid}")
-    public @ResponseBody List<FigurineDto> getFigurinesByLiterature(@PathVariable int literatureid){
+    @ResponseBody
+    public  List<FigurineDto> getFigurinesByLiterature(@PathVariable int literatureid){
 
         return figurineService.getFigurinesByLiterature(literatureid);
     }
 
     @GetMapping(value = "/figurine/chronology/{chronologyid}")
-    public @ResponseBody List<FigurineDto> getFigurinesByChronology(@PathVariable int chronologyid) {
+    @ResponseBody
+    public List<FigurineDto> getFigurinesByChronology(@PathVariable int chronologyid) {
 
         return figurineService.getFigurinesByChronology(chronologyid);
     }
 
     @PostMapping(value ="/figurine/add")
-    public @ResponseBody FigurineDto addFigurine(@RequestBody FigurineDto figurine){
+    @ResponseBody
+    public FigurineDto addFigurine(@RequestBody FigurineDto figurine){
         FigurineDto newFigurine = figurineService.addFigurine(figurine);
         return newFigurine;
     }
 
     /*CHRONOLOGY*/
     @GetMapping(value = "/chronology")
-    public @ResponseBody List<ChronologyDto> getChronologies() {
+    @ResponseBody
+    public  List<ChronologyDto> getChronologies() {
         return figurineService.getChronolgies();
     }
 
@@ -73,13 +79,15 @@ public class FigurinesController {
 //    }
 
     @PostMapping(value = "/chronology/add")
-    public @ResponseBody ChronologyDto addChronology(@RequestBody ChronologyDto chronologyDto){
+    @ResponseBody
+    public  ChronologyDto addChronology(@RequestBody ChronologyDto chronologyDto){
         ChronologyDto newChronology = figurineService.addChronology(chronologyDto);
         return newChronology;
     }
 
     @PutMapping(value = "/chronology/edit")
-    public @ResponseBody ChronologyDto updateChronology(@RequestBody ChronologyDto chronologyDto){
+    @ResponseBody
+    public ChronologyDto updateChronology(@RequestBody ChronologyDto chronologyDto){
         ChronologyDto newChronology = figurineService.updateChronology(chronologyDto);
         return newChronology;
     }
@@ -92,9 +100,42 @@ public class FigurinesController {
 
     /*MATERIAL*/
     @GetMapping(value = "/material")
-
-    public @ResponseBody List<MaterialDto> getMaterials() {
+    @ResponseBody
+    public  List<MaterialDto> getMaterials() {
         return figurineService.getMaterials();
+    }
+
+    /*LOCATION*/
+    @GetMapping(value = "/locations")
+    @ResponseBody
+    public List<LocationDto> getLocations(){
+        return figurineService.getLocations();
+    }
+    @PostMapping(value = "/location/add")
+    @ResponseBody
+    public  LocationDto addLocation(@RequestBody LocationDto locationDto){
+        LocationDto newLocation = figurineService.addLocation(locationDto);
+        return newLocation;
+    }
+
+    @PutMapping(value = "/location/edit")
+    @ResponseBody
+    public LocationDto updateLocation(@RequestBody LocationDto locationDto){
+        LocationDto newLocation = figurineService.updateLocation(locationDto);
+        return newLocation;
+    }
+    @DeleteMapping(value = "/location/remove/{locationId}")
+    @Transactional
+    public ResponseEntity<?> deleteLocation(@PathVariable int locationId){
+        figurineService.deleteLocation(locationId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /*COUNTRY*/
+    @GetMapping(value = "/country")
+    @ResponseBody
+    public List<CountryDto> getCountries(){
+        return figurineService.getCountries();
     }
 
 }

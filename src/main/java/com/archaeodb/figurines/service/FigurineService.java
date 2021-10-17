@@ -1,20 +1,9 @@
 package com.archaeodb.figurines.service;
 
-import com.archaeodb.figurines.dto.ChronologyDto;
-import com.archaeodb.figurines.dto.FigurineDto;
-import com.archaeodb.figurines.dto.MaterialDto;
-import com.archaeodb.figurines.mapper.ChronologyMapper;
-import com.archaeodb.figurines.mapper.FigurineMapper;
-import com.archaeodb.figurines.mapper.LiteratureMapper;
-import com.archaeodb.figurines.mapper.MaterialMapper;
-import com.archaeodb.figurines.model.Chronology;
-import com.archaeodb.figurines.model.Figurine;
-import com.archaeodb.figurines.model.Literature;
-import com.archaeodb.figurines.model.Material;
-import com.archaeodb.figurines.repository.ChronologyRepository;
-import com.archaeodb.figurines.repository.FigurineRepository;
-import com.archaeodb.figurines.repository.LiteratureRepository;
-import com.archaeodb.figurines.repository.MaterialRepository;
+import com.archaeodb.figurines.dto.*;
+import com.archaeodb.figurines.mapper.*;
+import com.archaeodb.figurines.model.*;
+import com.archaeodb.figurines.repository.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,10 +21,14 @@ public class FigurineService {
     private final ChronologyRepository chronologyRepository;
     private final MaterialRepository materialRepository;
     private final LiteratureRepository literatureRepository;
+    private final LocationRepository locationRepository;
+    private final CountryRepository countryRepository;
     private final FigurineMapper figurineMapper = Mappers.getMapper(FigurineMapper.class);
     private final ChronologyMapper chronologyMapper = Mappers.getMapper(ChronologyMapper.class);
     private final MaterialMapper materialMapper = Mappers.getMapper(MaterialMapper.class);
     private final LiteratureMapper literatureMapper = Mappers.getMapper(LiteratureMapper.class);
+    private final LocationMapper locationMapper = Mappers.getMapper(LocationMapper.class);
+    private final CountryMapper countryMapper = Mappers.getMapper(CountryMapper.class);
 
     public FigurineDto getFigurineById(Integer figurineId) {
 
@@ -135,13 +128,50 @@ public class FigurineService {
     public FigurineService(FigurineRepository figurineRepository,
                            ChronologyRepository chronologyRepository,
                            MaterialRepository materialRepository,
-                           LiteratureRepository literatureRepository) {
+                           LiteratureRepository literatureRepository,
+                           LocationRepository locationRepository,
+                           CountryRepository countryRepository) {
         this.figurineRepository = figurineRepository;
         this.chronologyRepository = chronologyRepository;
         this.materialRepository = materialRepository;
         this.literatureRepository = literatureRepository;
+        this.locationRepository = locationRepository;
+        this.countryRepository = countryRepository;
     }
 
 
+    public List<LocationDto> getLocations() {
+        List<Location> locations = locationRepository.findAll();
+        List<LocationDto> locationDtos = locations.stream()
+                        .map(location -> locationMapper.locationFromDb(location))
+                        .collect(Collectors.toList());
 
+        return locationDtos;
+    }
+
+    public LocationDto addLocation(LocationDto locationDto) {
+        Location location = locationMapper.locationToDb(locationDto);
+        Location newLocation = locationRepository.save(location);
+        LocationDto newLocationDto = locationMapper.locationFromDb(newLocation);
+        return newLocationDto;
+    }
+    public LocationDto updateLocation(LocationDto locationDto) {
+        Location location = locationMapper.locationToDb(locationDto);
+        Location updatedLocation = locationRepository.save(location);
+        LocationDto updatedLocationyDto = locationMapper.locationFromDb(updatedLocation);
+        return updatedLocationyDto;
+    }
+    public void deleteLocation(Integer locationId) {
+        locationRepository.deleteLocationByLocationId(locationId );
+    }
+
+
+    public List<CountryDto> getCountries() {
+        List<Country> countries = countryRepository.findAll();
+        List<CountryDto> countryDtos = countries.stream()
+                .map(country -> countryMapper.countryFromDb(country))
+                .collect(Collectors.toList());
+
+        return countryDtos;
+    }
 }

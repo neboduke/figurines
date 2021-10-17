@@ -11,7 +11,7 @@ export class ChronologyService {
 
   private apiBaseUrl = environment.apiBaseUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { console.log('---- CONSTRUCTOR SERVICE---')}
 
   public getChronologies(): Observable<Chronology[]>{
     return this.http.get<Chronology[]>(`${this.apiBaseUrl}/chronology`);
