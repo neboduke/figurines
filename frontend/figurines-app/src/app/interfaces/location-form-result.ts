@@ -1,7 +1,7 @@
 import { Location } from "../entity/location";
 
 export interface LocationFormResult {
-    chronology: Location | undefined;
+    location: Location | undefined;
     crudType: string;
     status: boolean;
 }

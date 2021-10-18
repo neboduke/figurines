@@ -26,7 +26,7 @@
               <td><ngb-highlight [result]="chronology?.name" [term]="chronologySortService.searchTerm"></ngb-highlight></td>
               <td>{{chronology.yearFrom}}</td>
               <td>{{chronology.yearTo}}</td>
-              <td><a href="#"  data-placement="top" data-toggle="tooltip" data-original-title="Edit" (click)="onOpenModal(false, chronology)"><i class="fa fa-edit"></i> </a>
+              <td><a class="btn" (click)="onOpenModal(false, chronology)"><i class="fa fa-edit"></i> </a>
                   
               </td>
             </tr>

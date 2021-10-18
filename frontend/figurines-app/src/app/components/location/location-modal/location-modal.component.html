@@ -1,1 +1,116 @@
-<p>location-modal works!</p>
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">location</h5>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+  <div class="container-fluid">
+    <!-- HTML form mark up -->
+    <form [formGroup]="locationForm" novalidate>
+        <input type="hidden" formControlName="locationId" autocomplete="locationId">
+            
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="form-group">
+              <label class="col-sm-10 control-label">Name des Ortes</label>
+              <div class="col-sm-10">
+                <input type="text" formControlName="name" class="form-control">
+                <span hidden translate>location Name</span>
+                <small
+                [hidden]="locationForm?.controls?.name?.valid || locationForm?.controls?.name?.untouched"
+                    class="text-danger"
+                    translate
+                    >
+                    Name des Ortes darf nicht leer sein
+                </small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-10 control-label">Ortschaft</label>
+              <div class="col-sm-10">
+                <input type="text" formControlName="place" class="form-control">
+                <span hidden translate>Ortschaft</span>
+                <small
+                [hidden]="locationForm?.controls?.place?.valid || locationForm?.controls?.place?.untouched"
+                    class="text-danger"
+                    translate
+                    >
+                    Name der Ortschaft darf nicht leer sein
+                </small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-10 control-label">Adresse</label>
+              <div class="col-sm-10">
+                <input type="text" formControlName="address" class="form-control">
+                <span hidden translate>Adresse</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-10 control-label">Koord. Lat</label>
+              <div class="col-sm-10">
+                <input type="text" name="coordinateLat" formControlName="coordinateLat" class="form-control" value="">
+                <span hidden translate>PositionDescription</span>                
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-10 control-label">Koord. Lng</label>
+              <div class="col-sm-10">
+                <input type="text" name="coordinateLng" formControlName="coordinateLng" class="form-control" value="">
+                <span hidden translate>PositionDescription</span>                
+              </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-10 control-label">Land</label>
+                <div class="col-sm-10">
+                  <app-country></app-country>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <div class="float-left">
+              <!-- HTML markup for Create button -->
+              <button
+                (click)="onAddLocation()"
+                class="btn btn-primary w-20"
+                type="submit"
+                [disabled]="locationForm?.invalid || !isAddNew"
+                *ngIf="this.isAddNew"
+              >
+                <span translate><i class="fas fa-plus"></i> Speichern</span>
+              </button>
+              <!-- HTML markup for Update button -->
+              <button
+                (click)="onEditLocation(locationForm.value)"
+                class="btn btn-primary w-20"
+                type="submit"
+                [disabled]="locationForm?.invalid || isAddNew"
+                *ngIf="!this.isAddNew"
+              >
+                <span translate><i class="fas fa-edit"></i> Speichern</span>
+              </button>
+              <!-- HTML markup for Delete button -->
+              <button
+                (click)="onRemoveLocation()"
+                class="btn btn-danger w-20"
+                type="submit"
+                [disabled]="locationForm?.invalid || isAddNew"
+                *ngIf="!this.isAddNew"
+              >
+                <span translate><i class="fas fa-trash-alt"></i> Löschen</span>
+              </button>
+            </div>
+            <div class="float-right">
+              <!-- HTML markup for Back button -->
+              <button  class="btn btn-secondary w-20" type="submit">
+                <span translate><i class="fa fa-arrow-left"></i> Abbrechen</span>
+              </button>
+            </div>
+        </div>
+
+    </form>
+  </div>
+</div>
