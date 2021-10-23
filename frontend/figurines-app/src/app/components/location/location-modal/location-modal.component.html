@@ -9,14 +9,14 @@
   <div class="container-fluid">
     <!-- HTML form mark up -->
     <form [formGroup]="locationForm" novalidate>
-        <input type="hidden" formControlName="locationId" autocomplete="locationId">
+        <input type="hidden" formControlName="locationId" autocomplete="locationId" >
             
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="form-group">
               <label class="col-sm-10 control-label">Name des Ortes</label>
               <div class="col-sm-10">
-                <input type="text" formControlName="name" class="form-control">
+                <input type="text" formControlName="name" class="form-control" >
                 <span hidden translate>location Name</span>
                 <small
                 [hidden]="locationForm?.controls?.name?.valid || locationForm?.controls?.name?.untouched"
@@ -30,7 +30,7 @@
             <div class="form-group">
               <label class="col-sm-10 control-label">Ortschaft</label>
               <div class="col-sm-10">
-                <input type="text" formControlName="place" class="form-control">
+                <input type="text" formControlName="place" class="form-control" >
                 <span hidden translate>Ortschaft</span>
                 <small
                 [hidden]="locationForm?.controls?.place?.valid || locationForm?.controls?.place?.untouched"
@@ -56,16 +56,35 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-10 control-label">Koord. Lng</label>
+              <label class="col-sm-10 control-label">Koord. LngX</label>
               <div class="col-sm-10">
                 <input type="text" name="coordinateLng" formControlName="coordinateLng" class="form-control" value="">
                 <span hidden translate>PositionDescription</span>                
               </div>
             </div>
             <div class="form-group">
+              <label class="col-sm-10 control-label">Koord. allg</label>
+              <div class="col-sm-10">
+                <input type="text" name="coodinate" formControlName="coordinate" class="form-control" value="">
+                <span hidden translate>PositionDescription</span>                
+              </div>
+            </div>
+            <!--div class="form-group">
                 <label class="col-sm-10 control-label">Land</label>
                 <div class="col-sm-10">
                   <app-country></app-country>
+                </div>
+            </div-->
+            <div class="form-group">
+              <label class="col-sm-10 control-label">Land</label>
+                <div class="col-sm-10">
+                 
+                  <select formControlName ="country" class="form-control">
+                    <option *ngFor="let c of countries"  [ngValue]="c">
+                    {{ c.name }}
+                    </option>
+                  </select>
+                 
                 </div>
             </div>
           </div>
@@ -110,6 +129,7 @@
               </button>
             </div>
         </div>
+        <button type="button" (click)="setDefaultValues()">Set Default</button>
 
     </form>
   </div>

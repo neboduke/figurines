@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { Country } from 'src/app/entity/country';
 import { CountryService } from 'src/app/services/country.service';
 
@@ -9,6 +9,8 @@ import { CountryService } from 'src/app/services/country.service';
   styleUrls: ['./country.component.css']
 })
 export class CountryComponent implements OnInit {
+  @Input() countryFromOutside: Country | undefined;
+  @Output() countryReturned: Country |undefined;
 
   public countries: Country[] = [];
     
@@ -17,6 +19,9 @@ export class CountryComponent implements OnInit {
 
     ngOnInit(){
         this.getCountries();
+        if(this.countryFromOutside){
+          
+        }
     }
 
     public getCountries():void{

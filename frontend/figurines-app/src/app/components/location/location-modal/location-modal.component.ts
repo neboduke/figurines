@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { Country } from 'src/app/entity/country';
 import { Location } from "src/app/entity/location";
 import { LocationFormResult } from "src/app/interfaces/location-form-result";
+import { CountryService } from 'src/app/services/country.service';
 import { LocationService } from "src/app/services/location.service";
 
 @Component({
@@ -22,28 +23,57 @@ export class LocationModalComponent implements OnInit {
   locationForm!: FormGroup;
   id: any;
   result!: LocationFormResult;
+  countries!: Country[] ;
+  country: Country | undefined;
 
 
   
-  constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private locationService: LocationService) { }
+  constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private locationService: LocationService,private countryService: CountryService) {
+    
+   }
 
   ngOnInit(): void {
-
+    
+    this.getCountries();
     this.createForm();
  
     if (this.location != undefined) {
-      this.locationForm.setValue({
+      this.locationForm.setValue(
+        this.location
+        /*{
         locationId: this.location.locationId,
         name: this.location.name,
         coordinateLat: this.location.coordinateLat,
         coordinateLng: this.location.coordinateLng,
         address: this.location.address,
         place: this.location.place,
-        country: this.location.country,
-        
-      });
+        country: this.location.country
+        }*/
+      ); 
+      
     }
   }
+  setDefaultValues():void{
+  this.locationForm.setValue({
+    locationId: this.location.locationId,
+        name: this.location.name,
+        coordinateLat: this.location.coordinateLat,
+        coordinateLng: this.location.coordinateLng,
+        address: this.location.address,
+        place: this.location.place,
+        coordinate: this.location.coordinate,
+        country: this.location.country })
+ }
+  public getCountries():void{
+    this.countryService.getCountries().subscribe(
+         responseData => {
+            this.countries = responseData;
+         },
+        (error: HttpErrorResponse) => {
+            alert(error.message)
+        }
+    );
+}
 
   private createForm() {
     this.locationForm = this.formBuilder.group({
@@ -52,9 +82,14 @@ export class LocationModalComponent implements OnInit {
       place: ['', Validators.required],
       coordinateLat: [''],
       coordinateLng: [''],
+      coordinate: [''],
       address:[''],
-      country:[''],
+      country:[],
     });
+  }
+
+  updateSelectedValue(countryId: string): void{
+    this.location.country =  this.countries.find(c => c.countryId === Number.parseInt(countryId));
   }
 
   public onAddLocation(): void {
@@ -81,6 +116,7 @@ public onEditLocation( location: Location): void {
             console.log(response);
 
             //this.id = response.data; //guid return in data
+
             if (this.locationForm.dirty) {
               this.location.locationId = response.locationId;
               this.location.name = response.name;

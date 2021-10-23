@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbActiveModal,NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
-
+import { CommonModule } from '@angular/common';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FigurinesComponent } from './components/figurines/figurines.component';
@@ -40,7 +41,9 @@ import { CountryComponent } from './components/country/country.component';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    RxReactiveFormsModule
+    RxReactiveFormsModule,
+    CommonModule,
+    NgSelectModule
   ],
   providers: [ChronologyService,FigurineService,LocationService,NgbActiveModal],
   bootstrap: [AppComponent]

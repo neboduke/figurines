@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from 'src/app/entity/location';
 import { LocationFormResult } from 'src/app/interfaces/location-form-result';
+import { CountryService } from 'src/app/services/country.service';
 import { LocationService } from 'src/app/services/location.service';
 import { LocationModalComponent } from './location-modal/location-modal.component';
 
@@ -38,6 +39,7 @@ export class LocationComponent implements OnInit {
             }
         );
     }
+    
 
     //getting modal window
     public onOpenModal( isAddNew: boolean, location?: Location):void {
