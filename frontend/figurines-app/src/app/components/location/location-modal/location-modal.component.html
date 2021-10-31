@@ -10,7 +10,7 @@
     <!-- HTML form mark up -->
     <form [formGroup]="locationForm" novalidate>
         <input type="hidden" formControlName="locationId" autocomplete="locationId" >
-            
+        <input type="hidden" formControlName="country">    
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="form-group">
@@ -79,12 +79,18 @@
               <label class="col-sm-10 control-label">Land</label>
                 <div class="col-sm-10">
                  
-                  <select formControlName ="country" class="form-control">
-                    <option *ngFor="let c of countries"  [ngValue]="c">
+                  <select formControlName ="countryId"  (change)="updateSelectedCountry()" class="form-control">
+                    <option *ngFor="let c of countries"  [ngValue]="c.countryId">
                     {{ c.name }}
                     </option>
                   </select>
-                 
+                  <small
+                  [hidden]="locationForm?.controls?.countryId?.valid"
+                      class="text-danger"
+                      translate
+                      >
+                      Ein Land muss ausgewählt werden
+                  </small>
                 </div>
             </div>
           </div>

@@ -26,7 +26,6 @@ export class LocationModalComponent implements OnInit {
   countries!: Country[] ;
   country: Country | undefined;
 
-
   
   constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private locationService: LocationService,private countryService: CountryService) {
     
@@ -38,21 +37,10 @@ export class LocationModalComponent implements OnInit {
     this.createForm();
  
     if (this.location != undefined) {
-      this.locationForm.setValue(
-        this.location
-        /*{
-        locationId: this.location.locationId,
-        name: this.location.name,
-        coordinateLat: this.location.coordinateLat,
-        coordinateLng: this.location.coordinateLng,
-        address: this.location.address,
-        place: this.location.place,
-        country: this.location.country
-        }*/
-      ); 
-      
+      this.setDefaultValues();
     }
   }
+
   setDefaultValues():void{
   this.locationForm.setValue({
     locationId: this.location.locationId,
@@ -62,8 +50,12 @@ export class LocationModalComponent implements OnInit {
         address: this.location.address,
         place: this.location.place,
         coordinate: this.location.coordinate,
-        country: this.location.country })
+        country: this.location.country,
+        countryId: this.location.country?.countryId  
+      })
+      this.country = this.location.country;
  }
+
   public getCountries():void{
     this.countryService.getCountries().subscribe(
          responseData => {
@@ -73,6 +65,11 @@ export class LocationModalComponent implements OnInit {
             alert(error.message)
         }
     );
+    
+    
+    /*for (var c of this.countries) {
+      this.cMap?.set(c.countryId!,c);
+    }*/
 }
 
   private createForm() {
@@ -84,16 +81,33 @@ export class LocationModalComponent implements OnInit {
       coordinateLng: [''],
       coordinate: [''],
       address:[''],
-      country:[],
+      country:[''],
+      countryId:['', Validators.required],
     });
   }
 
-  updateSelectedValue(countryId: string): void{
-    this.location.country =  this.countries.find(c => c.countryId === Number.parseInt(countryId));
+  updateSelectedCountry(): void{
+    let cid : number = this.locationForm.get('countryId')?.value;
+    this.country = this.countries.find(c => c.countryId === cid)!;
+  }
+
+  createLocation(l?:Location):Location{ 
+    let newLocation: Location = new Location();
+    newLocation.locationId = this.locationForm?.get('locationId')?.value;
+    newLocation.name = this.locationForm?.get('name')?.value;
+    newLocation.place = this.locationForm?.get('place')?.value;
+    newLocation.coordinateLat = this.locationForm?.get('coordinateLat')?.value;
+    newLocation.coordinateLng = this.locationForm?.get('coordinateLng')?.value;
+    newLocation.coordinate = this.locationForm?.get('coordinate')?.value;
+    newLocation.address = this.locationForm?.get('address')?.value;
+    newLocation.country = this.country;
+    return newLocation;
   }
 
   public onAddLocation(): void {
-    this.locationService.addLocation(this.locationForm?.value).subscribe(
+    
+    //this.locationService.addLocation(this.locationForm?.value).subscribe
+    this.locationService.addLocation(this.createLocation()).subscribe(
         (response: Location) => {
             console.log(response);
             
@@ -110,8 +124,8 @@ export class LocationModalComponent implements OnInit {
 }
 
 public onEditLocation( location: Location): void {
-   
-    this.locationService.updateLocation(location).subscribe(
+    
+    this.locationService.updateLocation(this.createLocation(location)).subscribe(
         (response: Location) => {
             console.log(response);
 
@@ -122,6 +136,7 @@ public onEditLocation( location: Location): void {
               this.location.name = response.name;
               this.location.coordinateLat = response.coordinateLat;
               this.location.coordinateLng= response.coordinateLng;
+              //this.location.country = this.updateSelectedValue(response.country?.countryId!);
               this.location.country= response.country;
               this.location.address = response.address;
               this.location.place = response.place;
