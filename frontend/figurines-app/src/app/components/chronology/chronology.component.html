@@ -11,9 +11,9 @@
           <thead class="table">
             <tr>
               <th scope="col" ></th>
-              <th scope="col" sortable="name" (sort)="onSort($event)">Name</th>
-              <th scope="col" sortable="yearFrom" (sort)="onSort($event)">Jahr von</th>
-              <th scope="col" sortable="yearTo" (sort)="onSort($event)">Jahr bis</th>
+              <th scope="col" sortable="name" (sort)="onChronologySort($event)">Name</th>
+              <th scope="col" sortable="yearFrom" (sort)="onChronologySort($event)">Jahr von</th>
+              <th scope="col" sortable="yearTo" (sort)="onChronologySort($event)">Jahr bis</th>
               <th scope="col">
                 
                 <a class="btn btn-new tooltips" (click)="onOpenModal(true)" data-placement="top" data-toggle="tooltip">Neu</a>

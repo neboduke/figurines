@@ -2,14 +2,15 @@ import {Injectable, Input, PipeTransform} from '@angular/core';
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {DecimalPipe} from '@angular/common';
 import {debounceTime, delay, switchMap, tap} from 'rxjs/operators';
-import { SortColumn, SortDirection } from '../interfaces/sort-event';
-import { Chronology } from '../entity/chronology';
-import { ChronologyService } from './chronology.service';
+import { SortLocationColumn, SortDirection } from 'src/app/directives/sortable-location.directive';
+import { Location } from '../entity/location';
+import { LocationService } from './location.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Country } from '../entity/country';
 
 
 interface SearchResult {
-  chronologies: Chronology[];
+  locations: Location[];
   total: number;
 }
 
@@ -17,42 +18,42 @@ interface State {
   page: number;
   pageSize: number;
   searchTerm: string;
-  sortColumn: SortColumn;
+  sortColumn: SortLocationColumn;
   sortDirection: SortDirection;
 }
 
-const compare = (v1: string | number | undefined , v2: string | number | undefined) => 
+const compare = (v1: string | number | Country | undefined , v2: string | number | Country | undefined) => 
                 (v1 === undefined || v2 === undefined) ? 0 : v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
-function sort(chronologies: Chronology[], column: SortColumn, direction: string): Chronology[] {
+function sort(locations: Location[], column: SortLocationColumn, direction: string): Location[] {
   if (direction === '' || column === '') {
-    return chronologies;
+    return locations;
   } else {
-    return [...chronologies].sort((a, b) => {
+    return [...locations].sort((a, b) => {
       //column = column == undefined?'':column;
       const res = compare(a[column], b[column]);
       return direction === 'asc' ? res : -res;
     });
     console.log('----SORT OTHERS ---')
-    return chronologies;
+    return locations;
   }
 }
 
-function matches(chronology: Chronology, term: string, pipe: PipeTransform) {
-  return chronology.name?.toLowerCase().includes(term.toLowerCase())
-    || pipe.transform(chronology.yearFrom!=null?chronology.yearFrom:0).includes(term)
-    || pipe.transform(chronology.yearTo!=null?chronology.yearTo:0).includes(term);
+function matches(location: Location, term: string, pipe: PipeTransform) {
+  return location.name?.toLowerCase().includes(term.toLowerCase())
+    || pipe.transform(location.place!=null?location.place:'').includes(term)
+    || pipe.transform(location.country?.name!=null?location.country?.name:'').includes(term);
 }
 
 @Injectable({
   providedIn: 'root'
 })
-export class ChronologySortService {
-  chronologiesFromService: Chronology[] = [];
+export class LocationSortService {
+  locationsFromService: Location[] = [];
   
   private _loading = new BehaviorSubject<boolean>(true);
   private _search = new Subject<void>();
-  private _chronologies = new BehaviorSubject<Chronology[]>([]);
+  private _locations = new BehaviorSubject<Location[]>([]);
   private _total = new BehaviorSubject<number>(0);
 
 
@@ -64,10 +65,10 @@ export class ChronologySortService {
     sortDirection: ''
   };
 
-  constructor(private chronologyService: ChronologyService,private pipe: DecimalPipe) {
+  constructor(private locationService: LocationService,private pipe: DecimalPipe) {
     console.log('---- CONSTRUCTOR SORT SERVICE---')
     
-    this.getChronologiesX();
+    this.getLocationsX();
     this.start();
 
   }
@@ -81,7 +82,7 @@ export class ChronologySortService {
       delay(200),
       tap(() => this._loading.next(false))
     ).subscribe(result => {
-      this._chronologies.next(result.chronologies);
+      this._locations.next(result.locations);
       this._total.next(result.total);
     });
 
@@ -89,7 +90,7 @@ export class ChronologySortService {
 
   }
 
-  get chronologies() { return this._chronologies.asObservable(); }
+  get locations() { return this._locations.asObservable(); }
   get total() { return this._total.asObservable(); }
   get loading() { return this._loading.asObservable(); }
   get page() { return this._state.page; }
@@ -99,7 +100,7 @@ export class ChronologySortService {
   set page(page: number) { this._set({page}); }
   set pageSize(pageSize: number) { this._set({pageSize}); }
   set searchTerm(searchTerm: string) { this._set({searchTerm}); }
-  set sortColumn(sortColumn: SortColumn) { this._set({sortColumn}); }
+  set sortColumn(sortColumn: SortLocationColumn) { this._set({sortColumn}); }
   set sortDirection(sortDirection: SortDirection) { this._set({sortDirection}); }
 
   private _set(patch: Partial<State>) {
@@ -111,28 +112,28 @@ export class ChronologySortService {
     const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
 
     // 1. sort
-    let chronologies = sort(this.chronologiesFromService, sortColumn, sortDirection);
+    let locations = sort(this.locationsFromService, sortColumn, sortDirection);
 
     // 2. filter
-    chronologies= chronologies.filter(c => matches(c, searchTerm, this.pipe));
-    const total = chronologies.length;
+    locations= locations.filter(c => matches(c, searchTerm, this.pipe));
+    const total = locations.length;
     console.log('---TOTAL:' + total + '---');
 
     // 3. paginate
-    chronologies = chronologies.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
-    return of({chronologies, total});
+    locations = locations.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
+    return of({locations, total});
   }
 
   
   
-  public getSortChronologies(): Observable<Chronology[]>{
-    return this.chronologies;
+  public getSortLocations(): Observable<Location[]>{
+    return this.locations;
   }
   
-  private getChronologiesX():void{
-    this.chronologyService.getChronologies().subscribe(
+  private getLocationsX():void{
+    this.locationService.getLocations().subscribe(
         responseData => {
-            this.chronologiesFromService = responseData;
+            this.locationsFromService = responseData;
         },
         (error: HttpErrorResponse) => {
             alert(error.message)

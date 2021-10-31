@@ -5,10 +5,10 @@ import { NgForm } from "@angular/forms";
 import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
 import { Observable, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
-import { SortableDirective } from "src/app/directives/sortable.directive";
+import { SortableChronologyDirective } from "src/app/directives/sortable-chronology.directive";
 import { Chronology } from "src/app/entity/chronology";
 import { ChronologyFormResult } from "src/app/interfaces/chronology-form-result";
-import { SortEvent } from "src/app/interfaces/sort-event";
+import { SortEvent } from "src/app/directives/sortable-chronology.directive";
 import { ChronologySortService } from "src/app/services/chronology-sort.service";
 import { ChronologyService } from "src/app/services/chronology.service";
 import { ChronologyModalComponent } from "./chronology-modal/chronology-modal.component";
@@ -42,10 +42,10 @@ export class ChronologyComponent implements OnInit{
      }
 
    
-     @ViewChildren(SortableDirective) headers: QueryList<SortableDirective> | undefined;
+     @ViewChildren(SortableChronologyDirective) headers: QueryList<SortableChronologyDirective> | undefined;
    
 
-     onSort({column, direction}: SortEvent) {
+     onChronologySort({column, direction}: SortEvent) {
        // resetting other headers
        this.headers?.forEach(header => {
          if (header.sortable !== column) {

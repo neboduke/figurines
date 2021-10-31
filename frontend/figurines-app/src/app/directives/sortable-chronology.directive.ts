@@ -1,19 +1,21 @@
 import {Directive, EventEmitter, Input, Output} from '@angular/core';
-
+/*
 import { SortEvent } from '../interfaces/sort-event';
 import { SortColumn } from '../interfaces/sort-event';
 import { SortDirection } from '../interfaces/sort-event';
+*/
 
-/*
---- went to sort-event interface---
+import { Chronology } from "../entity/chronology";
+
+
 export type SortColumn = keyof Chronology | '';
 export type SortDirection = 'asc' | 'desc' | '';
-const rotate: {[key: string]: SortDirection} = { 'asc': 'desc', 'desc': '', '': 'asc' };
+//const rotate: {[key: string]: SortDirection} = { 'asc': 'desc', 'desc': '', '': 'asc' };
 
 export interface SortEvent {
-  column: SortColumn;
-  direction: SortDirection;
-}*/
+    column: SortColumn;
+    direction: SortDirection;
+}
 
 @Directive({
   selector: 'th[sortable]',
@@ -23,7 +25,7 @@ export interface SortEvent {
     '(click)': 'rotate()'
   }
 })
-export class SortableDirective {
+export class SortableChronologyDirective {
 
   @Input() sortable: SortColumn = '';
   @Input() direction: SortDirection = '';

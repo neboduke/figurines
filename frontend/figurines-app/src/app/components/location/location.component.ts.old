@@ -1,56 +1,45 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from 'src/app/entity/location';
 import { LocationFormResult } from 'src/app/interfaces/location-form-result';
 import { CountryService } from 'src/app/services/country.service';
 import { LocationService } from 'src/app/services/location.service';
-import { LocationSortService } from 'src/app/services/location-sort.service';
 import { LocationModalComponent } from './location-modal/location-modal.component';
-import { DecimalPipe } from '@angular/common';
-import { Observable, of } from 'rxjs';
-import { SortableLocationDirective, SortLocationEvent } from 'src/app/directives/sortable-location.directive';
 
 @Component({
   selector: 'app-location',
   templateUrl: './location.component.html',
-  styleUrls: ['./location.component.css'],
-  providers: [LocationSortService, DecimalPipe]
+  styleUrls: ['./location.component.css']
 })
 export class LocationComponent implements OnInit {
 
-    public locations: Observable<Location[]> = of([]);
+    public locations: Location[] = [];
     modalOptions:NgbModalOptions | undefined;
-    public editableLocation: Location | undefined;
-    public total: Observable<number> | undefined;
     
 
-    constructor(private locationService: LocationService, public locationSortService: LocationSortService,  public modalService: NgbModal) { 
+    constructor(private locationService: LocationService,public modalService: NgbModal) { 
         this.modalOptions = {
             backdrop:'static',
             backdropClass:'customBackdrop'
           }
-          this.locations = this.locationSortService.locations;
-          this.total = this.locationSortService.total;
-    }
-
-    @ViewChildren(SortableLocationDirective) headers: QueryList<SortableLocationDirective> | undefined;
-
-    onSortLocation({column, direction}: SortLocationEvent) {
-      // resetting other headers
-      this.headers?.forEach(header => {
-        if (header.sortableLocation !== column) {
-          header.direction = '';
-        }
-      });
-  
-      this.locationSortService.sortColumn = column;
-      this.locationSortService.sortDirection = direction;
     }
 
     ngOnInit(){
-      console.log('---- LOAD ALL ON INIT ---');
+        this.getLocations();
     }
+
+    public getLocations():void{
+        this.locationService.getLocations().subscribe(
+             responseData => {
+                this.locations = responseData;
+             },
+            (error: HttpErrorResponse) => {
+                alert(error.message)
+            }
+        );
+    }
+    
 
     //getting modal window
     public onOpenModal( isAddNew: boolean, location?: Location):void {

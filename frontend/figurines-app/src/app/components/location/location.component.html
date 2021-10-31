@@ -1,27 +1,44 @@
-<div class="container" id="location_container">
+
+ <div class="card-body container" id="location_container">
+  <form>
+    <div class="form-group form-inline">
+        <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="locationSortService.searchTerm"/>
+        <span class="ml-3" *ngIf="locationSortService.loading | async">Loading...</span>
+    </div>
     <table class="table  table-hover">
         <thead class="table">
           <tr>
-            <th scope="col"></th>
-            <th scope="col">Ort</th>
-            <th scope="col">Ortschaft</th>
-            <th scope="col">Land</th>
-             <th>
-              <a class="btn btn-secondary tooltips" (click)="onOpenModal(true)" data-placement="top" data-toggle="tooltip">Neu</a>
+            <th scope="col" ></th>
+            <th scope="col" sortableLocation="name" (sortLocation)="onSortLocation($event)">Ort</th>
+            <th scope="col" sortableLocation="place" (sortLocation)="onSortLocation($event)">Ortschaft</th>
+            <th scope="col" sortableLocation="country" (sortLocation)="onSortLocation($event)">Land</th>
+            <th scope="col">
+              
+              <a class="btn btn-new tooltips" (click)="onOpenModal(true)" data-placement="top" data-toggle="tooltip">Neu</a>
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let location of locations">
+          <tr *ngFor="let location of locations | async">
             <th scope="row"></th>
-            <td>{{location?.name}}</td>
-            <td>{{location.place}}</td>
-            <td>{{location.country?.name}}</td>
-            <td><a class="btn" (click)="onOpenModal(false, location)"><i class="fa fa-edit"></i> </a>
-                
-            </td>
+            <td><ngb-highlight [result]="location?.name" [term]="locationSortService.searchTerm"></ngb-highlight></td>
+            <td><ngb-highlight [result]="location.place" [term]="locationSortService.searchTerm"></ngb-highlight></td>
+            <td><ngb-highlight [result]="location.country?.name" [term]="locationSortService.searchTerm"></ngb-highlight></td>
+            <td><a class="btn" (click)="onOpenModal(false, location)"><i class="fa fa-edit"></i> </a></td>
           </tr>
           
         </tbody>
       </table>
-</div>
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination
+          [collectionSize]="(locationSortService.total | async)!" [(page)]="locationSortService.page" [pageSize]="locationSortService.pageSize">
+        </ngb-pagination>
+    
+        <select class="custom-select ng-valid ng-dirty ng-touched" style="width: auto" name="pageSize" [(ngModel)]="locationSortService.pageSize">
+          <option [ngValue]="2">2</option>
+          <option [ngValue]="4">4</option>
+          <option [ngValue]="6">6</option>
+        </select>
+      </div>
+    </form>
+  </div>

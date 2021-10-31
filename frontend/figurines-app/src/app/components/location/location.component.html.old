@@ -1,0 +1,27 @@
+<div class="container" id="location_container">
+    <table class="table  table-hover">
+        <thead class="table">
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Ort</th>
+            <th scope="col">Ortschaft</th>
+            <th scope="col">Land</th>
+             <th>
+              <a class="btn btn-secondary tooltips" (click)="onOpenModal(true)" data-placement="top" data-toggle="tooltip">Neu</a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let location of locations">
+            <th scope="row"></th>
+            <td>{{location?.name}}</td>
+            <td>{{location.place}}</td>
+            <td>{{location.country?.name}}</td>
+            <td><a class="btn" (click)="onOpenModal(false, location)"><i class="fa fa-edit"></i> </a>
+                
+            </td>
+          </tr>
+          
+        </tbody>
+      </table>
+</div>

@@ -16,10 +16,11 @@ import { LocationService } from './services/location.service';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { ToastComponent } from './common/toast/toast.component';
 import { LoaderComponent } from './common/loader/loader.component';
-import { SortableDirective } from './directives/sortable.directive';
+import { SortableChronologyDirective } from './directives/sortable-chronology.directive';
 import { LocationComponent } from './components/location/location.component';
 import { LocationModalComponent } from './components/location/location-modal/location-modal.component';
 import { CountryComponent } from './components/country/country.component';
+import { SortableLocationDirective } from './directives/sortable-location.directive';
 
 @NgModule({
   declarations: [
@@ -29,10 +30,11 @@ import { CountryComponent } from './components/country/country.component';
     ToastComponent,
     LoaderComponent,
     ChronologyModalComponent,
-    SortableDirective,
+    SortableChronologyDirective,
     LocationComponent,
     LocationModalComponent,
-    CountryComponent
+    CountryComponent,
+    SortableLocationDirective
   ],
   imports: [
     BrowserModule,

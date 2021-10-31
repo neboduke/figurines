@@ -2,7 +2,7 @@ import {Injectable, Input, PipeTransform} from '@angular/core';
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {DecimalPipe} from '@angular/common';
 import {debounceTime, delay, switchMap, tap} from 'rxjs/operators';
-import { SortColumn, SortDirection } from '../interfaces/sort-event';
+import { SortColumn, SortDirection } from 'src/app/directives/sortable-chronology.directive';
 import { Chronology } from '../entity/chronology';
 import { ChronologyService } from './chronology.service';
 import { HttpErrorResponse } from '@angular/common/http';
