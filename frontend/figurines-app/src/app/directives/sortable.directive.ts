@@ -1,36 +1,32 @@
-
 import {Directive, EventEmitter, Input, Output} from '@angular/core';
-import { Location } from '../entity/location';
 
-
-export type SortLocationColumn = keyof Location | '';
+export type SortColumn = keyof  any  | '';
 export type SortDirection = 'asc' | 'desc' | '';
+//const rotate: {[key: string]: SortDirection} = { 'asc': 'desc', 'desc': '', '': 'asc' };
 
-export interface SortLocationEvent {
-    column: SortLocationColumn;
+export interface SortEvent {
+    column: SortColumn;
     direction: SortDirection;
 }
 
 @Directive({
-  selector: 'th[sortableLocation]',
+  selector: 'th[sortable]',
   host: {
     '[class.asc]': 'direction === "asc"',
     '[class.desc]': 'direction === "desc"',
     '(click)': 'rotate()'
   }
 })
+export class SortableDirective {
 
-export class SortableLocationDirective {
-
-  @Input() sortableLocation: SortLocationColumn = '';
+  @Input() sortable: SortColumn = '';
   @Input() direction: SortDirection = '';
-  @Output() sortLocation = new EventEmitter<SortLocationEvent>();
+  @Output() sort = new EventEmitter<SortEvent>();
 
   rotate_directions: {[key: string]: SortDirection} = { 'asc': 'desc', 'desc': '', '': 'asc' };
 
   rotate() {
     this.direction = this.rotate_directions[this.direction];
-    this.sortLocation.emit({column: this.sortableLocation, direction: this.direction});
+    this.sort.emit({column: this.sortable, direction: this.direction});
   }
-
 }

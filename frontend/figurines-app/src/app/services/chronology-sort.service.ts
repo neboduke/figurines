@@ -2,7 +2,7 @@ import {Injectable, Input, PipeTransform} from '@angular/core';
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {DecimalPipe} from '@angular/common';
 import {debounceTime, delay, switchMap, tap} from 'rxjs/operators';
-import { SortColumn, SortDirection } from 'src/app/directives/sortable-chronology.directive';
+import { SortColumn, SortDirection } from 'src/app/directives/sortable.directive';
 import { Chronology } from '../entity/chronology';
 import { ChronologyService } from './chronology.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -24,7 +24,7 @@ interface State {
 const compare = (v1: string | number | undefined , v2: string | number | undefined) => 
                 (v1 === undefined || v2 === undefined) ? 0 : v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
-function sort(chronologies: Chronology[], column: SortColumn, direction: string): Chronology[] {
+function sort(chronologies: any[], column: SortColumn, direction: string): Chronology[] {
   if (direction === '' || column === '') {
     return chronologies;
   } else {

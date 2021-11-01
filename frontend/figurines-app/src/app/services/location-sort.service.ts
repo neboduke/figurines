@@ -2,7 +2,7 @@ import {Injectable, Input, PipeTransform} from '@angular/core';
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {DecimalPipe} from '@angular/common';
 import {debounceTime, delay, switchMap, tap} from 'rxjs/operators';
-import { SortLocationColumn, SortDirection } from 'src/app/directives/sortable-location.directive';
+import { SortColumn, SortDirection } from 'src/app/directives/sortable.directive';
 import { Location } from '../entity/location';
 import { LocationService } from './location.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -18,14 +18,14 @@ interface State {
   page: number;
   pageSize: number;
   searchTerm: string;
-  sortColumn: SortLocationColumn;
+  sortColumn: SortColumn;
   sortDirection: SortDirection;
 }
 
-const compare = (v1: string | number | Country | undefined , v2: string | number | Country | undefined) => 
+const compare = (v1: string | number  | undefined , v2: string | number | undefined) => 
                 (v1 === undefined || v2 === undefined) ? 0 : v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
-function sort(locations: Location[], column: SortLocationColumn, direction: string): Location[] {
+function sort(locations: any[], column: SortColumn, direction: string): Location[] {
   if (direction === '' || column === '') {
     return locations;
   } else {
@@ -41,8 +41,8 @@ function sort(locations: Location[], column: SortLocationColumn, direction: stri
 
 function matches(location: Location, term: string, pipe: PipeTransform) {
   return location.name?.toLowerCase().includes(term.toLowerCase())
-    || pipe.transform(location.place!=null?location.place:'').includes(term)
-    || pipe.transform(location.country?.name!=null?location.country?.name:'').includes(term);
+    || location.place?.toLowerCase().includes(term.toLowerCase())
+    || location.country?.name!.toLowerCase().includes(term.toLowerCase());
 }
 
 @Injectable({
@@ -100,7 +100,7 @@ export class LocationSortService {
   set page(page: number) { this._set({page}); }
   set pageSize(pageSize: number) { this._set({pageSize}); }
   set searchTerm(searchTerm: string) { this._set({searchTerm}); }
-  set sortColumn(sortColumn: SortLocationColumn) { this._set({sortColumn}); }
+  set sortColumn(sortColumn: SortColumn) { this._set({sortColumn}); }
   set sortDirection(sortDirection: SortDirection) { this._set({sortDirection}); }
 
   private _set(patch: Partial<State>) {

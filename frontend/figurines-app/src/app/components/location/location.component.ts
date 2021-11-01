@@ -9,7 +9,7 @@ import { LocationSortService } from 'src/app/services/location-sort.service';
 import { LocationModalComponent } from './location-modal/location-modal.component';
 import { DecimalPipe } from '@angular/common';
 import { Observable, of } from 'rxjs';
-import { SortableLocationDirective, SortLocationEvent } from 'src/app/directives/sortable-location.directive';
+import { SortableDirective, SortEvent } from 'src/app/directives/sortable.directive';
 
 @Component({
   selector: 'app-location',
@@ -34,12 +34,12 @@ export class LocationComponent implements OnInit {
           this.total = this.locationSortService.total;
     }
 
-    @ViewChildren(SortableLocationDirective) headers: QueryList<SortableLocationDirective> | undefined;
+    @ViewChildren(SortableDirective) headers: QueryList<SortableDirective> | undefined;
 
-    onSortLocation({column, direction}: SortLocationEvent) {
+    onSort({column, direction}: SortEvent) {
       // resetting other headers
       this.headers?.forEach(header => {
-        if (header.sortableLocation !== column) {
+        if (header.sortable !== column) {
           header.direction = '';
         }
       });

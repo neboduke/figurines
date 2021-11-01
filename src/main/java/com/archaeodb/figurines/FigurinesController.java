@@ -62,7 +62,7 @@ public class FigurinesController {
     @PostMapping(value ="/figurine/add")
     @ResponseBody
     public FigurineDto addFigurine(@RequestBody FigurineDto figurine){
-        FigurineDto newFigurine = figurineService.addFigurine(figurine);
+        FigurineDto newFigurine = figurineService.saveFigurine(figurine);
         return newFigurine;
     }
 
@@ -81,14 +81,14 @@ public class FigurinesController {
     @PostMapping(value = "/chronology/add")
     @ResponseBody
     public  ChronologyDto addChronology(@RequestBody ChronologyDto chronologyDto){
-        ChronologyDto newChronology = figurineService.addChronology(chronologyDto);
+        ChronologyDto newChronology = figurineService.saveChronology(chronologyDto);
         return newChronology;
     }
 
     @PutMapping(value = "/chronology/edit")
     @ResponseBody
     public ChronologyDto updateChronology(@RequestBody ChronologyDto chronologyDto){
-        ChronologyDto newChronology = figurineService.updateChronology(chronologyDto);
+        ChronologyDto newChronology = figurineService.saveChronology(chronologyDto);
         return newChronology;
     }
     @DeleteMapping(value = "/chronology/remove/{chronologyId}")
@@ -114,14 +114,14 @@ public class FigurinesController {
     @PostMapping(value = "/location/add")
     @ResponseBody
     public  LocationDto addLocation(@RequestBody LocationDto locationDto){
-        LocationDto newLocation = figurineService.addLocation(locationDto);
+        LocationDto newLocation = figurineService.saveLocation(locationDto);
         return newLocation;
     }
 
     @PutMapping(value = "/location/edit")
     @ResponseBody
     public LocationDto updateLocation(@RequestBody LocationDto locationDto){
-        LocationDto newLocation = figurineService.updateLocation(locationDto);
+        LocationDto newLocation = figurineService.saveLocation(locationDto);
         return newLocation;
     }
     @DeleteMapping(value = "/location/remove/{locationId}")
@@ -137,5 +137,28 @@ public class FigurinesController {
     public List<CountryDto> getCountries(){
         return figurineService.getCountries();
     }
+
+    /*LITERATURE*/
+    @GetMapping(value = "/literature")
+    @ResponseBody
+    public List<LiteratureDto> getLiterature(){
+        return figurineService.getLiterature();
+    }
+
+    @PutMapping(value = "/literature/edit")
+    @ResponseBody
+    public LiteratureDto updateLiterature(@RequestBody LiteratureDto literatureDto){
+        LiteratureDto newLiterature = figurineService.saveLiterature(literatureDto);
+        return newLiterature;
+    }
+
+    @DeleteMapping(value = "/literature/remove/{literatureId}")
+    @Transactional
+    public ResponseEntity<?> deleteLiterature(@PathVariable int literatureId){
+        figurineService.deleteLiterature(literatureId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
+    
 
 }

@@ -9,9 +9,9 @@
         <thead class="table">
           <tr>
             <th scope="col" ></th>
-            <th scope="col" sortableLocation="name" (sortLocation)="onSortLocation($event)">Ort</th>
-            <th scope="col" sortableLocation="place" (sortLocation)="onSortLocation($event)">Ortschaft</th>
-            <th scope="col" sortableLocation="country" (sortLocation)="onSortLocation($event)">Land</th>
+            <th scope="col" sortable="name" (sort)="onSort($event)">Ort</th>
+            <th scope="col" sortable="place" (sort)="onSort($event)">Ortschaft</th>
+            <th scope="col" sortable="country" (sort)="onSort($event)">Land</th>
             <th scope="col">
               
               <a class="btn btn-new tooltips" (click)="onOpenModal(true)" data-placement="top" data-toggle="tooltip">Neu</a>

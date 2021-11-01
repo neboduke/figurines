@@ -5,6 +5,7 @@ import com.archaeodb.figurines.mapper.*;
 import com.archaeodb.figurines.model.*;
 import com.archaeodb.figurines.repository.*;
 import org.mapstruct.factory.Mappers;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -101,25 +102,20 @@ public class FigurineService {
         return materialDtos;
     }
 
-    public FigurineDto addFigurine(FigurineDto figurineDto) {
+    public FigurineDto saveFigurine(FigurineDto figurineDto) {
         Figurine figurine = figurineMapper.figurineToDb(figurineDto);
         Figurine newFigurine = figurineRepository.save(figurine);
         FigurineDto newFigurineDto = figurineMapper.figurineFromDb(newFigurine);
         return newFigurineDto;
     }
 
-    public ChronologyDto addChronology(ChronologyDto chronologyDto) {
+    public ChronologyDto saveChronology(ChronologyDto chronologyDto) {
         Chronology chronology=chronologyMapper.chronologyToDb(chronologyDto);
         Chronology newChronology = chronologyRepository.save(chronology);
         ChronologyDto newChronologyDto = chronologyMapper.chronologyFromDb(newChronology);
         return newChronologyDto;
     }
-    public ChronologyDto updateChronology(ChronologyDto chronologyDto) {
-        Chronology chronology=chronologyMapper.chronologyToDb(chronologyDto);
-        Chronology updatedChronology = chronologyRepository.save(chronology);
-        ChronologyDto updatedChronologyDto = chronologyMapper.chronologyFromDb(updatedChronology);
-        return updatedChronologyDto;
-    }
+
     public void deleteChronology(Integer chronologyId) {
         chronologyRepository.deleteChronologyByChronologyId(chronologyId);
     }
@@ -141,7 +137,7 @@ public class FigurineService {
 
 
     public List<LocationDto> getLocations() {
-        List<Location> locations = locationRepository.findAll();
+        List<Location> locations = locationRepository.findAll(Sort.by(Sort.Order.asc("name")));
         List<LocationDto> locationDtos = locations.stream()
                         .map(location -> locationMapper.locationFromDb(location))
                         .collect(Collectors.toList());
@@ -149,29 +145,43 @@ public class FigurineService {
         return locationDtos;
     }
 
-    public LocationDto addLocation(LocationDto locationDto) {
+    public LocationDto saveLocation(LocationDto locationDto) {
         Location location = locationMapper.locationToDb(locationDto);
         Location newLocation = locationRepository.save(location);
         LocationDto newLocationDto = locationMapper.locationFromDb(newLocation);
         return newLocationDto;
     }
-    public LocationDto updateLocation(LocationDto locationDto) {
-        Location location = locationMapper.locationToDb(locationDto);
-        Location updatedLocation = locationRepository.save(location);
-        LocationDto updatedLocationyDto = locationMapper.locationFromDb(updatedLocation);
-        return updatedLocationyDto;
-    }
+
     public void deleteLocation(Integer locationId) {
         locationRepository.deleteLocationByLocationId(locationId );
     }
 
 
     public List<CountryDto> getCountries() {
-        List<Country> countries = countryRepository.findAll();
+        List<Country> countries = countryRepository.findAll(Sort.by(Sort.Order.asc("name")));
         List<CountryDto> countryDtos = countries.stream()
                 .map(country -> countryMapper.countryFromDb(country))
                 .collect(Collectors.toList());
 
         return countryDtos;
+    }
+
+    public List<LiteratureDto> getLiterature() {
+        List<Literature> literature = literatureRepository.findAll(Sort.by(Sort.Order.asc("title")));
+        List <LiteratureDto> literatureDto = literature.stream()
+                .map(title -> literatureMapper.literatureFromDb(title))
+                .collect(Collectors.toList());
+        return literatureDto;
+    }
+
+    public LiteratureDto saveLiterature(LiteratureDto literatureDto){
+        Literature literature = literatureMapper.literatureToDb(literatureDto);
+        Literature newLiterature = literatureRepository.save(literature);
+        LiteratureDto newLiteratureDto = literatureMapper.literatureFromDb(newLiterature);
+        return literatureDto;
+    }
+
+    public void deleteLiterature(Integer literatureId) {
+        literatureRepository.deleteById(literatureId);
     }
 }
