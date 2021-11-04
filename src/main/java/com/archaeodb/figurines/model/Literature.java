@@ -12,7 +12,9 @@ public class Literature {
     private String title;
     private String isin;
     private String citation;
-    private Integer parent_id;
+    private Integer parentId;
+    private String author;
+
     @ManyToMany(
             fetch = FetchType.LAZY,
             mappedBy = "literature"
@@ -21,7 +23,7 @@ public class Literature {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id",updatable = false,insertable = false)
+    @JoinColumn(name = "parentId",updatable = false,insertable = false)
     private Literature parentLiterature;
 
 
@@ -32,12 +34,14 @@ public class Literature {
                       String title,
                       String isin,
                       String citation,
-                      Integer parent_id) {
+                      Integer parentId,
+                      String author) {
         this.literatureId = literatureId;
         this.title = title;
         this.isin = isin;
         this.citation = citation;
-        this.parent_id = parent_id;
+        this.parentId = parentId;
+        this.author = author;
     }
 
     public int getLiteratureId() {
@@ -72,12 +76,12 @@ public class Literature {
         this.citation = citation;
     }
 
-    public int getParent_id() {
-        return parent_id;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setParent_id(Integer parent_id) {
-        this.parent_id = parent_id;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
     public List<Figurine> getFigurines() {
@@ -94,5 +98,12 @@ public class Literature {
 
     public void setParentLiterature(Literature parentLiterature) {
         this.parentLiterature = parentLiterature;
+    }
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }

@@ -3,50 +3,49 @@ import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {DecimalPipe} from '@angular/common';
 import {debounceTime, delay, switchMap, tap} from 'rxjs/operators';
 import { SortColumn, SortDirection } from 'src/app/directives/sortable.directive';
-import { Location } from '../entity/location';
-import { LocationService } from './location.service';
+import { Literature } from '../entity/literature';
+import { LiteratureService } from './literature.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { State } from '../interfaces/state';
 
-
 interface SearchResult {
-  locations: Location[];
+  literature: Literature[];
   total: number;
 }
 
-
-const compare = (v1: string | number  | undefined , v2: string | number | undefined) => 
+const compare = (v1: string | number | Literature | undefined , v2: string | number | undefined) => 
                 (v1 === undefined || v2 === undefined) ? 0 : v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
-function sort(locations: any[], column: SortColumn, direction: string): Location[] {
+function sort(literature: any[], column: SortColumn, direction: string): Literature[] {
   if (direction === '' || column === '') {
-    return locations;
+    return literature;
   } else {
-    return [...locations].sort((a, b) => {
+    return [...literature].sort((a, b) => {
       //column = column == undefined?'':column;
       const res = compare(a[column], b[column]);
       return direction === 'asc' ? res : -res;
     });
     console.log('----SORT OTHERS ---')
-    return locations;
+    return literature;
   }
 }
 
-function matches(location: Location, term: string, pipe: PipeTransform) {
-  return location.name?.toLowerCase().includes(term.toLowerCase())
-    || location.place?.toLowerCase().includes(term.toLowerCase())
-    || location.country?.name!.toLowerCase().includes(term.toLowerCase());
+function matches(literature: Literature, term: string, pipe: PipeTransform) {
+  return literature.author?.toLowerCase().includes(term.toLowerCase()) 
+    || literature.title?.toLowerCase().includes(term.toLowerCase());
+    //|| literature.parentLiterature?.title!.toLowerCase().includes(term.toLowerCase());
 }
 
 @Injectable({
   providedIn: 'root'
 })
-export class LocationSortService {
-  locationsFromService: Location[] = [];
+export class LiteratureSortService {
+
+  literatureFromService: Literature[] = [];
   
   private _loading = new BehaviorSubject<boolean>(true);
   private _search = new Subject<void>();
-  private _locations = new BehaviorSubject<Location[]>([]);
+  private _literature = new BehaviorSubject<Literature[]>([]);
   private _total = new BehaviorSubject<number>(0);
 
 
@@ -58,10 +57,10 @@ export class LocationSortService {
     sortDirection: ''
   };
 
-  constructor(private locationService: LocationService,private pipe: DecimalPipe) {
+  constructor(private literatureService: LiteratureService,private pipe: DecimalPipe) {
     console.log('---- CONSTRUCTOR SORT SERVICE---')
     
-    this.getLocationsX();
+    this.getLiteratureX();
     this.start();
 
   }
@@ -75,7 +74,7 @@ export class LocationSortService {
       delay(200),
       tap(() => this._loading.next(false))
     ).subscribe(result => {
-      this._locations.next(result.locations);
+      this._literature.next(result.literature);
       this._total.next(result.total);
     });
 
@@ -83,7 +82,7 @@ export class LocationSortService {
 
   }
 
-  get locations() { return this._locations.asObservable(); }
+  get literature() { return this._literature.asObservable(); }
   get total() { return this._total.asObservable(); }
   get loading() { return this._loading.asObservable(); }
   get page() { return this._state.page; }
@@ -105,28 +104,28 @@ export class LocationSortService {
     const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
 
     // 1. sort
-    let locations = sort(this.locationsFromService, sortColumn, sortDirection);
+    let literature = sort(this.literatureFromService, sortColumn, sortDirection);
 
     // 2. filter
-    locations= locations.filter(c => matches(c, searchTerm, this.pipe));
-    const total = locations.length;
+    literature= literature.filter(c => matches(c, searchTerm, this.pipe));
+    const total = literature.length;
     console.log('---TOTAL:' + total + '---');
 
     // 3. paginate
-    locations = locations.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
-    return of({locations, total});
+    literature = literature.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
+    return of({literature, total});
   }
 
   
   
-  public getSortLocations(): Observable<Location[]>{
-    return this.locations;
-  }
+  /*public getSortLiterature(): Observable<Literature[]>{
+    return this.literature;
+  }*/
   
-  private getLocationsX():void{
-    this.locationService.getLocations().subscribe(
+  private getLiteratureX():void{
+    this.literatureService.getLiterature().subscribe(
         responseData => {
-            this.locationsFromService = responseData;
+            this.literatureFromService = responseData;
         },
         (error: HttpErrorResponse) => {
             alert(error.message)

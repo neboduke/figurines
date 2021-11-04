@@ -20,6 +20,9 @@ import { SortableDirective } from './directives/sortable.directive';
 import { LocationComponent } from './components/location/location.component';
 import { LocationModalComponent } from './components/location/location-modal/location-modal.component';
 import { CountryComponent } from './components/country/country.component';
+import { LiteratureService } from './services/literature.service';{}
+import { LiteratureComponent } from './components/literature/literature.component';
+import { LiteratureModalComponent } from './components/literature/literature-modal/literature-modal.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,9 @@ import { CountryComponent } from './components/country/country.component';
     SortableDirective,
     LocationComponent,
     LocationModalComponent,
-    CountryComponent
+    CountryComponent,
+    LiteratureComponent,
+    LiteratureModalComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +50,7 @@ import { CountryComponent } from './components/country/country.component';
     CommonModule,
     NgSelectModule
   ],
-  providers: [ChronologyService,FigurineService,LocationService,NgbActiveModal],
+  providers: [ChronologyService,FigurineService,LocationService, LiteratureService, FigurineService, NgbActiveModal],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

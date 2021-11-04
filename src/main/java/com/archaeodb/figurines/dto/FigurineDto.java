@@ -20,6 +20,9 @@ public class FigurineDto {
     private CarrierDto carrier;
     private LocationDto location;
     private LocationDto exibitLocation;
+    private String image;
+    private String imageUrl;
+    private String motif;
 
 
     public FigurineDto() {
@@ -38,7 +41,10 @@ public class FigurineDto {
                        List<LiteratureDto> literature,
                        CarrierDto carrier,
                        LocationDto location,
-                       LocationDto exibitLocation) {
+                       LocationDto exibitLocation,
+                       String image,
+                       String imageUrl,
+                       String motif) {
         this.figurineId = figurineId;
         this.title = title;
         this.descriptionIconography = descriptionIconography;
@@ -53,6 +59,9 @@ public class FigurineDto {
         this.carrier = carrier;
         this.location = location;
         this.exibitLocation = exibitLocation;
+        this.image = image;
+        this.imageUrl = imageUrl;
+        this.motif = motif;
     }
 
     public int getFigurineId() {
@@ -165,6 +174,30 @@ public class FigurineDto {
 
     public void setExibitLocation(LocationDto exibitLocation) {
         this.exibitLocation = exibitLocation;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getMotif() {
+        return motif;
+    }
+
+    public void setMotif(String motif) {
+        this.motif = motif;
     }
 
     @Override

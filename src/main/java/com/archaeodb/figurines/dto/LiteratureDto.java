@@ -5,8 +5,9 @@ public class LiteratureDto {
     private String title;
     private String isin;
     private String citation;
-    private int included_in;
-    private LiteratureDto parentLiterature;
+    //private LiteratureDto parentLiteratureId;
+    private Integer parentId;
+    private String author;
 
     public LiteratureDto() {
     }
@@ -15,14 +16,15 @@ public class LiteratureDto {
                          String title,
                          String isin,
                          String citation,
-                         int included_in,
-                         LiteratureDto parentLiterature) {
+                         Integer parentId,
+                         String author) {
         this.literatureId = literatureId;
         this.title = title;
         this.isin = isin;
         this.citation = citation;
-        this.included_in = included_in;
-        this.parentLiterature = parentLiterature;
+        //this.parentLiterature = parentLiterature;
+        this.parentId = parentId;
+        this.author = author;
     }
 
     public int getLiteratureId() {
@@ -57,19 +59,29 @@ public class LiteratureDto {
         this.citation = citation;
     }
 
-    public int getIncluded_in() {
-        return included_in;
-    }
 
-    public void setIncluded_in(int included_in) {
-        this.included_in = included_in;
-    }
-
-    public LiteratureDto getParentLiterature() {
+   /* public LiteratureDto getParentLiterature() {
         return parentLiterature;
     }
 
     public void setParentLiterature(LiteratureDto parentLiterature) {
         this.parentLiterature = parentLiterature;
+    }*/
+
+    public String getAuthor() {
+        return author;
     }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
+
 }

@@ -167,7 +167,7 @@ public class FigurineService {
     }
 
     public List<LiteratureDto> getLiterature() {
-        List<Literature> literature = literatureRepository.findAll(Sort.by(Sort.Order.asc("title")));
+        List<Literature> literature = literatureRepository.findAll(Sort.by(Sort.Order.asc("author")));
         List <LiteratureDto> literatureDto = literature.stream()
                 .map(title -> literatureMapper.literatureFromDb(title))
                 .collect(Collectors.toList());
@@ -176,6 +176,10 @@ public class FigurineService {
 
     public LiteratureDto saveLiterature(LiteratureDto literatureDto){
         Literature literature = literatureMapper.literatureToDb(literatureDto);
+
+//        literature.getParentLiterature().setParentLiterature(new Literature(literatureDto.getParentLiterature().getLiteratureId(),null,null,null,null,);
+//        setLiteratureId(literatureDto.getParentLiterature().getLiteratureId());
+
         Literature newLiterature = literatureRepository.save(literature);
         LiteratureDto newLiteratureDto = literatureMapper.literatureFromDb(newLiterature);
         return literatureDto;

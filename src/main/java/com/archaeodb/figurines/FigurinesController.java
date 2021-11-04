@@ -111,6 +111,7 @@ public class FigurinesController {
     public List<LocationDto> getLocations(){
         return figurineService.getLocations();
     }
+
     @PostMapping(value = "/location/add")
     @ResponseBody
     public  LocationDto addLocation(@RequestBody LocationDto locationDto){
@@ -143,6 +144,13 @@ public class FigurinesController {
     @ResponseBody
     public List<LiteratureDto> getLiterature(){
         return figurineService.getLiterature();
+    }
+
+    @PostMapping(value = "/literature/add")
+    @ResponseBody
+    public  LiteratureDto addLiterature(@RequestBody LiteratureDto literatureDto){
+        LiteratureDto newLiterature = figurineService.saveLiterature(literatureDto);
+        return newLiterature;
     }
 
     @PutMapping(value = "/literature/edit")

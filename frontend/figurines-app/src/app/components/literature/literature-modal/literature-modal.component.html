@@ -1,0 +1,119 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Literature</h5>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+  
+    <div class="container-fluid">
+      <!-- HTML form mark up -->
+      <form [formGroup]="literatureForm" novalidate>
+          <input type="hidden" formControlName="literatureId" autocomplete="literatureId">
+          <!-- input type="hidden" formControlName="parentLiterature" -->    
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div class="form-group">
+                <label class="col-sm-10 control-label">Literatur-Titel</label>
+                <div class="col-sm-10">
+                  <input type="text" formControlName="title" class="form-control" >
+                  <span hidden translate>Literature Titel</span>
+                  <small
+                  [hidden]="literatureForm?.controls?.title?.valid || literatureForm?.controls?.title?.untouched"
+                      class="text-danger"
+                      translate
+                      >
+                      Titel darf nicht leer sein
+                  </small>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-10 control-label">Author</label>
+                <div class="col-sm-10">
+                  <input type="text" formControlName="author" class="form-control" >
+                  <span hidden translate>Author</span>
+                  <small
+                  [hidden]="literatureForm?.controls?.author?.valid || literatureForm?.controls?.author?.untouched"
+                      class="text-danger"
+                      translate
+                      >
+                      Author muss angegeben werden
+                  </small>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-10 control-label">ISBN</label>
+                <div class="col-sm-10">
+                  <input type="text" formControlName="isin" class="form-control">
+                  <span hidden translate>ISBN</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-10 control-label">Citation</label>
+                <div class="col-sm-10">
+                  <input type="text" name="citation" formControlName="citation" class="form-control" value="">
+                  <span hidden translate>citation</span>                
+                </div>
+              </div>
+              
+             
+              <div class="form-group">
+                <label class="col-sm-10 control-label">Übergeordnetes Werk</label>
+                  <div class="col-sm-10">
+                   
+                    <select formControlName ="parentId"   class="form-control">
+                      <option *ngFor="let p of parentLiteratures"  [ngValue]="p.literatureId">
+                      {{ p.title }}
+                      </option>
+                    </select>
+                     
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+              <div class="float-left">
+                <!-- HTML markup for Create button -->
+                <button
+                  (click)="onAddLiterature()"
+                  class="btn btn-primary w-20"
+                  type="submit"
+                  [disabled]="literatureForm?.invalid || !isAddNew"
+                  *ngIf="this.isAddNew"
+                >
+                  <span translate><i class="fas fa-plus"></i> Speichern</span>
+                </button>
+                <!-- HTML markup for Update button -->
+                <button
+                  (click)="onEditLiterature(literatureForm.value)"
+                  class="btn btn-primary w-20"
+                  type="submit"
+                  [disabled]="literatureForm?.invalid || isAddNew"
+                  *ngIf="!this.isAddNew"
+                >
+                  <span translate><i class="fas fa-edit"></i> Speichern</span>
+                </button>
+                <!-- HTML markup for Delete button -->
+                <button
+                  (click)="onRemoveLiterature()"
+                  class="btn btn-danger w-20"
+                  type="submit"
+                  [disabled]="literatureForm?.invalid || isAddNew"
+                  *ngIf="!this.isAddNew"
+                >
+                  <span translate><i class="fas fa-trash-alt"></i> Löschen</span>
+                </button>
+              </div>
+              <div class="float-right">
+                <!-- HTML markup for Back button -->
+                <button  class="btn btn-secondary w-20" type="submit">
+                  <span translate><i class="fa fa-arrow-left"></i> Abbrechen</span>
+                </button>
+              </div>
+          </div>
+         
+  
+      </form>
+    </div>
+  </div>
+  

@@ -1,0 +1,43 @@
+<div class="card-body container" id="literature_container">
+    <form>
+      <div class="form-group form-inline">
+          <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="literatureSortService.searchTerm"/>
+          <span class="ml-3" *ngIf="literatureSortService.loading | async">Loading...</span>
+      </div>
+      <table class="table  table-hover">
+          <thead class="table">
+            <tr>
+              <th scope="col" ></th>
+              <th scope="col" sortable="author" (sort)="onSort($event)">Author/en</th>
+              <th scope="col" sortable="title" (sort)="onSort($event)">Titel</th>
+              <!-- th scope="col" sortable="parentTitle" (sort)="onSort($event)">Übergeordnet</th -->
+              <th scope="col">
+                
+                <a class="btn btn-new tooltips" (click)="onOpenModal(true)" data-placement="top" data-toggle="tooltip">Neu</a>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let lit of literature | async">
+              <th scope="row"></th>
+              <td><ngb-highlight [result]="lit.author" [term]="literatureSortService.searchTerm"></ngb-highlight></td>
+              <td><ngb-highlight [result]="lit?.title" [term]="literatureSortService.searchTerm"></ngb-highlight></td>
+              <!-- td><ngb-highlight [result]="lit?.parentLiterature?.title" [term]="literatureSortService.searchTerm"></ngb-highlight></td -->
+              <td><a class="btn" (click)="onOpenModal(false, lit)"><i class="fa fa-edit"></i> </a></td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-between p-2">
+          <ngb-pagination
+            [collectionSize]="(literatureSortService.total | async)!" [(page)]="literatureSortService.page" [pageSize]="literatureSortService.pageSize">
+          </ngb-pagination>
+      
+          <select class="custom-select ng-valid ng-dirty ng-touched" style="width: auto" name="pageSize" [(ngModel)]="literatureSortService.pageSize">
+            <option [ngValue]="2">2</option>
+            <option [ngValue]="4">4</option>
+            <option [ngValue]="6">6</option>
+          </select>
+        </div>
+      </form>
+    </div>

@@ -17,6 +17,9 @@ public class Figurine {
     private String materialDescription;
     private String exibitNr;
     private String keyword;
+    private String image;
+    private String imageUrl;
+    private String motif;
 
 
     @ManyToOne(fetch=FetchType.LAZY)
@@ -172,6 +175,30 @@ public class Figurine {
         this.exibitLocation = exibitLocation;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getMotif() {
+        return motif;
+    }
+
+    public void setMotif(String motif) {
+        this.motif = motif;
+    }
+
     public Figurine() {}
 
     public Figurine(String title,
@@ -186,7 +213,10 @@ public class Figurine {
                     List<Literature> literature,
                     Carrier carrier,
                     Location location,
-                    Location exibitLocation) {
+                    Location exibitLocation,
+                    String image,
+                    String imageUrl,
+                    String motif) {
         this.title = title;
         this.descriptionIconography = descriptionIconography;
         this.descriptionIconology = descriptionIconology;
@@ -200,6 +230,9 @@ public class Figurine {
         this.carrier = carrier;
         this.location = location;
         this.exibitLocation = exibitLocation;
+        this.image = image;
+        this.imageUrl = imageUrl;
+        this.motif = motif;
     }
 
     @Override
