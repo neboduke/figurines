@@ -9,7 +9,7 @@ import java.util.List;
 public class Figurine {
     @Id
     @GeneratedValue()
-    private int figurineId;
+    private Integer figurineId;
     private String title;
     private String descriptionIconography;
     private String descriptionIconology;
@@ -19,7 +19,7 @@ public class Figurine {
     private String keyword;
     private String image;
     private String imageUrl;
-    private String motif;
+
 
 
     @ManyToOne(fetch=FetchType.LAZY)
@@ -66,12 +66,20 @@ public class Figurine {
     @JoinColumn(name = "exibit_location_id")
     private Location exibitLocation;
 
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "motif_id")
+    private Motif motif;
 
-    public int getFigurineId() {
+    public Motif getMotif() {
+        return motif;
+    }
+
+
+    public Integer getFigurineId() {
         return figurineId;
     }
 
-    public void setFigurineId(int figurineId) {
+    public void setFigurineId(Integer figurineId) {
         this.figurineId = figurineId;
     }
 
@@ -191,11 +199,8 @@ public class Figurine {
         this.imageUrl = imageUrl;
     }
 
-    public String getMotif() {
-        return motif;
-    }
 
-    public void setMotif(String motif) {
+    public void setMotif(Motif motif) {
         this.motif = motif;
     }
 
@@ -216,7 +221,7 @@ public class Figurine {
                     Location exibitLocation,
                     String image,
                     String imageUrl,
-                    String motif) {
+                    Motif motif) {
         this.title = title;
         this.descriptionIconography = descriptionIconography;
         this.descriptionIconology = descriptionIconology;

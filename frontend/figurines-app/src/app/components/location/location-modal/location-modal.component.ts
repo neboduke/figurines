@@ -51,7 +51,8 @@ export class LocationModalComponent implements OnInit {
         place: this.location.place,
         coordinate: this.location.coordinate,
         country: this.location.country,
-        countryId: this.location.country?.countryId  
+        countryId: this.location.country?.countryId ,
+        locationType: this.location.locationType
       })
       this.country = this.location.country;
  }
@@ -83,6 +84,7 @@ export class LocationModalComponent implements OnInit {
       address:[''],
       country:[''],
       countryId:['', Validators.required],
+      locationType:1,
     });
   }
 
@@ -101,6 +103,7 @@ export class LocationModalComponent implements OnInit {
     newLocation.coordinate = this.locationForm?.get('coordinate')?.value;
     newLocation.address = this.locationForm?.get('address')?.value;
     newLocation.country = this.country;
+    newLocation.locationType = this.locationForm?.get('locationType')?.value;
     return newLocation;
   }
 
@@ -140,6 +143,7 @@ public onEditLocation( location: Location): void {
               this.location.country= response.country;
               this.location.address = response.address;
               this.location.place = response.place;
+              this.location.locationType = response.locationType;
 
               this.result = { location: this.location, crudType: 'u', status: true };
               this.activeModal.close(this.result);

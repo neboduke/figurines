@@ -8,6 +8,7 @@ public class LocationDto {
     private String coordinate;
     private String coordinateLng;
     private String coordinateLat;
+    private int locationType;
     private CountryDto country;
 
     public LocationDto() {
@@ -20,7 +21,7 @@ public class LocationDto {
                        String coordinate,
                        String coordinateLng,
                        String coordinateLat,
-                       CountryDto country) {
+                       int locationType, CountryDto country) {
         this.locationId = locationId;
         this.name = name;
         this.address = address;
@@ -28,6 +29,7 @@ public class LocationDto {
         this.coordinate = coordinate;
         this.coordinateLng = coordinateLng;
         this.coordinateLat = coordinateLat;
+        this.locationType = locationType;
         this.country = country;
     }
 
@@ -93,5 +95,13 @@ public class LocationDto {
 
     public void setCountry(CountryDto country) {
         this.country = country;
+    }
+
+    public int getLocationType() {
+        return locationType;
+    }
+
+    public void setLocationType(int locationType) {
+        this.locationType = locationType;
     }
 }

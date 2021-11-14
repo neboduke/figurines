@@ -3,13 +3,14 @@ import { Chronology } from "./chronology";
 import { Literature } from "./literature";
 import { Location } from "./location";
 import { Material } from "./material";
+import { Motif } from "./motif";
 
 export class Figurine {
     figurineId: number | undefined;
     title: string | undefined ;
     descriptionIconography: string | undefined;
     descriptionIconology: string | undefined;
-    dateAbs: number | undefined;
+    dateAbs: string | undefined;
     materialDescription: string | undefined;
     exibitNr: string | undefined;
     keyword: string | undefined;
@@ -21,5 +22,5 @@ export class Figurine {
     exibitLocation: Location | undefined;
     image: string | undefined;
     imageUrl: string | undefined;
-    motif: string | undefined;
+    motif: Motif | undefined;
 }

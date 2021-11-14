@@ -15,6 +15,7 @@ public class Location {
     private String coordinate;
     private String coordinateLng;
     private String coordinateLat;
+    private int locationType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
@@ -36,7 +37,7 @@ public class Location {
                     String coordinate,
                     String coordinateLng,
                     String coordinateLat,
-                    Country country) {
+                    int locationType, Country country) {
         this.locationId = locationId;
         this.name = name;
         this.address = address;
@@ -44,6 +45,7 @@ public class Location {
         this.coordinate = coordinate;
         this.coordinateLng = coordinateLng;
         this.coordinateLat = coordinateLat;
+        this.locationType = locationType;
         this.country = country;
     }
 
@@ -125,5 +127,13 @@ public class Location {
 
     public void setFigurinesExibit(List<Figurine> figurinesExibit) {
         this.figurinesExibit = figurinesExibit;
+    }
+
+    public int getLocationType() {
+        return locationType;
+    }
+
+    public void setLocationType(int locationType) {
+        this.locationType = locationType;
     }
 }

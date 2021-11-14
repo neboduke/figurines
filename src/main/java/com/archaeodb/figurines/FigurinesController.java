@@ -112,6 +112,12 @@ public class FigurinesController {
         return figurineService.getLocations();
     }
 
+    @GetMapping(value = "/locations/country/{countryId}")
+    @ResponseBody
+    public List<LocationDto> getLocationsForCountry(@PathVariable int countryId){
+        return figurineService.getLocationsForCountry(countryId);
+    }
+
     @PostMapping(value = "/location/add")
     @ResponseBody
     public  LocationDto addLocation(@RequestBody LocationDto locationDto){
@@ -146,6 +152,12 @@ public class FigurinesController {
         return figurineService.getLiterature();
     }
 
+    @GetMapping(value = "/literature/{literatureId}")
+    @ResponseBody
+    public LiteratureDto getLiterature(@PathVariable int literatureId){
+        return figurineService.getLiterature(literatureId);
+    }
+
     @PostMapping(value = "/literature/add")
     @ResponseBody
     public  LiteratureDto addLiterature(@RequestBody LiteratureDto literatureDto){
@@ -165,6 +177,13 @@ public class FigurinesController {
     public ResponseEntity<?> deleteLiterature(@PathVariable int literatureId){
         figurineService.deleteLiterature(literatureId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /*CARRIER*/
+    @GetMapping(value = "/carrier")
+    @ResponseBody
+    public List<CarrierDto> getCarrier (){
+        return figurineService.getCarrier();
     }
     
     

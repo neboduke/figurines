@@ -14,6 +14,18 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="form-group">
+              <div class="col-sm-10">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="locationType" id="locationType1" value="1">
+                  <label class="form-check-label" for="locationType1">Fundort</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="locationType" id="locationType2" value="2">
+                  <label class="form-check-label" for="locationType2">Ausstelungsort</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
               <label class="col-sm-10 control-label">Name des Ortes</label>
               <div class="col-sm-10">
                 <input type="text" formControlName="name" class="form-control" >

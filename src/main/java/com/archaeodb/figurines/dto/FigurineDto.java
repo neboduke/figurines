@@ -22,7 +22,7 @@ public class FigurineDto {
     private LocationDto exibitLocation;
     private String image;
     private String imageUrl;
-    private String motif;
+    private MotifDto motif;
 
 
     public FigurineDto() {
@@ -44,7 +44,7 @@ public class FigurineDto {
                        LocationDto exibitLocation,
                        String image,
                        String imageUrl,
-                       String motif) {
+                       MotifDto motif) {
         this.figurineId = figurineId;
         this.title = title;
         this.descriptionIconography = descriptionIconography;
@@ -192,11 +192,11 @@ public class FigurineDto {
         this.imageUrl = imageUrl;
     }
 
-    public String getMotif() {
+    public MotifDto getMotif() {
         return motif;
     }
 
-    public void setMotif(String motif) {
+    public void setMotif(MotifDto motif) {
         this.motif = motif;
     }
 

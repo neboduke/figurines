@@ -3,7 +3,13 @@
   <form>
     <div class="form-group form-inline">
         <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="locationSortService.searchTerm"/>
-        <span class="ml-3" *ngIf="locationSortService.loading | async">Loading...</span>
+        
+        <div class="spinner-border spinner-border-sm" *ngIf="locationSortService.loading | async" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow spinner-grow-sm" *ngIf="locationSortService.loading | async" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
     <table class="table  table-hover">
         <thead class="table">

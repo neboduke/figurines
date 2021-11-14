@@ -24,4 +24,7 @@ public interface FigurineMapper {
     LocationDto locationFromDb(Location location);
     Location locationToDb(LocationDto locationDto);
 
+    MotifDto motifFromDb(Motif motif);
+    Motif motifToDb(MotifDto motifDto);
+
 }

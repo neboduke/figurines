@@ -24,6 +24,8 @@ public class FigurineService {
     private final LiteratureRepository literatureRepository;
     private final LocationRepository locationRepository;
     private final CountryRepository countryRepository;
+    private final CarrierReporitory carrierReporitory;
+    private final MotifRepository motifRepository;
     private final FigurineMapper figurineMapper = Mappers.getMapper(FigurineMapper.class);
     private final ChronologyMapper chronologyMapper = Mappers.getMapper(ChronologyMapper.class);
     private final MaterialMapper materialMapper = Mappers.getMapper(MaterialMapper.class);
@@ -126,13 +128,17 @@ public class FigurineService {
                            MaterialRepository materialRepository,
                            LiteratureRepository literatureRepository,
                            LocationRepository locationRepository,
-                           CountryRepository countryRepository) {
+                           CountryRepository countryRepository,
+                           CarrierReporitory carrierReporitory,
+                           MotifRepository motifRepository) {
         this.figurineRepository = figurineRepository;
         this.chronologyRepository = chronologyRepository;
         this.materialRepository = materialRepository;
         this.literatureRepository = literatureRepository;
         this.locationRepository = locationRepository;
         this.countryRepository = countryRepository;
+        this.carrierReporitory = carrierReporitory;
+        this.motifRepository = motifRepository;
     }
 
 
@@ -156,6 +162,13 @@ public class FigurineService {
         locationRepository.deleteLocationByLocationId(locationId );
     }
 
+    public List<LocationDto> getLocationsForCountry(Integer countryId) {
+        List<Location> locations = locationRepository.getLocationsByCountryOrderByCountry(countryId);
+        List<LocationDto> locationDtos = locations.stream()
+                .map(location -> locationMapper.locationFromDb(location))
+                .collect(Collectors.toList());
+        return locationDtos;
+    }
 
     public List<CountryDto> getCountries() {
         List<Country> countries = countryRepository.findAll(Sort.by(Sort.Order.asc("name")));
@@ -174,6 +187,12 @@ public class FigurineService {
         return literatureDto;
     }
 
+    public LiteratureDto getLiterature(Integer literatureId) {
+        Literature literature = literatureRepository.findById(literatureId).get();
+        LiteratureDto literatureDto = literatureMapper.literatureFromDb(literature);
+        return literatureDto;
+    }
+
     public LiteratureDto saveLiterature(LiteratureDto literatureDto){
         Literature literature = literatureMapper.literatureToDb(literatureDto);
 
@@ -188,4 +207,38 @@ public class FigurineService {
     public void deleteLiterature(Integer literatureId) {
         literatureRepository.deleteById(literatureId);
     }
+
+
+
+    public List<CarrierDto> getCarrier() {
+        List<Carrier> carrierList = carrierReporitory.findAll(Sort.by(Sort.Order.asc("title")));
+        List<CarrierDto> carrierDtos = carrierList.stream()
+                .map(carrier -> figurineMapper.carrierFromDb(carrier))
+                .collect(Collectors.toList());
+        return carrierDtos;
+    }
+
+    public CarrierDto getCarrier(Integer carrierId) {
+        Carrier carrier = carrierReporitory.getById(carrierId);
+        CarrierDto carrierDto =  figurineMapper.carrierFromDb(carrier);
+
+        return carrierDto;
+    }
+
+    public List<MotifDto> getMotif() {
+        List<Motif> motifList = motifRepository.findAll(Sort.by(Sort.Order.asc("title")));
+        List<MotifDto> motifDtos = motifList.stream()
+                .map(motif -> figurineMapper.motifFromDb(motif))
+                .collect(Collectors.toList());
+        return motifDtos;
+    }
+
+    public MotifDto getMotif(Integer motifId) {
+        Motif motif = motifRepository.getById(motifId);
+        MotifDto carrierDto =  figurineMapper.motifFromDb(motif);
+
+        return carrierDto;
+    }
+
+
 }
