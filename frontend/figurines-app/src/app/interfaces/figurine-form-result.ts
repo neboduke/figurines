@@ -1,7 +1,7 @@
 import { Figurine } from "../entity/figurine";
 
 export interface FigurineFormResult {
-    literature?: Figurine ;
+    figurine?: Figurine ;
     crudType: string;
     status: boolean;
 }

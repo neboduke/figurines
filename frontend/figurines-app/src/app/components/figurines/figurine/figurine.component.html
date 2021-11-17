@@ -19,6 +19,7 @@
                     <div class="form-group">
                         <label  for="materials">Material</label>
                         <select  class="form-select" multiple formControlName="materials" >
+                        
                             <option *ngFor="let mt of materials"  [ngValue]="mt.materialId">
                                 {{ mt.title }}
                             </option>
@@ -51,7 +52,9 @@
                 <div class="col-sm-6 mb-3">
                     <div class="form-group">
                         <label  for="chronology">Datierung Relativ</label>
+                        
                         <select  class="form-select"  formControlName="chronology" >
+                            <option [ngValue]="null" ></option>
                             <option *ngFor="let ch of chronologies"  [ngValue]="ch.chronologyId">
                                 {{ ch.name }}
                             </option>
@@ -63,7 +66,9 @@
                 <div class="col-sm-6 mb-3">
                     <div class="form-group">
                         <label  for="carrier">Bildträger</label>
+                        
                         <select  class="form-select"  formControlName="carrier" >
+                            <option [ngValue]="null" ></option>
                             <option *ngFor="let cr of carriers"  [ngValue]="cr.carrierId">
                                 {{ cr.title }}
                             </option>
@@ -75,6 +80,7 @@
                     <div class="form-group">
                         <label  for="motif">Motiv</label>
                         <select  class="form-select"  formControlName="motif" >
+                            <option [ngValue]="null" ></option>
                             <option *ngFor="let mf of motifs"  [ngValue]="mf.motifId">
                                 {{ mf.title }}
                             </option>
@@ -85,8 +91,10 @@
 
                 <div class="col-sm-12 mb-3">
                     <div class="form-group">
-                        <label  for="location">Fundort</label>
-                        <select  class="form-select"  formControlName="location" >
+                        <label  for="location">Fundort</label>                       
+                        <select  class="form-select" (change)="updateSelectedLocation('location')"  formControlName="location" >
+                            <option [ngValue]="null" ></option>
+                            <option [ngValue]="-1" >neuen Fundort eintragen</option>
                             <option *ngFor="let l of locations"  [ngValue]="l.locationId">
                                 {{ l.name }}
                             </option>
@@ -97,8 +105,10 @@
 
                 <div class="col-sm-6 mb-3">
                     <div class="form-group">
-                        <label  for="exibitLocation">Austellungsort</label>
-                        <select  class="form-select"  formControlName="exibitLocation" >
+                        <label  for="exibitLocation" >Austellungsort</label>                       
+                        <select  class="form-select" (change)="updateSelectedLocation('exibitLocation')" formControlName="exibitLocation" >
+                            <option [ngValue]="null"></option>
+                            <option [ngValue]="-1" >neuen Ausstellungsort eintragen</option>
                             <option *ngFor="let m of museums"  [ngValue]="m.locationId">
                                 {{ m.name }}
                             </option>
@@ -113,9 +123,12 @@
                     </div>
                 </div>
 
+                <div class="col-sm-6 mb-3"><label  for="literature">Literatur</label></div>
+                <div class="col-sm-6 mb-3"><a class="btn btn-new " (click)="onAlert()" >Neu</a></div>
+                    
                 <div class="col-sm-12 mb-3">
                     <div class="form-group">
-                        <label  for="literature">Literatur</label>
+                        
                         <select  class="form-select" multiple formControlName="literature" >
                             <option *ngFor="let l of literature"  [ngValue]="l.literatureId">
                                 {{ l.title }}
