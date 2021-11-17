@@ -10,6 +10,7 @@ import { LocationFormResult } from "src/app/interfaces/location-form-result";
 import { CountryService } from 'src/app/services/country.service';
 import { LocationService } from "src/app/services/location.service";
 
+
 @Component({
   selector: 'app-location-modal',
   templateUrl: './location-modal.component.html',
@@ -55,6 +56,7 @@ export class LocationModalComponent implements OnInit {
         locationType: this.location.locationType
       })
       this.country = this.location.country;
+     
  }
 
   public getCountries():void{

@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscriber } from 'rxjs';
 import { Carrier } from 'src/app/entity/carrier';
@@ -31,7 +31,7 @@ export class FigurineComponent implements OnInit {
   @Input() public isAddNew!: boolean ;
   @Input() public formMode!: string ;
   
-  literatureForm!: FormGroup;
+  figurineForm!: FormGroup;
   id: any;
   result!: FigurineFormResult;
 
@@ -39,8 +39,8 @@ export class FigurineComponent implements OnInit {
   literature: Literature[] = [];
   countries: Country[] = [];
   allLocations: Location[] =[];
-  locations: Location[] = [];
-  museums: Location[] = [];
+  locations: Observable<Location>[] = [];
+  museums: Observable<Location>[] = [];
   motifs: Motif[] = [];
   carriers: Carrier[] = [];
   materials: Material[] = [];
@@ -62,9 +62,44 @@ export class FigurineComponent implements OnInit {
     private carrierService: CarrierService) {   }
 
   ngOnInit(): void {
+    this.getLiterature();
+    this.getMaterial();
+    this.getCountries();
+    this.getMotifs();
+    this.getChronologies();
+    this.getCarriers();
+    this.getLocations();
+    this.createForm();
   }
 
+  private createForm() {
+    this.figurineForm = this.formBuilder.group({
+      figurineId: [''],
+      title: ['', Validators.required],
+      descriptionIconography: [''],
+      descriptionIconology: [''],
+      dateAbs: [''],
+      materialDescription: [''],
+      exibitNr: [''],
+      keyword: [''],
+      chronology: ['', Validators.required],
+      materials: ['', Validators.required],
+      literature: [''],
+      carrier: [''],
+      location: [''],
+      exibitLocation: [''],
+      image: [''],
+      imageUrl: [''],
+      motif: [''],
 
+    });
+  }
+
+  private filterLocations():void{
+    for(let l of this.allLocations){
+      (l.locationType===1) ? this.locations.push(l):this.museums.push(l);
+    }
+  }
   /*--- SERVICES---*/
   private getLiterature():void{
     this.literatureService.getLiterature().subscribe(
@@ -135,10 +170,19 @@ export class FigurineComponent implements OnInit {
             alert(error.message)
         }
     );
+    console.log("allLocations:"+this.allLocations);
+    this.filterLocations();
 
   }
 
   /*--- END---*/
+
+
+
+
+
+
+
 
   onUploadImages(files: any){
       this.figImages =  [];

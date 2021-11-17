@@ -185,6 +185,13 @@ public class FigurinesController {
     public List<CarrierDto> getCarrier (){
         return figurineService.getCarrier();
     }
+
+    /*MOTIF*/
+    @GetMapping(value = "/motif")
+    @ResponseBody
+    public List<MotifDto> getMotif (){
+        return figurineService.getMotif();
+    }
     
     
 
