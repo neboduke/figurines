@@ -39,15 +39,14 @@ export class FigurineComponent implements OnInit {
 
   /*---SERVICES---*/
   literature: Literature[] = [];
-  countries: Country[] = [];
-  allLocations: Location[] =[];
-  locations: Location[] = [];
-  museums: Location[] = [];
-  motifs: Motif[] = [];
-  carriers: Carrier[] = [];
+  country!: Country;
+  location?: Location;
+  museum?: Location ;
+  motif?: Motif;
+  carrier?: Carrier;
   materials: Material[] = [];
-  chronologies: Chronology[] = [];
-  modalOptions:NgbModalOptions | undefined;
+  chronology?: Chronology;
+  modalOptions?:NgbModalOptions;
 
 
   figImages:  any[] | undefined  ;
@@ -103,11 +102,7 @@ export class FigurineComponent implements OnInit {
     });
   }
 
-  private filterLocations():void{
-    for(let l of this.allLocations){
-      (l.locationType===1) ? this.locations.push(l):this.museums.push(l);
-    }
-  }
+  
   /*--- SERVICES---*/
   private getLiterature():void{
     this.literatureService.getLiterature().subscribe(
@@ -132,7 +127,7 @@ export class FigurineComponent implements OnInit {
   private getCountries():void{
     this.countryService.getCountries().subscribe(
         responseData => {
-            this.countries = responseData;
+            this.country = responseData;
         },
         (error: HttpErrorResponse) => {
             alert(error.message)
@@ -142,7 +137,7 @@ export class FigurineComponent implements OnInit {
   private getMotifs():void{
     this.motifService.getMotifs().subscribe(
         responseData => {
-            this.motifs = responseData;
+            this.motif = responseData;
         },
         (error: HttpErrorResponse) => {
             alert(error.message)
@@ -152,7 +147,7 @@ export class FigurineComponent implements OnInit {
   private getChronologies():void{
     this.chronologyService.getChronologies().subscribe(
         responseData => {
-            this.chronologies = responseData;
+            this.chronology = responseData;
         },
         (error: HttpErrorResponse) => {
             alert(error.message)
@@ -162,7 +157,7 @@ export class FigurineComponent implements OnInit {
   private getCarriers():void{
     this.carrierService.getCarriers().subscribe(
         responseData => {
-            this.carriers = responseData;
+            this.carrier = responseData;
         },
         (error: HttpErrorResponse) => {
             alert(error.message)
@@ -170,14 +165,14 @@ export class FigurineComponent implements OnInit {
     );
   }
   private getLocations():void{
-    this.locations = [];
-    this.museums = [];
+    this.location = [];
+    this.museum = [];
 
     this.locationService.getLocations().subscribe(
         responseData => {
             
             for(let l of responseData){
-              (l.locationType===1) ? this.locations.push(l):this.museums.push(l);
+              (l.locationType===1) ? this.location.push(l):this.museum.push(l);
             }
         },
         (error: HttpErrorResponse) => {
@@ -200,7 +195,7 @@ export class FigurineComponent implements OnInit {
     //this.country = this.countries.find(c => c.countryId === cid)!;
   }
 
-  
+
   onAlert():void{
     alert('SS');
   }
