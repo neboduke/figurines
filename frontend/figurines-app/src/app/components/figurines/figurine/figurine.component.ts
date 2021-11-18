@@ -30,8 +30,7 @@ import { LocationModalComponent } from '../../location/location-modal/location-m
 })
 export class FigurineComponent implements OnInit {
   @Input() public figurine!: Figurine  ;
-  @Input() public isAddNew!: boolean ;
-  @Input() public formMode!: string ;
+
   
   figurineForm!: FormGroup;
   id: any;
@@ -69,13 +68,8 @@ export class FigurineComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getLiterature();
-    this.getMaterial();
-    this.getCountries();
-    this.getMotifs();
-    this.getChronologies();
-    this.getCarriers();
-    this.getLocations();
+    
+    //this.getFigurine(this.figurine.figurineId!);
     this.createForm();
   }
 
@@ -104,7 +98,18 @@ export class FigurineComponent implements OnInit {
 
   
   /*--- SERVICES---*/
-  private getLiterature():void{
+
+  /*private getFigurine(figurineId: number):void{
+    this.figurineService.getFigurine(figurineId).subscribe(
+        responseData => {
+            this.figurine = responseData;
+        },
+        (error: HttpErrorResponse) => {
+            alert(error.message)
+        }
+    );
+  }*/
+  /*private getLiterature():void{
     this.literatureService.getLiterature().subscribe(
         responseData => {
             this.literature = responseData;
@@ -181,28 +186,25 @@ export class FigurineComponent implements OnInit {
     );
 
 
-  }
+  }*/
 
   /*--- END---*/
 
 
 
-  updateSelectedLocation(element: string):void{
+  /*updateSelectedLocation(element: string):void{
     let lid : number = this.figurineForm.get(element)?.value;
     if(lid===-1){
       this.openModalLocation();
     }
     //this.country = this.countries.find(c => c.countryId === cid)!;
-  }
+  }*/
 
-
-  onAlert():void{
-    alert('SS');
-  }
 
   
+  
 
-  public openModalLocation():void {
+  /*public openModalLocation():void {
       
     const modalRef = this.modalService.open(LocationModalComponent);
     // @Input chronology
@@ -228,34 +230,7 @@ export class FigurineComponent implements OnInit {
           }
     )
 
-}
-
-
-
-
-  onUploadImages(files: any){
-      this.figImages =  [];
-      let uploadedFiles = files.target.files;
-
-      for(let file of uploadedFiles){
-        this.convertToBase64(file);
-        
-      }
-      console.log(this.figImages?.length);
-
-  }
-
-  convertToBase64(file: File)  {
-      let me = this;
-      
-      const filereader = new FileReader();
-      filereader.readAsDataURL(file);
-      filereader.onload = function () {
-        me.figImages!.push( filereader.result);
-      };
-      
-
-  }
+}*/
 
 
 

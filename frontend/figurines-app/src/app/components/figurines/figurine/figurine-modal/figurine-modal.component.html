@@ -155,10 +155,28 @@
                 <div class="col-sm-12 mb-3">
                     <div class="form-group">
                         <label class="required-field" for="image">Bild</label>
-                        <input type="file" class="form-control" id="image" name="image" 
+                        <input type="file" class="form-control" id="image" formControlName="image" 
                             accept=".png, .jpg, .jpeg" 
                             (change)="onUploadImages($event)" 
-                            multiple/>
+                            />
+                    </div>
+                </div>
+                <div class="col-sm-12 mb-3">
+                    <div class="form-group">
+                        <label class="required-field" for="image">Bild</label>
+                        <input type="file" class="form-control" id="image2" formControlName="image2" 
+                            accept=".png, .jpg, .jpeg" 
+                            (change)="onUploadImages($event)" 
+                            />
+                    </div>
+                </div>
+                <div class="col-sm-12 mb-3">
+                    <div class="form-group">
+                        <label class="required-field" for="image">Bild</label>
+                        <input type="file" class="form-control" id="image3" formControlName="image3" 
+                            accept=".png, .jpg, .jpeg" 
+                            (change)="onUploadImages($event)" 
+                            />
                     </div>
                 </div>
                 <div class="col-sm-12 mb-3" *ngIf="figImages">

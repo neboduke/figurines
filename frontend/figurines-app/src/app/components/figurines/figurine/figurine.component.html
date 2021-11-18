@@ -1,187 +1,110 @@
 <div class="container">
-    <div class="col-lg-7 contact-form__wrapper p-5 order-lg-1">
-        <form [formGroup]="figurineForm" class="contact-form form-validate" novalidate="novalidate">
-            <div class="row">
-                <div class="col-sm-12 mb-3">
-                    <div class="form-group">
-                        <label class="required-field" for="title">Titel</label>
-                        <input type="text" class="form-control" formControlName="title" placeholder="Titel des Objektes">
-                    </div>
-                </div>
-
-                <div class="col-sm-6 mb-3">
-                    <div class="form-group">
-                        <label class="required-field" for="materialDescription">Beschreibung des Materials</label>
-                        <textarea class="form-control" id="materialDescription" formControlName="materialDescription" rows="4" placeholder="Beschreibung des Materials/der Beschaffenheit"></textarea>
-                    </div>
-                </div>
-                <div class="col-sm-6 mb-3">
-                    <div class="form-group">
-                        <label  for="materials">Material</label>
-                        <select  class="form-select" multiple formControlName="materials" >
-                        
-                            <option *ngFor="let mt of materials"  [ngValue]="mt.materialId">
-                                {{ mt.title }}
-                            </option>
-                         </select>
-                    </div>  
-                </div>
-                
-
-                <div class="col-sm-12 mb-3">
-                    <div class="form-group">
-                        <label class="required-field" for="descriptionIconography">Ikonografische Beschreibung</label>
-                        <textarea class="form-control" id="descriptionIconography" formControlName="descriptionIconography" rows="4" placeholder=""></textarea>
-                    </div>
-                </div>
-
-
-                <div class="col-sm-12 mb-3">
-                    <div class="form-group">
-                        <label class="required-field" for="descriptionIconology">Ikonologische Beschreibung</label>
-                        <textarea class="form-control" id="descriptionIconology" formControlName="descriptionIconology" rows="4" placeholder=""></textarea>
-                    </div>
-                </div>
-
-                <div class="col-sm-6 mb-3">
-                    <div class="form-group">
-                        <label for="dateAbs">Datierung Absolut</label>
-                        <input type="text" class="form-control"  formControlName="dateAbs" placeholder="2 Jh.v.Ch. | 543 v.Ch.">
-                    </div>
-                </div>
-                <div class="col-sm-6 mb-3">
-                    <div class="form-group">
-                        <label  for="chronology">Datierung Relativ</label>
-                        
-                        <select  class="form-select"  formControlName="chronology" >
-                            <option [ngValue]="null" ></option>
-                            <option *ngFor="let ch of chronologies"  [ngValue]="ch.chronologyId">
-                                {{ ch.name }}
-                            </option>
-                            
-                        </select>
-                    </div>  
-                </div>
-
-                <div class="col-sm-6 mb-3">
-                    <div class="form-group">
-                        <label  for="carrier">Bildträger</label>
-                        
-                        <select  class="form-select"  formControlName="carrier" >
-                            <option [ngValue]="null" ></option>
-                            <option *ngFor="let cr of carriers"  [ngValue]="cr.carrierId">
-                                {{ cr.title }}
-                            </option>
-                            
-                        </select>
-                    </div>  
-                </div>
-                <div class="col-sm-6 mb-3">
-                    <div class="form-group">
-                        <label  for="motif">Motiv</label>
-                        <select  class="form-select"  formControlName="motif" >
-                            <option [ngValue]="null" ></option>
-                            <option *ngFor="let mf of motifs"  [ngValue]="mf.motifId">
-                                {{ mf.title }}
-                            </option>
-                            
-                        </select>
-                    </div>  
-                </div>
-
-                <div class="col-sm-12 mb-3">
-                    <div class="form-group">
-                        <label  for="location">Fundort</label>                       
-                        <select  class="form-select" (change)="updateSelectedLocation('location')"  formControlName="location" >
-                            <option [ngValue]="null" ></option>
-                            <option [ngValue]="-1" >neuen Fundort eintragen</option>
-                            <option *ngFor="let l of locations"  [ngValue]="l.locationId">
-                                {{ l.name }}
-                            </option>
-                            
-                        </select>
-                    </div>  
-                </div>
-
-                <div class="col-sm-6 mb-3">
-                    <div class="form-group">
-                        <label  for="exibitLocation" >Austellungsort</label>                       
-                        <select  class="form-select" (change)="updateSelectedLocation('exibitLocation')" formControlName="exibitLocation" >
-                            <option [ngValue]="null"></option>
-                            <option [ngValue]="-1" >neuen Ausstellungsort eintragen</option>
-                            <option *ngFor="let m of museums"  [ngValue]="m.locationId">
-                                {{ m.name }}
-                            </option>
-                            
-                        </select>
-                    </div>  
-                </div>
-                <div class="col-sm-6 mb-3">
-                    <div class="form-group">
-                        <label for="exibitNr">AustellungsNr.</label>
-                        <input type="text" class="form-control" id="exibitNr" formControlName="exibitNr">
-                    </div>
-                </div>
-
-                <div class="col-sm-6 mb-3"><label  for="literature">Literatur</label></div>
-                <div class="col-sm-6 mb-3"><a class="btn btn-new " (click)="onAlert()" >Neu</a></div>
-                    
-                <div class="col-sm-12 mb-3">
-                    <div class="form-group">
-                        
-                        <select  class="form-select" multiple formControlName="literature" >
-                            <option *ngFor="let l of literature"  [ngValue]="l.literatureId">
-                                {{ l.title }}
-                            </option>
-                        </select>
-                    </div>  
-                </div>
-                
-            
-                <div class="col-sm-12 mb-3">
-                    <div class="form-group">
-                        <label class="required-field" for="keyword">Schlagwörter</label>
-                        <input type="text" class="form-control" id="keyword" formControlName="keyword" >
-                    </div>
-                </div>
-
-                <div class="col-sm-12 mb-3">
-                    <div class="form-group">
-                        <label class="required-field" for="imageUrl">Link zur Bildergalerie</label>
-                        <input type="text" class="form-control" id="imageUrl" formControlName="imageUrl" >
-                    </div>
-                </div>
-
-                <div class="col-sm-12 mb-3">
-                    <div class="form-group">
-                        <label class="required-field" for="image">Bild</label>
-                        <input type="file" class="form-control" id="image" name="image" 
-                            accept=".png, .jpg, .jpeg" 
-                            (change)="onUploadImages($event)" 
-                            multiple/>
-                    </div>
-                </div>
-                <div class="col-sm-12 mb-3" *ngIf="figImages">
-                    <div class="col-sm-3 mb-3" >
-                        <img [src]="figImages[0] " width="200px" height="200px" alt="" />
-                    </div>
-                    <div class="col-sm-3 mb-3" *ngIf="figImages.length > 1">
-                        <img [src]="figImages[1]" width="200px" height="200px" alt="" />
-                    </div>
-                    <div class="col-sm-3 mb-3" *ngIf="figImages.length > 2">
-                        <img [src]="figImages[2]" width="200px" height="200px" alt="" />
-                    </div>
-                    
-                </div>
-
-
-                
-
-                <div class="col-sm-12 mb-3">
-                    <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-                </div>
-
+    <div class="row">
+      <div class="col-lg-5 col-md-6">
+        <div class="mb-2">
+          
+          <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="d-block w-100" alt="...">
+              </div>
             </div>
-        </form>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+
+        </div>
+        <div class="mb-2 d-flex">
+          <h4 class="font-weight-normal">{{figurine.title}}</h4>
+         
+        </div>
+        <div class="mb-2">
+          <ul class="list-unstyled">
+            
+            <li class="media">
+              <h5 class="w-50 text-black font-weight-normal">Material: </h5>
+              <label class="media-body" *ngFor="let mt of materials"  >
+                {{ mt.title }}</label>
+            </li>
+            <li class="media">
+              <h5 class="w-50 text-black font-weight-normal">Motiv: </h5>
+              <label class="media-body">BLA BLAH BLAH blah blah</label>
+            </li>
+            <li class="media">
+                <h5 class="w-50 text-black font-weight-normal">Bildträger: </h5>
+                <label class="media-body">x- {{figurine.carrier?.title}} x</label>
+              </li>
+            <li class="media">
+              <h5 class="w-50 text-black font-weight-normal">Realtive Datierung: </h5>
+              <label class="media-body">x- {{figurine.chronology!.name}}x</label>
+            </li>
+            <li class="media">
+                <h5 class="w-50 text-black font-weight-normal">Absolute Datierung: </h5>
+                <label class="media-body">x- {{figurine.dateAbs}}x</label>
+            </li>
+            
+            
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-7 col-md-6 pl-xl-3">
+        <h5 class="font-weight-normal">Biography of Paul Flavius</h5>
+        <p>Along with your plans, you should consider developing an action orientation that will keep you motivated to move forward at all times. This requires a little self-discipline, but is a crucial component to achievement of any kind. Before starting any new activity, ask yourself if that activity will move you closer to your goals. If the answer is no, you may want to reconsider doing it at that time.</p>
+        <div class="my-2 bg-light p-2">
+          <p class="font-italic mb-0">The price is something not necessarily defined as financial. It could be time, effort, sacrifice, money or perhaps, something else.</p>
+        </div>
+        <ul class="list list-unstyled mb-3">
+            <li class="text-secondary font-weight-normal mb-1">
+                <span class="ti-arrow-right pr-1 text-primary"></span>
+                Commitment is something that comes from understanding that!
+            </li>
+            <li class="text-secondary font-weight-normal mb-1">
+                <span class="ti-arrow-right pr-1 text-primary"></span>
+                Its price and then having the willingness to pay that price.
+            </li>
+            <li class="text-secondary font-weight-normal mb-1">
+                <span class="ti-arrow-right pr-1 text-primary"></span>
+                Out after the fact that the price was too high.
+            </li>
+            <li class="text-secondary font-weight-normal mb-1">
+                <span class="ti-arrow-right pr-1 text-primary"></span>
+                This is important because nobody wants to put significant.
+            </li>
+            
+            
+        </ul>
+        <h5 class="font-weight-normal">Personal Experience</h5>
+        <p>It is truly amazing the damage that we, as parents, can inflict on our children. So why do we do it? For the most part, we don’t do it intentionally or with malice. In the majority of cases, the cause is a well-meaning but unskilled or un-thinking parent, who says the wrong thing at the wrong time, and the message sticks – as simple as that!</p>
+        
+        <ul class="list list-unstyled mb-3">
+
+            <li class="media">
+                <h5 class="w-50 text-black font-weight-normal">Fundort:</h5>
+                <label class="media-body">{{figurine.location!.name}}, {{figurine.location?.place}}, {{figurine.location?.country?.name}}</label>
+            </li>
+
+            <li class="media">
+                <h5 class="w-50 text-black font-weight-normal">Ausstellungsort:</h5>
+                <label class="media-body">{{figurine.exibitLocation?.name}}, {{figurine.exibitLocation?.place}}, {{figurine.exibitLocation?.country?.name}}</label>
+            </li>
+
+            <li class="media">
+                <h5 class="w-25 text-black font-weight-normal">Ausstellungsnummer:</h5>
+                <label class="media-body">{{figurine.exibitNr}}</label>
+            </li>
+        </ul>
+      </div>
     </div>
 </div>

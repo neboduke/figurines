@@ -24,11 +24,11 @@ public class FigurinesController {
         return figurineService.getFigurines();
     }
 
-    @GetMapping(value = "/figurine/id/{id}")
+    @GetMapping(value = "/figurine/id/{figurineId}")
     @ResponseBody
-    public FigurineDto getFigurineById(@PathVariable Integer id) {
+    public FigurineDto getFigurineById(@PathVariable Integer figurineId) {
 
-        return figurineService.getFigurineById(id);
+        return figurineService.getFigurineById(figurineId);
     }
 
     @GetMapping(value = "/figurine/keyword/{keyword}")

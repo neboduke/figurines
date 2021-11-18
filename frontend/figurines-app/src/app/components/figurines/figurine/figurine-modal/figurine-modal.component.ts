@@ -27,8 +27,8 @@ import { LocationModalComponent } from '../../../location/location-modal/locatio
 
 @Component({
   selector: 'app-figurine',
-  templateUrl: './figurine.component.html',
-  styleUrls: ['./figurine.component.css']
+  templateUrl: './figurine-modal.component.html',
+  styleUrls: ['./figurine-modal.component.css']
 })
 export class FigurineModalComponent implements OnInit {
   @Input() public figurine!: Figurine  ;
@@ -99,6 +99,8 @@ export class FigurineModalComponent implements OnInit {
       location: [''],
       exibitLocation: [''],
       image: [''],
+      image2: [''],
+      image3: [''],
       imageUrl: [''],
       motif: [''],
 

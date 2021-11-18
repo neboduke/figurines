@@ -21,6 +21,8 @@ export class Figurine {
     location: Location | undefined;
     exibitLocation: Location | undefined;
     image: string | undefined;
+    image2: string | undefined;
+    image3: string | undefined;
     imageUrl: string | undefined;
     motif: Motif | undefined;
 }

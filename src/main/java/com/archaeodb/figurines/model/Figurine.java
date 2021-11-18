@@ -18,6 +18,8 @@ public class Figurine {
     private String exibitNr;
     private String keyword;
     private String image;
+    private String image2;
+    private String image3;
     private String imageUrl;
 
 
@@ -191,6 +193,22 @@ public class Figurine {
         this.image = image;
     }
 
+    public String getImage2() {
+        return image2;
+    }
+
+    public void setImage2(String image2) {
+        this.image2 = image2;
+    }
+
+    public String getImage3() {
+        return image3;
+    }
+
+    public void setImage3(String image3) {
+        this.image3 = image3;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }
@@ -213,7 +231,7 @@ public class Figurine {
                     String materialDescription,
                     String exibitNr,
                     String keyword,
-                    Chronology chronology,
+                    String image2, String image3, Chronology chronology,
                     List<Material> materials,
                     List<Literature> literature,
                     Carrier carrier,
@@ -229,6 +247,8 @@ public class Figurine {
         this.materialDescription = materialDescription;
         this.exibitNr = exibitNr;
         this.keyword = keyword;
+        this.image2 = image2;
+        this.image3 = image3;
         this.chronology = chronology;
         this.materials = materials;
         this.literature = literature;
