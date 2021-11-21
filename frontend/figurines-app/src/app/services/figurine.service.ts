@@ -14,11 +14,11 @@ export class FigurineService {
   constructor(private http: HttpClient) { console.log('---- CONSTRUCTOR SERVICE---')}
 
   public getFigurines(): Observable<Figurine[]>{
-    return this.http.get<Figurine[]>(`${this.apiBaseUrl}/figurines`);
+    return this.http.get<Figurine[]>(`${this.apiBaseUrl}/figurine`);
   }
 
-  public getFigurine(figurineId: number): Observable<Figurine[]>{
-    return this.http.get<Figurine[]>(`${this.apiBaseUrl}/figurines/id/${figurineId}`);
+  public getFigurine(figurineId: number): Observable<Figurine>{
+    return this.http.get<Figurine>(`${this.apiBaseUrl}/figurine/id/${figurineId}`);
   }
 
   public addFigurine(figurine: Figurine): Observable<Figurine>{

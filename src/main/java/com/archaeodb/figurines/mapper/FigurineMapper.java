@@ -27,4 +27,7 @@ public interface FigurineMapper {
     MotifDto motifFromDb(Motif motif);
     Motif motifToDb(MotifDto motifDto);
 
+    ImageDto imageFromDb(Image image);
+    Image imageToDb(ImageDto imageDto);
+
 }

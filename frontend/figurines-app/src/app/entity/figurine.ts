@@ -1,5 +1,6 @@
 import { Carrier } from "./carrier";
 import { Chronology } from "./chronology";
+import { Image } from "./image";
 import { Literature } from "./literature";
 import { Location } from "./location";
 import { Material } from "./material";
@@ -20,9 +21,7 @@ export class Figurine {
     carrier: Carrier | undefined;
     location: Location | undefined;
     exibitLocation: Location | undefined;
-    image: string | undefined;
-    image2: string | undefined;
-    image3: string | undefined;
+    images: Image[] = [];
     imageUrl: string | undefined;
     motif: Motif | undefined;
 }

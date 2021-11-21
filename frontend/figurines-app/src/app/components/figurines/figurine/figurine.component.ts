@@ -22,6 +22,8 @@ import { LocationService } from 'src/app/services/location.service';
 import { MaterialService } from 'src/app/services/material.service';
 import { MotifService } from 'src/app/services/motif.service';
 import { LocationModalComponent } from '../../location/location-modal/location-modal.component';
+import { environment } from 'src/environments/environment';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-figurine',
@@ -29,12 +31,13 @@ import { LocationModalComponent } from '../../location/location-modal/location-m
   styleUrls: ['./figurine.component.css']
 })
 export class FigurineComponent implements OnInit {
-  @Input() public figurine!: Figurine  ;
-
+  //@Input() public 
   
+  figurine!: Figurine  ;
   figurineForm!: FormGroup;
   id: any;
   result!: FigurineFormResult;
+  imageBaseUrl: string = environment.imageBaseUrl;
 
   /*---SERVICES---*/
   literature: Literature[] = [];
@@ -60,16 +63,20 @@ export class FigurineComponent implements OnInit {
     private countryService: CountryService,
     private materialService: MaterialService,
     private motifService: MotifService,
-    private carrierService: CarrierService, public modalService: NgbModal) { 
+    private carrierService: CarrierService, public modalService: NgbModal,private route: ActivatedRoute) { 
       this.modalOptions = {
           backdrop:'static',
           backdropClass:'customBackdrop'
         }   
   }
 
-  ngOnInit(): void {
-    
-    //this.getFigurine(this.figurine.figurineId!);
+  ngOnInit(): void {    
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.id =  Number(params.get('id'));
+    });
+
+    this.getFigurine(this.id);
+
     this.createForm();
   }
 
@@ -89,7 +96,7 @@ export class FigurineComponent implements OnInit {
       carrier: [''],
       location: [''],
       exibitLocation: [''],
-      image: [''],
+      images: [''],
       imageUrl: [''],
       motif: [''],
 
@@ -99,7 +106,7 @@ export class FigurineComponent implements OnInit {
   
   /*--- SERVICES---*/
 
-  /*private getFigurine(figurineId: number):void{
+  private getFigurine(figurineId: number):void{
     this.figurineService.getFigurine(figurineId).subscribe(
         responseData => {
             this.figurine = responseData;
@@ -108,7 +115,7 @@ export class FigurineComponent implements OnInit {
             alert(error.message)
         }
     );
-  }*/
+  }
   /*private getLiterature():void{
     this.literatureService.getLiterature().subscribe(
         responseData => {

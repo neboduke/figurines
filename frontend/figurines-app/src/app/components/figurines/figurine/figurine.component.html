@@ -5,15 +5,10 @@
           
           <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="d-block w-100" alt="...">
+              <div class="carousel-item" *ngFor="let i of figurine?.images" >
+                <img height="300px" [src]="imageBaseUrl + i.imagePath + i.imageTitle">
               </div>
-              <div class="carousel-item">
-                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="d-block w-100" alt="...">
-              </div>
-              <div class="carousel-item">
-                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="d-block w-100" alt="...">
-              </div>
+              
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -27,7 +22,7 @@
 
         </div>
         <div class="mb-2 d-flex">
-          <h4 class="font-weight-normal">{{figurine.title}}</h4>
+          <h4 class="font-weight-normal">{{figurine?.title}}</h4>
          
         </div>
         <div class="mb-2">
@@ -36,23 +31,23 @@
             <li class="media">
               <h5 class="w-50 text-black font-weight-normal">Material: </h5>
               <label class="media-body" *ngFor="let mt of materials"  >
-                {{ mt.title }}</label>
+                {{ mt?.title }}</label>
             </li>
             <li class="media">
               <h5 class="w-50 text-black font-weight-normal">Motiv: </h5>
-              <label class="media-body">BLA BLAH BLAH blah blah</label>
+              <label class="media-body">{{figurine?.motif?.title}}</label>
             </li>
             <li class="media">
                 <h5 class="w-50 text-black font-weight-normal">Bildträger: </h5>
-                <label class="media-body">x- {{figurine.carrier?.title}} x</label>
+                <label class="media-body">{{figurine?.carrier?.title}}</label>
               </li>
             <li class="media">
-              <h5 class="w-50 text-black font-weight-normal">Realtive Datierung: </h5>
-              <label class="media-body">x- {{figurine.chronology!.name}}x</label>
+              <h5 class="w-50 text-black font-weight-normal">Relative Datierung: </h5>
+              <label class="media-body">{{figurine?.chronology?.name}}</label>
             </li>
             <li class="media">
                 <h5 class="w-50 text-black font-weight-normal">Absolute Datierung: </h5>
-                <label class="media-body">x- {{figurine.dateAbs}}x</label>
+                <label class="media-body">{{figurine?.dateAbs}}</label>
             </li>
             
             
@@ -60,49 +55,36 @@
         </div>
       </div>
       <div class="col-lg-7 col-md-6 pl-xl-3">
-        <h5 class="font-weight-normal">Biography of Paul Flavius</h5>
-        <p>Along with your plans, you should consider developing an action orientation that will keep you motivated to move forward at all times. This requires a little self-discipline, but is a crucial component to achievement of any kind. Before starting any new activity, ask yourself if that activity will move you closer to your goals. If the answer is no, you may want to reconsider doing it at that time.</p>
-        <div class="my-2 bg-light p-2">
-          <p class="font-italic mb-0">The price is something not necessarily defined as financial. It could be time, effort, sacrifice, money or perhaps, something else.</p>
-        </div>
-        <ul class="list list-unstyled mb-3">
-            <li class="text-secondary font-weight-normal mb-1">
-                <span class="ti-arrow-right pr-1 text-primary"></span>
-                Commitment is something that comes from understanding that!
-            </li>
-            <li class="text-secondary font-weight-normal mb-1">
-                <span class="ti-arrow-right pr-1 text-primary"></span>
-                Its price and then having the willingness to pay that price.
-            </li>
-            <li class="text-secondary font-weight-normal mb-1">
-                <span class="ti-arrow-right pr-1 text-primary"></span>
-                Out after the fact that the price was too high.
-            </li>
-            <li class="text-secondary font-weight-normal mb-1">
-                <span class="ti-arrow-right pr-1 text-primary"></span>
-                This is important because nobody wants to put significant.
-            </li>
-            
-            
-        </ul>
-        <h5 class="font-weight-normal">Personal Experience</h5>
-        <p>It is truly amazing the damage that we, as parents, can inflict on our children. So why do we do it? For the most part, we don’t do it intentionally or with malice. In the majority of cases, the cause is a well-meaning but unskilled or un-thinking parent, who says the wrong thing at the wrong time, and the message sticks – as simple as that!</p>
         
+        <h5 class="font-weight-normal">Beschreibung des Materials / der Beschaffenheit</h5>
+        <p>{{figurine?.materialDescription}}</p>
+        
+        <h5 class="font-weight-normal">Ikonografische Beschreibung</h5>
+        <p>{{figurine?.descriptionIconography}}</p>
+        
+        <h5 class="font-weight-normal">Ikonologische Beschreibung</h5>
+        <p>{{figurine?.descriptionIconology}}</p>
+         
+        <p>&nbsp;</p>
         <ul class="list list-unstyled mb-3">
 
             <li class="media">
                 <h5 class="w-50 text-black font-weight-normal">Fundort:</h5>
-                <label class="media-body">{{figurine.location!.name}}, {{figurine.location?.place}}, {{figurine.location?.country?.name}}</label>
+                <label class="media-body">{{figurine?.location?.name}}, {{figurine?.location?.place}}, {{figurine?.location?.country?.name}}</label>
             </li>
 
             <li class="media">
                 <h5 class="w-50 text-black font-weight-normal">Ausstellungsort:</h5>
-                <label class="media-body">{{figurine.exibitLocation?.name}}, {{figurine.exibitLocation?.place}}, {{figurine.exibitLocation?.country?.name}}</label>
+                <label class="media-body" *ngIf="figurine?.exibitLocation">{{figurine?.exibitLocation?.name}}, {{figurine?.exibitLocation?.place}}, {{figurine?.exibitLocation?.country?.name}}</label>
             </li>
 
             <li class="media">
-                <h5 class="w-25 text-black font-weight-normal">Ausstellungsnummer:</h5>
-                <label class="media-body">{{figurine.exibitNr}}</label>
+                <h5 class="w-50 text-black font-weight-normal">Ausstellungsnummer:</h5>
+                <label class="media-body">{{figurine?.exibitNr}}</label>
+            </li>
+            <li class="media">
+                <h5 class="w-50 text-black font-weight-normal">Literatur:</h5><br>
+                <label class="media-body" *ngFor="let l of figurine?.literature">{{l?.author}}: {{l?.title}}</label><br>
             </li>
         </ul>
       </div>

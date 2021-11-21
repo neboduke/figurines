@@ -17,12 +17,10 @@ public class Figurine {
     private String materialDescription;
     private String exibitNr;
     private String keyword;
-    private String image;
-    private String image2;
-    private String image3;
     private String imageUrl;
 
-
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "figurine")
+    private List<Image> images = new ArrayList<>();
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(
@@ -185,28 +183,12 @@ public class Figurine {
         this.exibitLocation = exibitLocation;
     }
 
-    public String getImage() {
-        return image;
+    public List<Image> getImages() {
+        return images;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getImage2() {
-        return image2;
-    }
-
-    public void setImage2(String image2) {
-        this.image2 = image2;
-    }
-
-    public String getImage3() {
-        return image3;
-    }
-
-    public void setImage3(String image3) {
-        this.image3 = image3;
+    public void setImage(List<Image> images) {
+        this.images = images;
     }
 
     public String getImageUrl() {
@@ -231,13 +213,13 @@ public class Figurine {
                     String materialDescription,
                     String exibitNr,
                     String keyword,
-                    String image2, String image3, Chronology chronology,
+                    Chronology chronology,
                     List<Material> materials,
                     List<Literature> literature,
                     Carrier carrier,
                     Location location,
                     Location exibitLocation,
-                    String image,
+                    List<Image> images,
                     String imageUrl,
                     Motif motif) {
         this.title = title;
@@ -247,15 +229,13 @@ public class Figurine {
         this.materialDescription = materialDescription;
         this.exibitNr = exibitNr;
         this.keyword = keyword;
-        this.image2 = image2;
-        this.image3 = image3;
         this.chronology = chronology;
         this.materials = materials;
         this.literature = literature;
         this.carrier = carrier;
         this.location = location;
         this.exibitLocation = exibitLocation;
-        this.image = image;
+        this.images = images;
         this.imageUrl = imageUrl;
         this.motif = motif;
     }

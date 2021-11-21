@@ -1,8 +1,8 @@
 export class Chronology{
-    chronologyId: number | undefined;
-    name: string | undefined;
-    yearFrom: number | undefined;
-    yearTo: number| undefined;
+    chronologyId!: number ;
+    name!: string ;
+    yearFrom!: number ;
+    yearTo!: number;
     /*constructor(private _chronologyId: number,
         private _name: string ,
         private _yearFrom: number ,
