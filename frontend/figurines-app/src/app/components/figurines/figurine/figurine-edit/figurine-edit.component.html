@@ -1,6 +1,7 @@
 <div class="container">
     <div class="col-lg-7 contact-form__wrapper p-5 order-lg-1">
         <form [formGroup]="figurineForm" class="contact-form form-validate" novalidate="novalidate">
+            <input type="hidden" formControlName="figurineId">
             <div class="row">
                 <div class="col-sm-12 mb-3">
                     <div class="form-group">
@@ -20,7 +21,7 @@
                         <label  for="materials">Material</label>
                         <select  class="form-select" multiple formControlName="materials" >
                         
-                            <option *ngFor="let mt of materials"  [ngValue]="mt.materialId">
+                            <option *ngFor="let mt of materials"  [ngValue]="mt">
                                 {{ mt.title }}
                             </option>
                          </select>
@@ -55,7 +56,7 @@
                         
                         <select  class="form-select"  formControlName="chronology" >
                             <option [ngValue]="null" ></option>
-                            <option *ngFor="let ch of chronologies"  [ngValue]="ch.chronologyId">
+                            <option *ngFor="let ch of chronologies"  [ngValue]="ch">
                                 {{ ch.name }}
                             </option>
                             
@@ -69,7 +70,7 @@
                         
                         <select  class="form-select"  formControlName="carrier" >
                             <option [ngValue]="null" ></option>
-                            <option *ngFor="let cr of carriers"  [ngValue]="cr.carrierId">
+                            <option *ngFor="let cr of carriers"  [ngValue]="cr">
                                 {{ cr.title }}
                             </option>
                             
@@ -81,7 +82,7 @@
                         <label  for="motif">Motiv</label>
                         <select  class="form-select"  formControlName="motif" >
                             <option [ngValue]="null" ></option>
-                            <option *ngFor="let mf of motifs"  [ngValue]="mf.motifId">
+                            <option *ngFor="let mf of motifs"  [ngValue]="mf">
                                 {{ mf.title }}
                             </option>
                             
@@ -92,10 +93,10 @@
                 <div class="col-sm-12 mb-3">
                     <div class="form-group">
                         <label  for="location">Fundort</label>                       
-                        <select  class="form-select" (change)="updateSelectedLocation('location')"  formControlName="location" >
+                        <select  class="form-select"   formControlName="location" (change)="openLocation()">
                             <option [ngValue]="null" ></option>
                             <option [ngValue]="-1" >neuen Fundort eintragen</option>
-                            <option *ngFor="let l of locations"  [ngValue]="l.locationId">
+                            <option *ngFor="let l of locations"  [ngValue]="l">
                                 {{ l.name }}
                             </option>
                             
@@ -106,10 +107,10 @@
                 <div class="col-sm-6 mb-3">
                     <div class="form-group">
                         <label  for="exibitLocation" >Austellungsort</label>                       
-                        <select  class="form-select" (change)="updateSelectedLocation('exibitLocation')" formControlName="exibitLocation" >
+                        <select  class="form-select"  formControlName="exibitLocation" (change)="openMuseum()">
                             <option [ngValue]="null"></option>
                             <option [ngValue]="-1" >neuen Ausstellungsort eintragen</option>
-                            <option *ngFor="let m of museums"  [ngValue]="m.locationId">
+                            <option *ngFor="let m of museums"  [ngValue]="m">
                                 {{ m.name }}
                             </option>
                             
@@ -130,7 +131,7 @@
                     <div class="form-group">
                         
                         <select  class="form-select" multiple formControlName="literature" >
-                            <option *ngFor="let l of literature"  [ngValue]="l.literatureId">
+                            <option *ngFor="let l of literature"  [ngValue]="l">
                                 {{ l.title }}
                             </option>
                         </select>
@@ -154,7 +155,7 @@
 
                 <div class="col-sm-12 mb-3">
                     <div class="form-group">
-                        <label class="required-field" for="image">Bild</label>
+                        <label class="required-field" for="image">Bild: {{figImages[0].imageTitle}}</label>
                         <input type="file" class="form-control" id="image" formControlName="image" 
                             accept=".png, .jpg, .jpeg" 
                             (change)="onUploadImages($event)" 
@@ -163,7 +164,7 @@
                 </div>
                 <div class="col-sm-12 mb-3">
                     <div class="form-group">
-                        <label class="required-field" for="image">Bild</label>
+                        <label class="required-field" for="image">Bild: {{figImages[1].imageTitle || '' }}</label>
                         <input type="file" class="form-control" id="image2" formControlName="image2" 
                             accept=".png, .jpg, .jpeg" 
                             (change)="onUploadImages($event)" 
@@ -172,7 +173,7 @@
                 </div>
                 <div class="col-sm-12 mb-3">
                     <div class="form-group">
-                        <label class="required-field" for="image">Bild</label>
+                        <label class="required-field" for="image">Bild: {{figImages[2].imageTitle || ''}}</label>
                         <input type="file" class="form-control" id="image3" formControlName="image3" 
                             accept=".png, .jpg, .jpeg" 
                             (change)="onUploadImages($event)" 
@@ -181,13 +182,13 @@
                 </div>
                 <div class="col-sm-12 mb-3" *ngIf="figImages">
                     <div class="col-sm-3 mb-3" >
-                        <img [src]="figImages[0] " width="200px" height="200px" alt="" />
+                        <img [src]="imageBaseUrl + figImages[0].imagePath + figImages[0].imageTitle " width="200px" height="200px" alt="" />
                     </div>
                     <div class="col-sm-3 mb-3" *ngIf="figImages.length > 1">
-                        <img [src]="figImages[1]" width="200px" height="200px" alt="" />
+                        <img [src]="imageBaseUrl + figImages[1].imagePath + figImages[1].imageTitle" width="200px" height="200px" alt="" />
                     </div>
                     <div class="col-sm-3 mb-3" *ngIf="figImages.length > 2">
-                        <img [src]="figImages[2]" width="200px" height="200px" alt="" />
+                        <img [src]="imageBaseUrl + figImages[2].imagePath + figImages[2].imageTitle" width="200px" height="200px" alt="" />
                     </div>
                     
                 </div>

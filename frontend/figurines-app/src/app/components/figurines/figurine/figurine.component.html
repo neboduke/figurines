@@ -1,92 +1,92 @@
 <div class="container">
     <div class="row">
-      <div class="col-lg-5 col-md-6">
-        <div class="mb-2">
-          
-          <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-              <div class="carousel-item" *ngFor="let i of figurine?.images" >
-                <img height="300px" [src]="imageBaseUrl + i.imagePath + i.imageTitle">
-              </div>
-              
+        
+        <div class="col-lg-5 col-md-6">
+            <div class="mb-2 d-flex">
+                <h4 class="font-weight-normal">{{figurine?.title}}</h4> 
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
-
-        </div>
-        <div class="mb-2 d-flex">
-          <h4 class="font-weight-normal">{{figurine?.title}}</h4>
-         
-        </div>
-        <div class="mb-2">
-          <ul class="list-unstyled">
+            <div class="mb-2">
             
-            <li class="media">
-              <h5 class="w-50 text-black font-weight-normal">Material: </h5>
-              <label class="media-body" *ngFor="let mt of materials"  >
-                {{ mt?.title }}</label>
-            </li>
-            <li class="media">
-              <h5 class="w-50 text-black font-weight-normal">Motiv: </h5>
-              <label class="media-body">{{figurine?.motif?.title}}</label>
-            </li>
-            <li class="media">
-                <h5 class="w-50 text-black font-weight-normal">Bildträger: </h5>
-                <label class="media-body">{{figurine?.carrier?.title}}</label>
-              </li>
-            <li class="media">
-              <h5 class="w-50 text-black font-weight-normal">Relative Datierung: </h5>
-              <label class="media-body">{{figurine?.chronology?.name}}</label>
-            </li>
-            <li class="media">
-                <h5 class="w-50 text-black font-weight-normal">Absolute Datierung: </h5>
-                <label class="media-body">{{figurine?.dateAbs}}</label>
-            </li>
+                <div id="carousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                    <div   *ngFor="let i of figurine?.images" [ngClass]="figurine!.images.indexOf(i) === 0 ? 'carousel-item active' : 'carousel-item'">
+                        <img height="300px" [src]="imageBaseUrl + i.imagePath + i.imageTitle">
+                    </div>
+                    
+                    </div>
+                    
+                </div>
+
+            </div>
             
-            
-          </ul>
+            <div class="mb-2">
+            <ul class="list-unstyled">
+                
+                <li class="media">
+                    <h6 class="w-50 text-black font-weight-normal">Material: </h6>
+                    <label class="media-body" *ngFor="let mt of materials"  >
+                        {{ mt?.title }}</label>
+                </li>
+                <li class="media">
+                    <h6 class="w-50 text-black font-weight-normal">Motiv: </h6>
+                    <label class="media-body">{{figurine?.motif?.title}}</label>
+                </li>
+                <li class="media">
+                    <h6 class="w-50 text-black font-weight-normal">Bildträger: </h6>
+                    <label class="media-body">{{figurine?.carrier?.title}}</label>
+                </li>
+                <li class="media">
+                    <h6 class="w-50 text-black font-weight-normal">Relative Datierung: </h6>
+                    <label class="media-body">{{figurine?.chronology?.name}}</label>
+                </li>
+                <li class="media">
+                    <h6 class="w-50 text-black font-weight-normal">Absolute Datierung: </h6>
+                    <label class="media-body">{{figurine?.dateAbs}}</label>
+                </li>
+                
+                
+            </ul>
+            </div>
         </div>
-      </div>
-      <div class="col-lg-7 col-md-6 pl-xl-3">
-        
-        <h5 class="font-weight-normal">Beschreibung des Materials / der Beschaffenheit</h5>
-        <p>{{figurine?.materialDescription}}</p>
-        
-        <h5 class="font-weight-normal">Ikonografische Beschreibung</h5>
-        <p>{{figurine?.descriptionIconography}}</p>
-        
-        <h5 class="font-weight-normal">Ikonologische Beschreibung</h5>
-        <p>{{figurine?.descriptionIconology}}</p>
-         
-        <p>&nbsp;</p>
-        <ul class="list list-unstyled mb-3">
 
-            <li class="media">
-                <h5 class="w-50 text-black font-weight-normal">Fundort:</h5>
-                <label class="media-body">{{figurine?.location?.name}}, {{figurine?.location?.place}}, {{figurine?.location?.country?.name}}</label>
-            </li>
 
-            <li class="media">
-                <h5 class="w-50 text-black font-weight-normal">Ausstellungsort:</h5>
-                <label class="media-body" *ngIf="figurine?.exibitLocation">{{figurine?.exibitLocation?.name}}, {{figurine?.exibitLocation?.place}}, {{figurine?.exibitLocation?.country?.name}}</label>
-            </li>
+        <div class="col-lg-7 col-md-6 pl-xl-3">
+            <div class="mb-2 d-flex">
+               
+                <a class="btn btn-outline-primary" href="#" role="button" [routerLink]="['/figurine/edit',figurine!.figurineId]">Berabeiten</a>
+                <!--button type="button" class="btn btn-outline-primary" (click)="openModalFigurine( figurine)">Berabeiten</button-->
+            </div>
+            <h5 class="font-weight-normal">Beschreibung des Materials / der Beschaffenheit</h5>
+            <p>{{figurine?.materialDescription}}</p>
+            
+            <h5 class="font-weight-normal">Ikonografische Beschreibung</h5>
+            <p>{{figurine?.descriptionIconography}}</p>
+            
+            <h5 class="font-weight-normal">Ikonologische Beschreibung</h5>
+            <p>{{figurine?.descriptionIconology}}</p>
+            
+            <p>&nbsp;</p>
+            <ul class="list list-unstyled mb-3">
 
-            <li class="media">
-                <h5 class="w-50 text-black font-weight-normal">Ausstellungsnummer:</h5>
-                <label class="media-body">{{figurine?.exibitNr}}</label>
-            </li>
-            <li class="media">
-                <h5 class="w-50 text-black font-weight-normal">Literatur:</h5><br>
-                <label class="media-body" *ngFor="let l of figurine?.literature">{{l?.author}}: {{l?.title}}</label><br>
-            </li>
-        </ul>
-      </div>
+                <li class="media">
+                    <h6 class="w-50 text-black font-weight-normal">Fundort:</h6>
+                    <label class="media-body">{{figurine?.location?.name}}, {{figurine?.location?.place}}, {{figurine?.location?.country?.name}}</label>
+                </li>
+
+                <li class="media">
+                    <h6 class="w-50 text-black font-weight-normal">Ausstellungsort:</h6>
+                    <label class="media-body" *ngIf="figurine?.exibitLocation">{{figurine?.exibitLocation?.name}}, {{figurine?.exibitLocation?.place}}, {{figurine?.exibitLocation?.country?.name}}</label>
+                </li>
+
+                <li class="media">
+                    <h6 class="w-50 text-black font-weight-normal">Ausstellungsnummer:</h6>
+                    <label class="media-body">{{figurine?.exibitNr}}</label>
+                </li>
+                <li class="media">
+                    <h6 class="w-50 text-black font-weight-normal">Literatur:</h6><br>
+                    <label class="media-body" *ngFor="let l of figurine?.literature">{{l?.author}}: {{l?.title}}</label><br>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>

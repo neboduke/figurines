@@ -3,12 +3,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { NgbActiveModal, NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscriber } from 'rxjs';
 import { Carrier } from 'src/app/entity/carrier';
 import { Chronology } from 'src/app/entity/chronology';
 import { Country } from 'src/app/entity/country';
 import { Figurine } from 'src/app/entity/figurine';
+import { Image } from 'src/app/entity/image';
 import { Literature } from 'src/app/entity/literature';
 import { Location } from 'src/app/entity/location';
 import { Material } from 'src/app/entity/material';
@@ -24,20 +26,23 @@ import { LocationService } from 'src/app/services/location.service';
 import { MaterialService } from 'src/app/services/material.service';
 import { MotifService } from 'src/app/services/motif.service';
 import { LocationModalComponent } from '../../../location/location-modal/location-modal.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-figurine',
-  templateUrl: './figurine-modal.component.html',
-  styleUrls: ['./figurine-modal.component.css']
+  templateUrl: './figurine-edit.component.html',
+  styleUrls: ['./figurine-edit.component.css']
 })
-export class FigurineModalComponent implements OnInit {
-  @Input() public figurine!: Figurine  ;
+export class FigurineEditComponent implements OnInit {
+  //@Input() public figurine!: Figurine  ;
   @Input() public isAddNew!: boolean ;
   @Input() public formMode!: string ;
   
+  figurine: Figurine  | undefined;
   figurineForm!: FormGroup;
-  id: any;
+  id: number | undefined;
   result!: FigurineFormResult;
+  imageBaseUrl: string = environment.imageBaseUrl;
 
   /*---SERVICES---*/
   literature: Literature[] = [];
@@ -51,8 +56,15 @@ export class FigurineModalComponent implements OnInit {
   chronologies: Chronology[] = [];
   modalOptions:NgbModalOptions | undefined;
 
+  /*---SELECT BOX---*/
+  chronology!: Chronology;
+  carrier?: Carrier;
+  motif?: Motif;
+  location!: Location;
+  museum?: Location;
 
-  figImages:  any[] | undefined  ;
+
+  figImages:  Image[] = []  ;
   figImage: any | undefined ;
 
   constructor(public activeModal: NgbActiveModal, 
@@ -64,7 +76,7 @@ export class FigurineModalComponent implements OnInit {
     private countryService: CountryService,
     private materialService: MaterialService,
     private motifService: MotifService,
-    private carrierService: CarrierService, public modalService: NgbModal) { 
+    private carrierService: CarrierService, public modalService: NgbModal,private route: ActivatedRoute) { 
       this.modalOptions = {
           backdrop:'static',
           backdropClass:'customBackdrop'
@@ -72,6 +84,15 @@ export class FigurineModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.createForm();
+    
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.id =  Number(params.get('id'));
+    });
+    if (this.id != undefined){
+      this.getFigurine(this.id);
+    }
+
     this.getLiterature();
     this.getMaterial();
     this.getCountries();
@@ -79,7 +100,6 @@ export class FigurineModalComponent implements OnInit {
     this.getChronologies();
     this.getCarriers();
     this.getLocations();
-    this.createForm();
   }
 
   private createForm() {
@@ -106,6 +126,46 @@ export class FigurineModalComponent implements OnInit {
 
     });
   }
+
+  private setFigurineData(responseData:Figurine) {
+    this.figurineForm.setValue({
+            figurineId: responseData?.figurineId,
+            title: responseData?.title,
+            descriptionIconography: responseData?.descriptionIconography,
+            descriptionIconology: responseData?.descriptionIconology,
+            dateAbs: responseData?.dateAbs,
+            materialDescription: responseData?.materialDescription,
+            exibitNr: responseData?.exibitNr,
+            keyword: responseData?.keyword,
+            chronology:  [''],
+            materials: [''],
+            literature:[''],
+            carrier:  [''],
+            location:  [''],
+            exibitLocation:  [''],
+            image: responseData?.images[0] ,
+            image2: responseData?.images[1] || [''],
+            image3: responseData?.images[2] || [''],
+            imageUrl: responseData?.imageUrl,
+            motif:  ['']
+
+    });
+  }
+
+  private getFigurine(figurineId: number):void{
+    this.figurineService.getFigurine(figurineId).subscribe(
+        responseData => {
+          this.setFigurineData(responseData);
+          this.figurine = responseData;
+          this.figImages = this.figurine.images;
+           
+        },
+        (error: HttpErrorResponse) => {
+            alert(error.message)
+        }
+    );
+  }
+ 
 
   private filterLocations():void{
     for(let l of this.allLocations){
@@ -147,6 +207,9 @@ export class FigurineModalComponent implements OnInit {
     this.motifService.getMotifs().subscribe(
         responseData => {
             this.motifs = responseData;
+            if (this.figurine != undefined) {
+              this.updateSelectedMotif(this.figurine?.motif?.motifId!);
+            }
         },
         (error: HttpErrorResponse) => {
             alert(error.message)
@@ -157,6 +220,9 @@ export class FigurineModalComponent implements OnInit {
     this.chronologyService.getChronologies().subscribe(
         responseData => {
             this.chronologies = responseData;
+            if (this.figurine != undefined) {
+              this.updateSelectedChronology(this.figurine?.chronology?.chronologyId!);
+            }
         },
         (error: HttpErrorResponse) => {
             alert(error.message)
@@ -167,6 +233,9 @@ export class FigurineModalComponent implements OnInit {
     this.carrierService.getCarriers().subscribe(
         responseData => {
             this.carriers = responseData;
+            if (this.figurine != undefined) {
+              this.updateSelectedCarrier(this.figurine?.carrier?.carrierId!);
+            }
         },
         (error: HttpErrorResponse) => {
             alert(error.message)
@@ -183,6 +252,11 @@ export class FigurineModalComponent implements OnInit {
             for(let l of responseData){
               (l.locationType===1) ? this.locations.push(l):this.museums.push(l);
             }
+
+            if (this.figurine != undefined) {
+              this.updateSelectedLocation(this.figurine?.location?.locationId!);
+              this.updateSelectedMuseum(this.figurine?.exibitLocation?.locationId!);
+            }
         },
         (error: HttpErrorResponse) => {
             alert(error.message)
@@ -196,12 +270,59 @@ export class FigurineModalComponent implements OnInit {
 
 
 
-  updateSelectedLocation(element: string):void{
-    let lid : number = this.figurineForm.get(element)?.value;
-    if(lid===-1){
+  openLocation():void{
+    let l : any = this.figurineForm.get('location')?.value;
+    if(l === -1){
       this.openModalLocation();
     }
-    //this.country = this.countries.find(c => c.countryId === cid)!;
+    //this.location = this.locations.find(l => l.locationId === lid)!;
+  }
+
+  openMuseum():void{
+    let l : any = this.figurineForm.get('exibitLocation')?.value;
+    if(l ===-1){
+      this.openModalLocation();
+    }
+    //this.museum = this.museums.find(m => m.locationId === lid)!;
+  }
+
+  updateSelectedLocation(lid:number): void {
+    this.figurineForm!.get('location')!.setValue(
+      this.locations.find(l => l.locationId === lid)!  
+    )
+  }
+
+  updateSelectedMuseum(lid:number): void {
+    this.figurineForm!.get('exibitLocation')!.setValue(
+      this.museums.find(m => m.locationId === lid)!  
+    )
+  }
+  
+  updateSelectedChronology(cid:number): void {
+    /*let cid : number = this.figurineForm.get('chronologyId')?.value;
+    this.chronology = this.chronologies.find(c => c.chronologyId === cid)!;*/
+    this.figurineForm!.get('chronology')!.setValue(
+      this.chronologies.find(c => c.chronologyId === cid)!  
+    )
+  }
+
+  updateSelectedCarrier(cid:number): void {
+   /* let cid : number = this.figurineForm.get('carrierId')?.value;
+    this.carrier = this.carriers.find(c => c.carrierId === cid)!;*/
+    this.carrier = this.carriers.find(c => c.carrierId === cid)!;
+    this.figurineForm!.get('carrier')!.setValue(
+      this.carriers.find(c => c.carrierId === cid)!    
+    )
+  }
+
+  updateSelectedMotif(mid:number): void {
+    /*let mid : number = this.figurineForm.get('motifId')?.value;
+    this.motif = this.motifs.find(m => m.motifId === mid)!;*/
+    this.figurineForm!.get('motif')!.setValue(
+      this.motifs.find(m => m.motifId === mid)!     
+    )
+    
+
   }
 
   
@@ -255,13 +376,13 @@ export class FigurineModalComponent implements OnInit {
   }
 
   convertToBase64(file: File)  {
-      let me = this;
+     /* let me = this;
       
       const filereader = new FileReader();
       filereader.readAsDataURL(file);
       filereader.onload = function () {
         me.figImages!.push( filereader.result);
-      };
+      };*/
       
 
   }

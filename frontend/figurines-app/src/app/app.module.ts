@@ -23,7 +23,7 @@ import { CountryComponent } from './components/country/country.component';
 import { LiteratureService } from './services/literature.service';{}
 import { LiteratureComponent } from './components/literature/literature.component';
 import { LiteratureModalComponent } from './components/literature/literature-modal/literature-modal.component';
-import { FigurineModalComponent } from './components/figurines/figurine/figurine-modal/figurine-modal.component';
+import { FigurineEditComponent } from './components/figurines/figurine/figurine-edit/figurine-edit.component';
 import { FigurineComponent } from './components/figurines/figurine/figurine.component';
 
 @NgModule({
@@ -40,7 +40,7 @@ import { FigurineComponent } from './components/figurines/figurine/figurine.comp
     CountryComponent,
     LiteratureComponent,
     LiteratureModalComponent,
-    FigurineModalComponent,
+    FigurineEditComponent,
     FigurineComponent
   ],
   imports: [

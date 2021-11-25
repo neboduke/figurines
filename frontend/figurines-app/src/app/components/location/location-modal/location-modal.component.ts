@@ -34,9 +34,8 @@ export class LocationModalComponent implements OnInit {
 
   ngOnInit(): void {
     
-    this.getCountries();
     this.createForm();
- 
+    this.getCountries();
     if (this.location != undefined) {
       this.setDefaultValues();
     }
@@ -51,11 +50,17 @@ export class LocationModalComponent implements OnInit {
         address: this.location.address,
         place: this.location.place,
         coordinate: this.location.coordinate,
-        country: this.location.country,
-        countryId: this.location.country?.countryId ,
+        country: [''],
+        //countryId: this.location.country?.countryId ,
         locationType: this.location.locationType
       })
       this.country = this.location.country;
+     
+ }
+ setCountryValue():void{
+  this.locationForm!.get('country')!.setValue(
+         this.filterCountry(this.location!.country!)       
+      )
      
  }
 
@@ -63,17 +68,28 @@ export class LocationModalComponent implements OnInit {
     this.countryService.getCountries().subscribe(
          responseData => {
             this.countries = responseData;
+            if (this.location != undefined) {
+              this.setCountryValue();
+            }
          },
         (error: HttpErrorResponse) => {
             alert(error.message)
         }
     );
+  }
+
+  filterCountry(c: Country): Country {
+    for(let cn of this.countries){
+      if(cn.countryId === c.countryId) return cn;
+    }
+    return c;
+  }
     
     
     /*for (var c of this.countries) {
       this.cMap?.set(c.countryId!,c);
     }*/
-}
+
 
   private createForm() {
     this.locationForm = this.formBuilder.group({
@@ -84,8 +100,8 @@ export class LocationModalComponent implements OnInit {
       coordinateLng: [''],
       coordinate: [''],
       address:[''],
-      country:[''],
-      countryId:['', Validators.required],
+      country:[null, [Validators.required]],
+      //countryId:['', Validators.required],
       locationType:1,
     });
   }
@@ -104,7 +120,7 @@ export class LocationModalComponent implements OnInit {
     newLocation.coordinateLng = this.locationForm?.get('coordinateLng')?.value;
     newLocation.coordinate = this.locationForm?.get('coordinate')?.value;
     newLocation.address = this.locationForm?.get('address')?.value;
-    newLocation.country = this.country;
+    newLocation.country = this.locationForm.get('country')?.value;//this.country;
     newLocation.locationType = this.locationForm?.get('locationType')?.value;
     return newLocation;
   }
@@ -174,4 +190,6 @@ public onRemoveLocation(): void {
 }
 
 }
+
+
 

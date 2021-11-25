@@ -24,6 +24,7 @@ import { MotifService } from 'src/app/services/motif.service';
 import { LocationModalComponent } from '../../location/location-modal/location-modal.component';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { FigurineEditComponent } from './figurine-edit/figurine-edit.component';
 
 @Component({
   selector: 'app-figurine',
@@ -31,7 +32,6 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
   styleUrls: ['./figurine.component.css']
 })
 export class FigurineComponent implements OnInit {
-  //@Input() public 
   
   figurine!: Figurine  ;
   figurineForm!: FormGroup;
@@ -116,86 +116,7 @@ export class FigurineComponent implements OnInit {
         }
     );
   }
-  /*private getLiterature():void{
-    this.literatureService.getLiterature().subscribe(
-        responseData => {
-            this.literature = responseData;
-        },
-        (error: HttpErrorResponse) => {
-            alert(error.message)
-        }
-    );
-  }
-  private getMaterial():void{
-    this.materialService.getMaterials().subscribe(
-        responseData => {
-            this.materials = responseData;
-        },
-        (error: HttpErrorResponse) => {
-            alert(error.message)
-        }
-    );
-  }
-  private getCountries():void{
-    this.countryService.getCountries().subscribe(
-        responseData => {
-            this.country = responseData;
-        },
-        (error: HttpErrorResponse) => {
-            alert(error.message)
-        }
-    );
-  }
-  private getMotifs():void{
-    this.motifService.getMotifs().subscribe(
-        responseData => {
-            this.motif = responseData;
-        },
-        (error: HttpErrorResponse) => {
-            alert(error.message)
-        }
-    );
-  }
-  private getChronologies():void{
-    this.chronologyService.getChronologies().subscribe(
-        responseData => {
-            this.chronology = responseData;
-        },
-        (error: HttpErrorResponse) => {
-            alert(error.message)
-        }
-    );
-  }
-  private getCarriers():void{
-    this.carrierService.getCarriers().subscribe(
-        responseData => {
-            this.carrier = responseData;
-        },
-        (error: HttpErrorResponse) => {
-            alert(error.message)
-        }
-    );
-  }
-  private getLocations():void{
-    this.location = [];
-    this.museum = [];
-
-    this.locationService.getLocations().subscribe(
-        responseData => {
-            
-            for(let l of responseData){
-              (l.locationType===1) ? this.location.push(l):this.museum.push(l);
-            }
-        },
-        (error: HttpErrorResponse) => {
-            alert(error.message)
-        }
-    );
-
-
-  }*/
-
-  /*--- END---*/
+ 
 
 
 
@@ -211,22 +132,30 @@ export class FigurineComponent implements OnInit {
   
   
 
-  /*public openModalLocation():void {
+  public openModalFigurine(figurine?: Figurine):void {
       
-    const modalRef = this.modalService.open(LocationModalComponent);
-    // @Input chronology
-    modalRef.componentInstance.isAddNew = true;
+    const modalRef = this.modalService.open(FigurineEditComponent);
+    // @Input figurine
+    modalRef.componentInstance.figurine = figurine;
+    modalRef.componentInstance.isAddNew = false;
     modalRef.componentInstance.formMode = 'Edit';
     modalRef.result.then(
-        (result: LocationFormResult) => {
+        (result: FigurineFormResult) => {
             if (result) {
-                if (result.crudType == 'c') {
-                  if (result.status) {
-                    this.getLocations();
-                    // toaster for CRUD\Create
-                    //this.displayToaster('Confirmation', 'Data is saved');
-                  }
+              if (result.crudType == 'u') {
+                if (result.status) {
+                  this.refreshPage();
+                  // toaster for CRUD\Update
+                  //this.displayToaster('Confirmation', 'Data is updated');
                 }
+              }
+              if (result.crudType == 'd') {
+                if (result.status) {
+                  this.refreshPage();
+                  // toaster for CRUD\Delete
+                  //this.displayToaster('Confirmation', 'Data is deleted');
+                }
+              }
                 if (result.crudType == '') {
                     // toaster for cancel
                     //this.displayToaster('Confirmation', 'Form is cancel');
@@ -236,8 +165,11 @@ export class FigurineComponent implements OnInit {
             
           }
     )
+}
 
-}*/
+refreshPage() {
+  window.location.reload();
+}
 
 
 
