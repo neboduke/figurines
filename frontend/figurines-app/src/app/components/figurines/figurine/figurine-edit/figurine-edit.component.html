@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="col-lg-7 contact-form__wrapper p-5 order-lg-1">
+    <div class="col-lg-10 contact-form__wrapper p-5 order-lg-1">
         <form [formGroup]="figurineForm" class="contact-form form-validate" novalidate="novalidate">
             <input type="hidden" formControlName="figurineId">
             <div class="row">
@@ -158,46 +158,92 @@
                         <label class="required-field" for="image">Bild: {{figImages[0].imageTitle}}</label>
                         <input type="file" class="form-control" id="image" formControlName="image" 
                             accept=".png, .jpg, .jpeg" 
-                            (change)="onUploadImages($event)" 
+                            (change)="onUploadImages($event,'image')" 
+                            name="image"
                             />
                     </div>
                 </div>
                 <div class="col-sm-12 mb-3">
                     <div class="form-group">
-                        <label class="required-field" for="image">Bild: {{figImages[1].imageTitle || '' }}</label>
+                        <label class="required-field" for="image" >Bild: </label>
+                        <label class="required-field" for="image" *ngIf="!!figImages[1]">&nbsp;{{figImages[1].imageTitle}}</label>
                         <input type="file" class="form-control" id="image2" formControlName="image2" 
                             accept=".png, .jpg, .jpeg" 
-                            (change)="onUploadImages($event)" 
+                            (change)="onUploadImages($event,'image2')" 
                             />
                     </div>
                 </div>
                 <div class="col-sm-12 mb-3">
                     <div class="form-group">
-                        <label class="required-field" for="image">Bild: {{figImages[2].imageTitle || ''}}</label>
+                        <label class="required-field" for="image" >Bild: </label>
+                        <label class="required-field" for="image" *ngIf="!!figImages[2]">&nbsp;{{figImages[2].imageTitle}}</label>
                         <input type="file" class="form-control" id="image3" formControlName="image3" 
                             accept=".png, .jpg, .jpeg" 
-                            (change)="onUploadImages($event)" 
+                            (change)="onUploadImages($event,'image3')" 
                             />
                     </div>
                 </div>
-                <div class="col-sm-12 mb-3" *ngIf="figImages">
-                    <div class="col-sm-3 mb-3" >
-                        <img [src]="imageBaseUrl + figImages[0].imagePath + figImages[0].imageTitle " width="200px" height="200px" alt="" />
+                <div class="row" *ngIf="figImages">
+                    <div class="col-md " >
+                        <img [src]="imageBaseUrl + figImages[0].imagePath + figImages[0].imageTitle " width="150px" height="200px" alt="" />
                     </div>
-                    <div class="col-sm-3 mb-3" *ngIf="figImages.length > 1">
-                        <img [src]="imageBaseUrl + figImages[1].imagePath + figImages[1].imageTitle" width="200px" height="200px" alt="" />
+                    <div class="col-md " *ngIf="figImages.length > 1">
+                        <img [src]="imageBaseUrl + figImages[1].imagePath + figImages[1].imageTitle" width="150px" height="200px" alt="" />
                     </div>
-                    <div class="col-sm-3 mb-3" *ngIf="figImages.length > 2">
-                        <img [src]="imageBaseUrl + figImages[2].imagePath + figImages[2].imageTitle" width="200px" height="200px" alt="" />
+                    <div class="col-md" *ngIf="figImages.length > 2">
+                        <img [src]="imageBaseUrl + figImages[2].imagePath + figImages[2].imageTitle" width="150px" height="200px" alt="" />
                     </div>
                     
+                </div>
+
+                <div class="row">
+                    <app-file-upload requiredFileType="image/png,image/jpg,image/jpeg" (uploadedFile)='fileUploaded($event)'></app-file-upload>
                 </div>
 
 
                 
 
                 <div class="col-sm-12 mb-3">
-                    <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                    
+                        <div class="float-left">
+                          <!-- HTML markup for Create button -->
+                          <button
+                            (click)="onAddFigurine()"
+                            class="btn btn-primary w-20"
+                            type="submit"
+                            [disabled]="figurineForm?.invalid || !isAddNew"
+                            *ngIf="this.isAddNew"
+                          >
+                            <span translate><i class="fas fa-plus"></i> Speichern</span>
+                          </button>
+                          <!-- HTML markup for Update button -->
+                          <button
+                            (click)="onEditFigurine(figurineForm.value)"
+                            class="btn btn-primary w-20"
+                            type="submit"
+                            [disabled]="figurineForm?.invalid || isAddNew"
+                            *ngIf="!this.isAddNew"
+                          >
+                            <span translate><i class="fas fa-edit"></i> Speichern</span>
+                          </button>
+                          <!-- HTML markup for Delete button -->
+                          <button
+                            (click)="onRemoveFigurine()"
+                            class="btn btn-danger w-20"
+                            type="submit"
+                            [disabled]="figurineForm?.invalid || isAddNew"
+                            *ngIf="!this.isAddNew"
+                          >
+                            <span translate><i class="fas fa-trash-alt"></i> Löschen</span>
+                          </button>
+                        </div>
+                        <div class="float-right">
+                          <!-- HTML markup for Back button -->
+                          <button  class="btn btn-secondary w-20" type="submit">
+                            <span translate><i class="fa fa-arrow-left"></i> Abbrechen</span>
+                          </button>
+                        </div>
+                    
                 </div>
 
             </div>

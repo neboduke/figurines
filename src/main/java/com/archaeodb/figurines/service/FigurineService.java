@@ -26,6 +26,7 @@ public class FigurineService {
     private final CountryRepository countryRepository;
     private final CarrierReporitory carrierReporitory;
     private final MotifRepository motifRepository;
+    private final ImageRepository imageRepository;
     private final FigurineMapper figurineMapper = Mappers.getMapper(FigurineMapper.class);
     private final ChronologyMapper chronologyMapper = Mappers.getMapper(ChronologyMapper.class);
     private final MaterialMapper materialMapper = Mappers.getMapper(MaterialMapper.class);
@@ -107,9 +108,24 @@ public class FigurineService {
     public FigurineDto saveFigurine(FigurineDto figurineDto) {
         Figurine figurine = figurineMapper.figurineToDb(figurineDto);
         Figurine newFigurine = figurineRepository.save(figurine);
-        FigurineDto newFigurineDto = figurineMapper.figurineFromDb(newFigurine);
-        return newFigurineDto;
+        saveImages(figurine.getImages(), newFigurine.getFigurineId());
+        //FigurineDto newFigurineDto = figurineMapper.figurineFromDb(newFigurine);
+        return getFigurineById(newFigurine.getFigurineId());
     }
+
+    private void saveImages(List<Image> images, Integer figurineId) {
+        imageRepository.deleteAllByFigurine_FigurineId(figurineId);
+        //for(Image i: images){
+            imageRepository.saveAllAndFlush(images);
+        //}
+    }
+
+    public void deleteFigurine(Integer figurineId) {
+        figurineRepository.deleteById(figurineId);
+    }
+
+
+
 
     public ChronologyDto saveChronology(ChronologyDto chronologyDto) {
         Chronology chronology=chronologyMapper.chronologyToDb(chronologyDto);
@@ -130,7 +146,7 @@ public class FigurineService {
                            LocationRepository locationRepository,
                            CountryRepository countryRepository,
                            CarrierReporitory carrierReporitory,
-                           MotifRepository motifRepository) {
+                           MotifRepository motifRepository, ImageRepository imageRepository) {
         this.figurineRepository = figurineRepository;
         this.chronologyRepository = chronologyRepository;
         this.materialRepository = materialRepository;
@@ -139,6 +155,7 @@ public class FigurineService {
         this.countryRepository = countryRepository;
         this.carrierReporitory = carrierReporitory;
         this.motifRepository = motifRepository;
+        this.imageRepository = imageRepository;
     }
 
 
@@ -239,6 +256,7 @@ public class FigurineService {
 
         return carrierDto;
     }
+
 
 
 }

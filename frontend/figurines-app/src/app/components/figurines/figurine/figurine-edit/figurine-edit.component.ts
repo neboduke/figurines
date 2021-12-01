@@ -35,14 +35,15 @@ import { environment } from 'src/environments/environment';
 })
 export class FigurineEditComponent implements OnInit {
   //@Input() public figurine!: Figurine  ;
-  @Input() public isAddNew!: boolean ;
-  @Input() public formMode!: string ;
+  //@Input() public isAddNew!: boolean ;
+  //@Input() public formMode!: string ;
   
   figurine: Figurine  | undefined;
   figurineForm!: FormGroup;
   id: number | undefined;
   result!: FigurineFormResult;
   imageBaseUrl: string = environment.imageBaseUrl;
+  isAddNew!: boolean ;
 
   /*---SERVICES---*/
   literature: Literature[] = [];
@@ -65,7 +66,7 @@ export class FigurineEditComponent implements OnInit {
 
 
   figImages:  Image[] = []  ;
-  figImage: any | undefined ;
+  figImage: Image | undefined ;
 
   constructor(public activeModal: NgbActiveModal, 
     private formBuilder: FormBuilder, 
@@ -88,6 +89,7 @@ export class FigurineEditComponent implements OnInit {
     
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.id =  Number(params.get('id'));
+      this.isAddNew= (this.id === -1)?true:false;
     });
     if (this.id != undefined){
       this.getFigurine(this.id);
@@ -177,6 +179,7 @@ export class FigurineEditComponent implements OnInit {
     this.literatureService.getLiterature().subscribe(
         responseData => {
             this.literature = responseData;
+            this.updateSelectedLiterature(this.figurine?.literature!);
         },
         (error: HttpErrorResponse) => {
             alert(error.message)
@@ -187,6 +190,7 @@ export class FigurineEditComponent implements OnInit {
     this.materialService.getMaterials().subscribe(
         responseData => {
             this.materials = responseData;
+            this.updateSelectedMaterial(this.figurine?.materials!);
         },
         (error: HttpErrorResponse) => {
             alert(error.message)
@@ -286,6 +290,24 @@ export class FigurineEditComponent implements OnInit {
     //this.museum = this.museums.find(m => m.locationId === lid)!;
   }
 
+  updateSelectedMaterial(figMaterials:Material[]): void {
+    let mt: Material []=[];
+    for(let figMaterial of figMaterials){
+        mt.push( this.materials.find(m => m.materialId === figMaterial.materialId)!);
+      
+    }
+    this.figurineForm!.get('materials')!.setValue(mt);
+  }
+
+  updateSelectedLiterature(figLiteratures:Literature[]): void {
+    let lt: Literature []=[];
+    for(let figLiterature of figLiteratures){
+        lt.push( this.literature.find(l => l.literatureId === figLiterature.literatureId)!);
+      
+    }
+    this.figurineForm!.get('literature')!.setValue(lt);
+  }
+
   updateSelectedLocation(lid:number): void {
     this.figurineForm!.get('location')!.setValue(
       this.locations.find(l => l.locationId === lid)!  
@@ -360,19 +382,125 @@ export class FigurineEditComponent implements OnInit {
 
 }
 
+public onAddFigurine(): void {
+    
+  this.figurineService.addFigurine(this.createFigurine()).subscribe(
+      (response: Figurine) => {
+          console.log(response);
+
+          this.figurineForm?.reset();
+      },
+      (error: HttpErrorResponse) => {
+          alert(error.message);
+          this.figurineForm?.reset();
+      }
+  )
+}
+
+createFigurine(f?:Figurine):Figurine{ 
+  let newFigurine: Figurine = new Figurine();
+  newFigurine.figurineId = this.figurineForm?.get('figurineId')?.value;
+  newFigurine.exibitLocation = this.figurineForm?.get('exibitLocation')?.value;
+  newFigurine.exibitNr = this.figurineForm?.get('exibitNr')?.value;
+  newFigurine.imageUrl = this.figurineForm?.get('imageUrl')?.value;
+  
+  
+  newFigurine.images = this.figImages;
+  newFigurine.keyword = this.figurineForm?.get('keyword')?.value;
+  newFigurine.literature = this.figurineForm?.get('literature')?.value;
+  newFigurine.location = this.figurineForm?.get('location')?.value;
+  newFigurine.materialDescription = this.figurineForm?.get('materialDescription')?.value;
+  newFigurine.materials = this.figurineForm?.get('materials')?.value;
+  newFigurine.motif = this.figurineForm?.get('motif')?.value;
+  newFigurine.title = this.figurineForm?.get('title')?.value;
+  newFigurine.carrier = this.figurineForm?.get('carrier')?.value;
+  newFigurine.chronology = this.figurineForm?.get('chronology')?.value;
+  newFigurine.dateAbs = this.figurineForm?.get('dateAbs')?.value;
+  newFigurine.descriptionIconography = this.figurineForm?.get('descriptionIconography')?.value;
+  newFigurine.descriptionIconology = this.figurineForm?.get('descriptionIconology')?.value;
+
+  return newFigurine;
+}
+
+public onEditFigurine( figurine: Figurine): void {
+  
+  this.figurineService.updateFigurine(this.createFigurine(figurine)).subscribe(
+      (response: Figurine) => {
+          console.log(response);
+
+          //this.id = response.data; //guid return in data
+
+         
+          
+      },
+      (error: HttpErrorResponse) => {
+          alert(error.message);
+      }
+  )
+}
+
+public onRemoveFigurine(): void {
+    let figurineId: number = this.figurineForm.get('figurineId')?.value;
+    this.figurineService.deleteFigurine(figurineId).subscribe(
+      (response: void) => {
+          console.log(response);
+
+          this.figurineForm?.reset();
+      },
+      (error: HttpErrorResponse) => {
+          alert(error.message);
+      }
+  )
+}
 
 
 
-  onUploadImages(files: any){
-      this.figImages =  [];
-      let uploadedFiles = files.target.files;
+
+  onUploadImages(event: any, id: string){
+      //this.figImages =  [];
+      const file: File = event.target.files[0];
+      this.figImage = new Image;
+      this.figImage!.imageTitle = file.name;
+      this.figImage!.imagePath = environment.imageBasePath;
+
+      if(id == "image"){
+        //this.figImage.imageId = this.figImages[0].imageId;
+        this.figImages[0] = this.figImage!;
+        console.log(this.figImages?.length);
+      }
+      if(id == "image2"){
+        if(this.figImages.length > 1){
+          //this.figImage.imageId = this.figImages[1].imageId;
+          this.figImages[1] = this.figImage!;
+        }else{
+          this.figImages.push(this.figImage!);
+        }
+        
+        console.log(this.figImages?.length);
+      }
+      if(id == "image3"){
+        if(this.figImages.length > 2){
+          this.figImages[2] = this.figImage!;
+        }else{
+          this.figImages.push(this.figImage!);
+        }
+        //this.figImages.splice(2,1);
+        console.log(this.figImages?.length);
+
+      }
+
+     /* let uploadedFiles = files.target.files;
 
       for(let file of uploadedFiles){
         this.convertToBase64(file);
         
-      }
+      }*/
       console.log(this.figImages?.length);
 
+  }
+
+  fileUploaded(file:any) {
+    console.log(file.uploadedFile);
   }
 
   convertToBase64(file: File)  {

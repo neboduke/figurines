@@ -25,7 +25,7 @@ public class FigurinesApplication {
 	public CorsFilter corsFilter() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowCredentials(true);
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200","http://localhost"));
 		configuration.setAllowedHeaders(Arrays.asList("Origin","Access-Control-Allow-Origin","Content-Type",
 				"Accept", "Authorisation","Origin,Accept","X-Requested-With",
 				"Access-Control-Request-Method","Access-Control-Request-Headers"));

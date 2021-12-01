@@ -61,10 +61,27 @@ public class FigurinesController {
 
     @PostMapping(value ="/figurine/add")
     @ResponseBody
-    public FigurineDto addFigurine(@RequestBody FigurineDto figurine){
-        FigurineDto newFigurine = figurineService.saveFigurine(figurine);
+    public FigurineDto addFigurine(@RequestBody FigurineDto figurineDto){
+        FigurineDto newFigurine = figurineService.saveFigurine(figurineDto);
         return newFigurine;
     }
+
+    @PutMapping(value = "/figurine/edit")
+    @ResponseBody
+    @Transactional
+    public FigurineDto updateFigurine(@RequestBody FigurineDto figurineDto){
+        FigurineDto newFigurine = figurineService.saveFigurine(figurineDto);
+        return newFigurine;
+    }
+
+    @DeleteMapping(value = "/figurine/remove/{figurineId}")
+    @Transactional
+    public ResponseEntity<?> deleteFigurine(@PathVariable Integer figurineId){
+        figurineService.deleteFigurine(figurineId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 
     /*CHRONOLOGY*/
     @GetMapping(value = "/chronology")
