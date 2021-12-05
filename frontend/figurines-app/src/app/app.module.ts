@@ -26,6 +26,8 @@ import { LiteratureModalComponent } from './components/literature/literature-mod
 import { FigurineEditComponent } from './components/figurines/figurine/figurine-edit/figurine-edit.component';
 import { FigurineComponent } from './components/figurines/figurine/figurine.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
+import { MapComponent } from './components/map/map.component';
+
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { FileUploadComponent } from './components/file-upload/file-upload.compon
     LiteratureModalComponent,
     FigurineEditComponent,
     FigurineComponent,
-    FileUploadComponent
+    FileUploadComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,

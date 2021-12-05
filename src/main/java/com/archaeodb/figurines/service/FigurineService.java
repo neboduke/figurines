@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.inject.Inject;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -108,16 +109,19 @@ public class FigurineService {
     public FigurineDto saveFigurine(FigurineDto figurineDto) {
         Figurine figurine = figurineMapper.figurineToDb(figurineDto);
         Figurine newFigurine = figurineRepository.save(figurine);
-        saveImages(figurine.getImages(), newFigurine.getFigurineId());
+        saveImages(figurine.getImages(), newFigurine);
         //FigurineDto newFigurineDto = figurineMapper.figurineFromDb(newFigurine);
         return getFigurineById(newFigurine.getFigurineId());
     }
 
-    private void saveImages(List<Image> images, Integer figurineId) {
-        imageRepository.deleteAllByFigurine_FigurineId(figurineId);
-        //for(Image i: images){
-            imageRepository.saveAllAndFlush(images);
-        //}
+    private void saveImages(List<Image> images, Figurine figurine) {
+        imageRepository.deleteAllByFigurine_FigurineId(figurine.getFigurineId());
+        List<Image> newImages = new ArrayList<Image>();
+        for(Image i: images){
+            i.setFigurine(figurine);
+            newImages.add(i);
+        }
+        imageRepository.saveAllAndFlush(newImages);
     }
 
     public void deleteFigurine(Integer figurineId) {

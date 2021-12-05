@@ -7,6 +7,7 @@ import { FigurineComponent } from './components/figurines/figurine/figurine.comp
 import { FigurinesComponent } from './components/figurines/figurines.component';
 import { LiteratureComponent } from './components/literature/literature.component';
 import { LocationComponent } from './components/location/location.component';
+import { MapComponent } from './components/map/map.component';
 
 const routes: Routes = [
   { path: 'chronology', component: ChronologyComponent},
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: 'figurine', component: FigurineComponent },
   { path: 'figurine/:id', component: FigurineComponent },
   { path: 'figurines', component: FigurinesComponent },
-  { path: 'figurine/edit/:id', component: FigurineEditComponent }
+  { path: 'figurine/edit/:id', component: FigurineEditComponent },
+  { path: 'map', component: MapComponent }
 ];
 
 @NgModule({
