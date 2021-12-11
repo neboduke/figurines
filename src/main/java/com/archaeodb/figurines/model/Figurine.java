@@ -59,6 +59,10 @@ public class Figurine {
     private Carrier carrier;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "context_id")
+    private Context context;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id")
     private Location location;
 
@@ -72,6 +76,10 @@ public class Figurine {
 
     public Motif getMotif() {
         return motif;
+    }
+
+    public void setMotif(Motif motif) {
+        this.motif = motif;
     }
 
 
@@ -187,7 +195,7 @@ public class Figurine {
         return images;
     }
 
-    public void setImage(List<Image> images) {
+    public void setImages(List<Image> images) {
         this.images = images;
     }
 
@@ -199,10 +207,14 @@ public class Figurine {
         this.imageUrl = imageUrl;
     }
 
-
-    public void setMotif(Motif motif) {
-        this.motif = motif;
+    public Context getContext() {
+        return context;
     }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
 
     public Figurine() {}
 
@@ -217,6 +229,7 @@ public class Figurine {
                     List<Material> materials,
                     List<Literature> literature,
                     Carrier carrier,
+                    Context context,
                     Location location,
                     Location exibitLocation,
                     List<Image> images,
@@ -233,6 +246,7 @@ public class Figurine {
         this.materials = materials;
         this.literature = literature;
         this.carrier = carrier;
+        this.context = context;
         this.location = location;
         this.exibitLocation = exibitLocation;
         this.images = images;

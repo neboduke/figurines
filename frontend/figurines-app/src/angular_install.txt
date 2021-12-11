@@ -1,18 +1,19 @@
 npm install -g @angular/cli
 
 npm install bootstrap  
-npm install @fortawsome   
-npm install @fortawsome/fontawsome-free  
+--npm install @fortawsome   
+--npm install @fortawsome/fontawsome-free  
 npm install @fortawesome/fontawesome-free
 npm install --save @ng-bootstrap\ng-bootstrap
 npm install @rxweb/reactive-form-validators
 ng add @angular/localize
-npm install ng-select
+--npm install ng-select
 npm install @ng-select/ng-select 
 npm install leaflet@1.7.1  
 npm i --save-dev @types/leaflet 
 npm install @asymmetrik/ngx-leaflet 
 npm install leaflet-control-geocoder
+npm i @types/leaflet.markercluster
 
 
 

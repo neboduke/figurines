@@ -27,6 +27,7 @@ import { FigurineEditComponent } from './components/figurines/figurine/figurine-
 import { FigurineComponent } from './components/figurines/figurine/figurine.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { MapComponent } from './components/map/map.component';
+import { SkechfabComponent } from './components/skechfab/skechfab.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { MapComponent } from './components/map/map.component';
     FigurineEditComponent,
     FigurineComponent,
     FileUploadComponent,
-    MapComponent
+    MapComponent,
+    SkechfabComponent
   ],
   imports: [
     BrowserModule,

@@ -89,6 +89,17 @@
                         </select>
                     </div>  
                 </div>
+                <div class="col-sm-12 mb-3">
+                    <div class="form-group">
+                        <label  for="motif">Fundkontext</label>
+                        <select  class="form-select"  formControlName="context" >
+                            <option *ngFor="let cx of contextes"  [ngValue]="cx">
+                                {{ cx.title }}
+                            </option>
+                            
+                        </select>
+                    </div>  
+                </div>
 
                 <div class="col-sm-12 mb-3">
                     <div class="form-group">
@@ -97,7 +108,7 @@
                             <option [ngValue]="null" ></option>
                             <option [ngValue]="-1" >neuen Fundort eintragen</option>
                             <option *ngFor="let l of locations"  [ngValue]="l">
-                                {{ l.name }}
+                                {{ l.name }}, {{l?.place}}, {{l.country?.name}}
                             </option>
                             
                         </select>
@@ -108,7 +119,7 @@
                     <div class="form-group">
                         <label  for="exibitLocation" >Austellungsort</label>                       
                         <select  class="form-select"  formControlName="exibitLocation" (change)="openMuseum()">
-                            <option [ngValue]="null"></option>
+                            <option [ngValue]="null">kein Ausstellungsort vorhanden</option>
                             <option [ngValue]="-1" >neuen Ausstellungsort eintragen</option>
                             <option *ngFor="let m of museums"  [ngValue]="m">
                                 {{ m.name }}
@@ -125,12 +136,13 @@
                 </div>
 
                 <div class="col-sm-6 mb-3"><label  for="literature">Literatur</label></div>
-                <div class="col-sm-6 mb-3"><a class="btn btn-new " (click)="onAlert()" >Neu</a></div>
+                <div class="col-sm-6 mb-3"><a class="btn btn-new " (click)="onAddLiterature()" >Neu</a></div>
                     
                 <div class="col-sm-12 mb-3">
                     <div class="form-group">
                         
                         <select  class="form-select" multiple formControlName="literature" >
+                            <option [ngValue]="null">keine Literatur vorhanden</option>
                             <option *ngFor="let l of literature"  [ngValue]="l">
                                 {{ l.title }}
                             </option>
@@ -155,7 +167,7 @@
 
                 <div class="col-sm-12 mb-3">
                     <div class="form-group">
-                        <label class="required-field" for="image">Bild: {{figImages[0].imageTitle}}</label>
+                        <label class="required-field" for="image" *ngIf="!!figImages[0]">Bild: {{figImages[0].imageTitle}}</label>
                         <input type="file" class="form-control" id="image" formControlName="image" 
                             accept=".png, .jpg, .jpeg" 
                             (change)="onUploadImages($event,'image')" 
@@ -184,7 +196,7 @@
                     </div>
                 </div>
                 <div class="row" *ngIf="figImages">
-                    <div class="col-md " >
+                    <div class="col-md " *ngIf="figImages.length > 0">
                         <img [src]="imageBaseUrl + figImages[0].imagePath + figImages[0].imageTitle " width="150px" height="200px" alt="" />
                     </div>
                     <div class="col-md " *ngIf="figImages.length > 1">
@@ -201,53 +213,50 @@
                 </div>
 
 
-                
-
-                <div class="col-sm-12 mb-3">
-                    
-                        <div class="float-left">
-                          <!-- HTML markup for Create button -->
-                          <button
-                            (click)="onAddFigurine()"
-                            class="btn btn-primary w-20"
-                            type="submit"
-                            [disabled]="figurineForm?.invalid || !isAddNew"
-                            *ngIf="this.isAddNew"
-                          >
-                            <span translate><i class="fas fa-plus"></i> Speichern</span>
-                          </button>
-                          <!-- HTML markup for Update button -->
-                          <button
-                            (click)="onEditFigurine(figurineForm.value)"
-                            class="btn btn-primary w-20"
-                            type="submit"
-                            [disabled]="figurineForm?.invalid || isAddNew"
-                            *ngIf="!this.isAddNew"
-                          >
-                            <span translate><i class="fas fa-edit"></i> Speichern</span>
-                          </button>
-                          <!-- HTML markup for Delete button -->
-                          <button
-                            (click)="onRemoveFigurine()"
-                            class="btn btn-danger w-20"
-                            type="submit"
-                            [disabled]="figurineForm?.invalid || isAddNew"
-                            *ngIf="!this.isAddNew"
-                          >
-                            <span translate><i class="fas fa-trash-alt"></i> Löschen</span>
-                          </button>
-                        </div>
-                        <div class="float-right">
-                          <!-- HTML markup for Back button -->
-                          <button  class="btn btn-secondary w-20" type="submit">
-                            <span translate><i class="fa fa-arrow-left"></i> Abbrechen</span>
-                          </button>
-                        </div>
-                    
+                <div class="row">
+                    <div class="col-sm-6 mb-3">
+                    <!-- HTML markup for Create button -->
+                    <button
+                        (click)="onAddFigurine()"
+                        class="btn btn-primary w-20"
+                        type="submit"
+                        [disabled]="figurineForm?.invalid || !isAddNew"
+                        *ngIf="this.isAddNew"
+                    >
+                        <span translate><i class="fas fa-plus"></i> Hinzufügen</span>
+                    </button>
+                    <!-- HTML markup for Update button -->
+                    <button
+                        (click)="onEditFigurine(figurineForm.value)"
+                        class="btn btn-primary w-20"
+                        type="submit"
+                        [disabled]="figurineForm?.invalid || isAddNew"
+                        *ngIf="!this.isAddNew"
+                        style="margin-right:15px"
+                    >
+                        <span translate><i class="fas fa-edit"></i> Speichern</span>
+                    </button>
+                    <!-- HTML markup for Delete button -->
+                    <button
+                        (click)="onRemoveFigurine()"
+                        class="btn btn-danger w-20"
+                        type="submit"
+                        [disabled]="figurineForm?.invalid || isAddNew"
+                        *ngIf="!this.isAddNew"
+                    >
+                        <span translate><i class="fas fa-trash-alt"></i> Löschen</span>
+                    </button>
+                    </div>
+                    <div class="col-sm-6 mb-3" style="text-align:right">
+                    <!-- HTML markup for Back button -->
+                    <button  class="btn btn-secondary w-20" type="submit">
+                        <span translate><i class="fa fa-arrow-left"></i> Abbrechen</span>
+                    </button>
+                    </div>
                 </div>
-
             </div>
         </form>
+        <app-toast aria-live="polite" aria-atomic="true"></app-toast>
     </div>
 </div>
 

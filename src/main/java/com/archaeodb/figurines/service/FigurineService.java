@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.inject.Inject;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +25,7 @@ public class FigurineService {
     private final LocationRepository locationRepository;
     private final CountryRepository countryRepository;
     private final CarrierReporitory carrierReporitory;
+    private final ContextRepository contextRepository;
     private final MotifRepository motifRepository;
     private final ImageRepository imageRepository;
     private final FigurineMapper figurineMapper = Mappers.getMapper(FigurineMapper.class);
@@ -150,7 +150,9 @@ public class FigurineService {
                            LocationRepository locationRepository,
                            CountryRepository countryRepository,
                            CarrierReporitory carrierReporitory,
-                           MotifRepository motifRepository, ImageRepository imageRepository) {
+                           ContextRepository contextRepository,
+                           MotifRepository motifRepository,
+                           ImageRepository imageRepository) {
         this.figurineRepository = figurineRepository;
         this.chronologyRepository = chronologyRepository;
         this.materialRepository = materialRepository;
@@ -158,6 +160,7 @@ public class FigurineService {
         this.locationRepository = locationRepository;
         this.countryRepository = countryRepository;
         this.carrierReporitory = carrierReporitory;
+        this.contextRepository = contextRepository;
         this.motifRepository = motifRepository;
         this.imageRepository = imageRepository;
     }
@@ -259,6 +262,21 @@ public class FigurineService {
         MotifDto carrierDto =  figurineMapper.motifFromDb(motif);
 
         return carrierDto;
+    }
+
+    public List<ContextDto> getContext() {
+        List<Context> contextList = contextRepository.findAll(Sort.by(Sort.Order.asc("title")));
+        List<ContextDto> contextDtos = contextList.stream()
+                .map(context -> figurineMapper.contextFromDb(context))
+                .collect(Collectors.toList());
+        return contextDtos;
+    }
+
+    public ContextDto getContext(Integer contextId) {
+        Context context = contextRepository.getById(contextId);
+        ContextDto contextDto = figurineMapper.contextFromDb(context);
+
+        return contextDto;
     }
 
 

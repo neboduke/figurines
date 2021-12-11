@@ -17,12 +17,7 @@ public class FigurinesController {
     private FigurineService figurineService ;
 
     /*FIGURINE*/
-    @GetMapping(value = "/figurine")
-    @ResponseBody
-    public List<FigurineDto> getFigurines() {
 
-        return figurineService.getFigurines();
-    }
 
     @GetMapping(value = "/figurine/id/{figurineId}")
     @ResponseBody
@@ -57,6 +52,13 @@ public class FigurinesController {
     public List<FigurineDto> getFigurinesByChronology(@PathVariable int chronologyid) {
 
         return figurineService.getFigurinesByChronology(chronologyid);
+    }
+
+    @GetMapping(value = "/figurine")
+    @ResponseBody
+    public List<FigurineDto> getFigurines() {
+
+        return figurineService.getFigurines();
     }
 
     @PostMapping(value ="/figurine/add")
@@ -208,6 +210,13 @@ public class FigurinesController {
     @ResponseBody
     public List<MotifDto> getMotif (){
         return figurineService.getMotif();
+    }
+
+    /*CONTEXT*/
+    @GetMapping(value = "/context")
+    @ResponseBody
+    public  List<ContextDto> getContext() {
+        return figurineService.getContext();
     }
     
     

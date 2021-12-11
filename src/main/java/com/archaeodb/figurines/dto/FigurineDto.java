@@ -18,6 +18,7 @@ public class FigurineDto {
     private List<MaterialDto> materials;
     private List<LiteratureDto> literature;
     private CarrierDto carrier;
+    private ContextDto context;
     private LocationDto location;
     private LocationDto exibitLocation;
     private List<ImageDto> images;
@@ -40,7 +41,7 @@ public class FigurineDto {
                        List<MaterialDto> materials,
                        List<LiteratureDto> literature,
                        CarrierDto carrier,
-                       LocationDto location,
+                       ContextDto context, LocationDto location,
                        LocationDto exibitLocation,
                        List<ImageDto> images,
                        String imageUrl,
@@ -57,6 +58,7 @@ public class FigurineDto {
         this.materials = materials;
         this.literature = literature;
         this.carrier = carrier;
+        this.context = context;
         this.location = location;
         this.exibitLocation = exibitLocation;
         this.images = images;
@@ -158,6 +160,14 @@ public class FigurineDto {
 
     public void setCarrier(CarrierDto carrier) {
         this.carrier = carrier;
+    }
+
+    public ContextDto getContext() {
+        return context;
+    }
+
+    public void setContext(ContextDto context) {
+        this.context = context;
     }
 
     public LocationDto getLocation() {

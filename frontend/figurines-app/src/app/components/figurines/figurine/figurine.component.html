@@ -5,9 +5,9 @@
             <div class="mb-2 d-flex">
                 <h4 class="font-weight-normal">{{figurine?.title}}</h4> 
             </div>
-            <div class="mb-2">
+            <div class="mb-2" *ngIf="!figurine?.imageUrl">
             
-                <div id="carousel" class="carousel slide" data-bs-ride="carousel">
+                <div id="carousel" class="carousel slide" data-bs-ride="carousel" >
                     <div class="carousel-inner">
                     <div   *ngFor="let i of figurine?.images" [ngClass]="figurine!.images.indexOf(i) === 0 ? 'carousel-item active' : 'carousel-item'">
                         <img height="300px" [src]="imageBaseUrl + i.imagePath + i.imageTitle">
@@ -18,6 +18,12 @@
                 </div>
 
             </div>
+            <div class="mb-2" *ngIf="figurine?.imageUrl">
+                
+                    <app-skechfab title="{{figurine?.title}}" skechfaburl="{{figurine?.imageUrl}}"></app-skechfab>
+              
+            </div>
+
             
             <div class="mb-2">
             <ul class="list-unstyled">
@@ -74,6 +80,11 @@
                 </li>
 
                 <li class="media">
+                    <h6 class="w-50 text-black font-weight-normal">Fundortkontext:</h6>
+                    <label class="media-body">{{figurine?.context!.title}}</label>
+                </li>
+
+                <li class="media">
                     <h6 class="w-50 text-black font-weight-normal">Ausstellungsort:</h6>
                     <label class="media-body" *ngIf="figurine?.exibitLocation">{{figurine?.exibitLocation?.name}}, {{figurine?.exibitLocation?.place}}, {{figurine?.exibitLocation?.country?.name}}</label>
                 </li>
@@ -88,5 +99,8 @@
                 </li>
             </ul>
         </div>
+    </div>
+    <div class="root">
+        <app-map [showGeocoder]="false" [lat]="figurine?.location?.coordinateLat" [lng]="figurine?.location?.coordinateLng"></app-map>
     </div>
 </div>

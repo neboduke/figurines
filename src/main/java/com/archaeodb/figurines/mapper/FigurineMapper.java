@@ -21,6 +21,9 @@ public interface FigurineMapper {
     CarrierDto carrierFromDb(Carrier carrier);
     Carrier carrierToDb(CarrierDto carrierDto);
 
+    ContextDto contextFromDb(Context context);
+    Context contextToDb(ContextDto contextDto);
+
     LocationDto locationFromDb(Location location);
     Location locationToDb(LocationDto locationDto);
 

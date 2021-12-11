@@ -27,6 +27,12 @@ import { MaterialService } from 'src/app/services/material.service';
 import { MotifService } from 'src/app/services/motif.service';
 import { LocationModalComponent } from '../../../location/location-modal/location-modal.component';
 import { environment } from 'src/environments/environment';
+import { Context } from 'src/app/entity/context';
+import { ContextService } from 'src/app/services/context.service';
+import { ToastService } from 'src/app/common/toast.service';
+
+
+
 
 @Component({
   selector: 'app-figurine',
@@ -56,6 +62,7 @@ export class FigurineEditComponent implements OnInit {
   materials: Material[] = [];
   chronologies: Chronology[] = [];
   modalOptions:NgbModalOptions | undefined;
+  contextes: Context[] = [];
 
   /*---SELECT BOX---*/
   chronology!: Chronology;
@@ -63,6 +70,7 @@ export class FigurineEditComponent implements OnInit {
   motif?: Motif;
   location!: Location;
   museum?: Location;
+  context?: Context;
 
 
   figImages:  Image[] = []  ;
@@ -77,7 +85,11 @@ export class FigurineEditComponent implements OnInit {
     private countryService: CountryService,
     private materialService: MaterialService,
     private motifService: MotifService,
-    private carrierService: CarrierService, public modalService: NgbModal,private route: ActivatedRoute) { 
+    private carrierService: CarrierService, 
+    private contextService: ContextService, 
+    public modalService: NgbModal,
+    public toastService: ToastService,
+    private route: ActivatedRoute) { 
       this.modalOptions = {
           backdrop:'static',
           backdropClass:'customBackdrop'
@@ -91,8 +103,8 @@ export class FigurineEditComponent implements OnInit {
       this.id =  Number(params.get('id'));
       this.isAddNew= (this.id === -1)?true:false;
     });
-    if (this.id != undefined){
-      this.getFigurine(this.id);
+    if (this.id !== undefined && this.id !== -1){
+      this.getFigurine(this.id!);
     }
 
     this.getLiterature();
@@ -101,6 +113,7 @@ export class FigurineEditComponent implements OnInit {
     this.getMotifs();
     this.getChronologies();
     this.getCarriers();
+    this.getContextes();
     this.getLocations();
   }
 
@@ -118,6 +131,7 @@ export class FigurineEditComponent implements OnInit {
       materials: ['', Validators.required],
       literature: [''],
       carrier: [''],
+      context: [''],
       location: [''],
       exibitLocation: [''],
       image: [''],
@@ -143,6 +157,7 @@ export class FigurineEditComponent implements OnInit {
             materials: [''],
             literature:[''],
             carrier:  [''],
+            context:  [''],
             location:  [''],
             exibitLocation:  [''],
             image: responseData?.images[0] ,
@@ -179,7 +194,7 @@ export class FigurineEditComponent implements OnInit {
     this.literatureService.getLiterature().subscribe(
         responseData => {
             this.literature = responseData;
-            this.updateSelectedLiterature(this.figurine?.literature!);
+            if (this.figurine != undefined) { this.updateSelectedLiterature(this.figurine?.literature!)};
         },
         (error: HttpErrorResponse) => {
             alert(error.message)
@@ -190,7 +205,7 @@ export class FigurineEditComponent implements OnInit {
     this.materialService.getMaterials().subscribe(
         responseData => {
             this.materials = responseData;
-            this.updateSelectedMaterial(this.figurine?.materials!);
+            if (this.figurine != undefined) { this.updateSelectedMaterial(this.figurine?.materials!)};
         },
         (error: HttpErrorResponse) => {
             alert(error.message)
@@ -266,8 +281,20 @@ export class FigurineEditComponent implements OnInit {
             alert(error.message)
         }
     );
+  }
 
-
+  private getContextes():void{
+    this.contextService.getContext().subscribe(
+        responseData => {
+            this.contextes = responseData;
+            if (this.figurine != undefined) {
+              this.updateSelectedContext(this.figurine?.context?.contextId!);
+            }
+        },
+        (error: HttpErrorResponse) => {
+            alert(error.message)
+        }
+    );
   }
 
   /*--- END---*/
@@ -343,14 +370,15 @@ export class FigurineEditComponent implements OnInit {
     this.figurineForm!.get('motif')!.setValue(
       this.motifs.find(m => m.motifId === mid)!     
     )
-    
-
+  }
+  updateSelectedContext(cid:number): void {
+    /*let mid : number = this.figurineForm.get('motifId')?.value;
+    this.motif = this.motifs.find(m => m.motifId === mid)!;*/
+    this.figurineForm!.get('context')!.setValue(
+      this.contextes.find(c => c.contextId === cid)!     
+    )
   }
 
-  
-  onAlert():void{
-    alert('SS');
-  }
 
   
 
@@ -367,7 +395,7 @@ export class FigurineEditComponent implements OnInit {
                   if (result.status) {
                     this.getLocations();
                     // toaster for CRUD\Create
-                    //this.displayToaster('Confirmation', 'Data is saved');
+                    this.toastService.show('Neue Location wurde hinzugefügt', { classname: 'bg-success text-light', delay: 4000 });
                   }
                 }
                 if (result.crudType == '') {
@@ -382,17 +410,22 @@ export class FigurineEditComponent implements OnInit {
 
 }
 
+onAddLiterature():void{}
+
 public onAddFigurine(): void {
     
   this.figurineService.addFigurine(this.createFigurine()).subscribe(
       (response: Figurine) => {
           console.log(response);
+          this.toastService.show('Daten wurden erfolgreich gespeichert', { classname: 'bg-success text-light', delay: 4000 });
+          //this.figurineForm?.reset();
+          window.location.href= "http://localhost:4200/figurine/" + response.figurineId! ; //guid return in data
 
-          this.figurineForm?.reset();
       },
       (error: HttpErrorResponse) => {
-          alert(error.message);
-          this.figurineForm?.reset();
+        this.toastService.show(error.message, { classname: 'bg-danger text-light', delay: 4000 });
+          //alert(error.message);
+          //this.figurineForm?.reset();
       }
   )
 }
@@ -414,6 +447,7 @@ createFigurine(f?:Figurine):Figurine{
   newFigurine.motif = this.figurineForm?.get('motif')?.value;
   newFigurine.title = this.figurineForm?.get('title')?.value;
   newFigurine.carrier = this.figurineForm?.get('carrier')?.value;
+  newFigurine.context = this.figurineForm?.get('context')?.value;
   newFigurine.chronology = this.figurineForm?.get('chronology')?.value;
   newFigurine.dateAbs = this.figurineForm?.get('dateAbs')?.value;
   newFigurine.descriptionIconography = this.figurineForm?.get('descriptionIconography')?.value;
@@ -430,11 +464,13 @@ public onEditFigurine( figurine: Figurine): void {
 
           //this.id = response.data; //guid return in data
 
-         
+          this.toastService.show('Daten wurden erfolgreich gespeichert', { classname: 'bg-success text-light', delay: 4000 });
+          //window.location.reload();
           
       },
       (error: HttpErrorResponse) => {
-          alert(error.message);
+          this.toastService.show(error.message, { classname: 'bg-danger text-light', delay: 4000 });
+         // alert(error.message);
       }
   )
 }
@@ -444,10 +480,11 @@ public onRemoveFigurine(): void {
     this.figurineService.deleteFigurine(figurineId).subscribe(
       (response: void) => {
           console.log(response);
-
+          this.toastService.show('Das Objekt wurde gelöscht', { classname: 'bg-success text-light', delay: 4000 });
           this.figurineForm?.reset();
       },
       (error: HttpErrorResponse) => {
+          this.toastService.show(error.message, { classname: 'bg-danger text-light', delay: 4000 });
           alert(error.message);
       }
   )
