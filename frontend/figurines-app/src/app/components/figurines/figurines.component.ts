@@ -5,6 +5,9 @@ import { FigurineService } from 'src/app/services/figurine.service';
 import { environment } from 'src/environments/environment';
 import * as geojson from 'geojson';
 import { FigurinePoint } from 'src/app/entity/figurine-point';
+import { MapLegend } from 'src/app/entity/map-legend';
+import { Context } from 'src/app/entity/context';
+import { ContextService } from 'src/app/services/context.service';
 import { point } from 'leaflet';
 
 @Component({
@@ -16,18 +19,25 @@ export class FigurinesComponent implements OnInit {
   figurines: Figurine[] = [];
   imageBaseUrl: string = environment.imageBaseUrl;
   points: FigurinePoint[] = [];
+  mapLegend: MapLegend[] = [];
+  contextes: Context[] = [];
 
-  constructor(private figurineService: FigurineService) { }
+
+  constructor(private figurineService: FigurineService, 
+    private contextService: ContextService) { }
 
   ngOnInit(): void {
     this.getFigurines();
+    this.createMapLegend();
   }
+
 
   private getFigurines():void{
     this.figurineService.getFigurines().subscribe(
         responseData => {
             this.figurines = responseData;
             this.filterPoints(this.figurines);
+            
         },
         (error: HttpErrorResponse) => {
             alert(error.message)
@@ -42,7 +52,7 @@ export class FigurinesComponent implements OnInit {
       point!.location = f.location?.name! ;
       point!.lat = Number.parseFloat(f.location?.coordinateLat!);
       point!.lng = Number.parseFloat(f.location?.coordinateLng!);
-      var chrono: string = f.chronology!.name.substr(0,2).toLowerCase();
+      var chrono: string = f.chronology!.name.substring(0,2).toLowerCase();
       var contx: string = f.context!.title!.toLowerCase();
       point!.icon = contx+"-"+chrono+".svg";
       point.url = "http://localhost:4200/figurine/"+f.figurineId;
@@ -52,6 +62,25 @@ export class FigurinesComponent implements OnInit {
 
   private filterFigurines():void{
 
+  }
+
+  private createMapLegend(): void {
+    this.contextService.getContext().subscribe(
+      responseData => {
+          this.contextes = responseData;
+          for(let c of this.contextes){
+            var ml: MapLegend = new MapLegend();
+            ml.text = c!.title!.toLowerCase();
+            ml.icon = ml.text+".svg";
+            this.mapLegend.push(ml);
+            
+          }
+      },
+      (error: HttpErrorResponse) => {
+          alert(error.message)
+      }
+  );
+    
   }
 
 }

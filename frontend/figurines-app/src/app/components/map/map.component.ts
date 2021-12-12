@@ -7,6 +7,7 @@ import * as mc from "leaflet.markercluster";
 //import "leaflet.markercluster/dist/MarkerCluster.Default.css"; 
 import * as geojson from "geojson";
 import { FigurinePoint } from 'src/app/entity/figurine-point';
+import { MapLegend } from 'src/app/entity/map-legend';
 
 
 
@@ -21,16 +22,14 @@ export class MapComponent implements AfterViewInit {
   @Input() lng:string | undefined;
   @Input() figurines: FigurinePoint[] = [];
   @Input() setMarker: boolean = false;
+  @Input() mapLegend: MapLegend[] = [];
 
   @Output() newCoordinate= new EventEmitter();;
 
-
-  
   private map: any;
   geocoder:any;
   markerClusterGroup: L.MarkerClusterGroup | undefined;
   markerClusterData = [];
-
 
   constructor() { }
   
@@ -52,10 +51,10 @@ export class MapComponent implements AfterViewInit {
     });
 
     var mapbox= 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
-
+    var basebox = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 	  var openstreetmap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
-    var map = this.setMarker? openstreetmap : mapbox;
+    var map = this.setMarker? openstreetmap : basebox;
 
     const tiles = L.tileLayer(map, {
       id: 'mapbox/light-v9',
@@ -67,26 +66,19 @@ export class MapComponent implements AfterViewInit {
     tiles.addTo(this.map);
 
     if((this.lat != null && typeof this.lat != undefined) || this.setMarker ){
-      this.setLocationMarker();//this.setFigurineMarker();
+      this.setLocationMarker();
     }
     
     this.geocoder = (L.Control as any).geocoder();
 
     this.geocoder.addTo(this.map);
-
-    /*if(this.setMarker){
-      this.setLocationMarker();
-    }*/
-  }
-
-
-  setFigurineMarker(): void{
-      const nlat = Number.parseFloat(this.lat!);
-      const nlng = Number.parseFloat(this.lng!);      
-      const marker = L.marker([nlat, nlng],{icon: this.getDefaultIcon()});      
-      marker.addTo(this.map);
+    
+    if(this.figurines.length>0){
+      this.addMapLegend();
+    }
 
   }
+
 
   setLocationMarker():void{
     var layerGroup = L.layerGroup().addTo(this.map);
@@ -103,11 +95,9 @@ export class MapComponent implements AfterViewInit {
         var coord = e.latlng;
         var latout = coord.lat;
         var lngout = coord.lng;
-        this.newCoordinate.emit({ newCoordinate: latout + "," + lngout });
-      
+        this.newCoordinate.emit({ newCoordinate: latout + "," + lngout });      
         const marker = L.marker([latout!, lngout!],{icon: this.getDefaultIcon()});      
         marker.addTo(layerGroup);
-        console.log("You clicked the map at latitude: " + latout + " and longitude: " + lngout);
       });
     }
   }
@@ -132,7 +122,7 @@ export class MapComponent implements AfterViewInit {
     return customIcon;
   }
 
-  addFigurinePlaceMarkers() {
+  addFigurinePlaceMarkers(): void {
     if(this.figurines!.length > 0){
       
       for(let f of this.figurines!){
@@ -150,6 +140,29 @@ export class MapComponent implements AfterViewInit {
 
     }
 
+  }
+
+  addMapLegend():void {
+    var legend = new L.Control();
+    legend.setPosition( 'bottomleft');
+
+    var div = L.DomUtil.create('div', 'fig-map-legend')
+
+
+            div.innerHTML =
+            '<i style="background:red"></i><span style="float:left"> HA&nbsp;&nbsp;&nbsp;</span><i style="background:black"></i><span> LT</span> <hr>';
+           
+        // loop through our density intervals and generate a label with a colored square for each interval
+        for (let ml of this.mapLegend) {
+            div.innerHTML +=
+                '<i style="background: url(\'assets/marker/' + ml.icon +'\') 0 0 / 17px 20px"></i>'+ml.text.toUpperCase()+'<br>' ;      
+        }
+
+    legend.onAdd = function () {
+        return div;
+    };
+    
+    legend.addTo(this.map);
   }
 
     /*var geoJsonFeatures: geojson.FeatureCollection = {

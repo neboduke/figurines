@@ -9,6 +9,7 @@ import { Location } from "src/app/entity/location";
 import { LocationFormResult } from "src/app/interfaces/location-form-result";
 import { CountryService } from 'src/app/services/country.service';
 import { LocationService } from "src/app/services/location.service";
+import { ToastService } from 'src/app/common/toast.service';
 
 
 @Component({
@@ -28,7 +29,11 @@ export class LocationModalComponent implements OnInit {
   country: Country | undefined;
 
   
-  constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private locationService: LocationService,private countryService: CountryService) {
+  constructor(public activeModal: NgbActiveModal, 
+    private formBuilder: FormBuilder, 
+    private locationService: LocationService,
+    private countryService: CountryService,
+    public toastService: ToastService) {
     
    }
 
@@ -134,12 +139,12 @@ export class LocationModalComponent implements OnInit {
             
             this.result = { location: this.location, crudType: 'c', status: true };
             this.activeModal.close(this.result);
-
+            this.toastService.show('Neue Location wurde hinzugefügt', { classname: 'bg-success text-light', delay: 4000 });
             this.locationForm?.reset();
         },
         (error: HttpErrorResponse) => {
-            alert(error.message);
-            this.locationForm?.reset();
+            this.toastService.show(error.message, { classname: 'bg-danger text-light ', delay: 4000 });
+            //this.locationForm?.reset();
         }
     )
 }
@@ -148,7 +153,7 @@ public onEditLocation( location: Location): void {
     
     this.locationService.updateLocation(this.createLocation(location)).subscribe(
         (response: Location) => {
-            console.log(response);
+            //console.log(response);
 
             //this.id = response.data; //guid return in data
 
@@ -164,12 +169,14 @@ public onEditLocation( location: Location): void {
               this.location.locationType = response.locationType;
 
               this.result = { location: this.location, crudType: 'u', status: true };
+              this.toastService.show('Daten wurden gespeichert', { classname: 'bg-success text-light', delay: 4000 });
               this.activeModal.close(this.result);
             }
             
+            
         },
         (error: HttpErrorResponse) => {
-            alert(error.message);
+          this.toastService.show(error.message, { classname: 'bg-danger text-light', delay: 4000 });
         }
     )
 }
@@ -180,11 +187,12 @@ public onRemoveLocation(): void {
         (response: void) => {
             console.log(response);
             this.result = { location: this.location, crudType: 'd', status: true };
+            this.toastService.show('Location wurde gelöscht', { classname: 'bg-success text-light', delay: 4000 });
             this.activeModal.close(this.result);
             this.locationForm?.reset();
         },
         (error: HttpErrorResponse) => {
-            alert(error.message);
+          this.toastService.show(error.message, { classname: 'bg-danger text-light', delay: 4000 });
         }
     )
 }

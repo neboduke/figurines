@@ -5,6 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Literature } from 'src/app/entity/literature';
 import { LiteratureFormResult } from 'src/app/interfaces/literature-form-result';
 import { LiteratureService } from 'src/app/services/literature.service';
+import { ToastService } from 'src/app/common/toast.service';
 
 @Component({
   selector: 'app-literature-modal',
@@ -25,7 +26,8 @@ export class LiteratureModalComponent implements OnInit {
   
   constructor(public activeModal: NgbActiveModal, 
               private formBuilder: FormBuilder, 
-              private literatureService: LiteratureService) {
+              private literatureService: LiteratureService,
+              private toastService: ToastService) {
     
    }
 
@@ -97,13 +99,14 @@ export class LiteratureModalComponent implements OnInit {
             console.log(response);
             
             this.result = { literature: this.literature, crudType: 'c', status: true };
+            this.toastService.show('Daten wurden gespeichert', { classname: 'bg-success text-light toast-alert', delay: 4000 });
             this.activeModal.close(this.result);
 
             this.literatureForm?.reset();
         },
         (error: HttpErrorResponse) => {
-            alert(error.message);
-            this.literatureForm?.reset();
+            this.toastService.show(error.message, { classname: 'bg-danger text-light', delay: 4000 });
+            //this.literatureForm?.reset();
         }
     )
 }
@@ -125,12 +128,13 @@ public onEditLiterature( literature: Literature): void {
               this.literature.citation = response.citation;
 
               this.result = { literature: this.literature, crudType: 'u', status: true };
+              this.toastService.show('Daten wurden gespeichert', { classname: 'bg-success text-light toast-alert', delay: 4000 });
               this.activeModal.close(this.result);
             }
             
         },
         (error: HttpErrorResponse) => {
-            alert(error.message);
+          this.toastService.show(error.message, { classname: 'bg-danger text-light', delay: 4000 });
         }
     )
 }
@@ -141,11 +145,13 @@ public onRemoveLiterature(): void {
         (response: void) => {
             console.log(response);
             this.result = { literature: this.literature, crudType: 'd', status: true };
+            this.toastService.show('Daten wurden gelöscht', { classname: 'bg-success text-light', delay: 4000 });
+            
             this.activeModal.close(this.result);
             this.literatureForm?.reset();
         },
         (error: HttpErrorResponse) => {
-            alert(error.message);
+          this.toastService.show(error.message, { classname: 'bg-danger text-light', delay: 4000 });
         }
     )
 }
