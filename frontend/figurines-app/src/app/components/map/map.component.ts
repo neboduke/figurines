@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input } from '@angular/core';
+import { Component, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
 import "leaflet/dist/leaflet.css";
 import * as L from "leaflet";
 import "leaflet-control-geocoder/dist/Control.Geocoder.css";
@@ -20,11 +20,31 @@ export class MapComponent implements AfterViewInit {
   @Input() lat:string | undefined;
   @Input() lng:string | undefined;
   @Input() figurines: FigurinePoint[] = [];
+  @Input() setMarker: boolean = false;
+
+  @Output() newCoordinate= new EventEmitter();;
+
+
   
   private map: any;
   geocoder:any;
+  markerClusterGroup: L.MarkerClusterGroup | undefined;
+  markerClusterData = [];
+
+
+  constructor() { }
+  
+  ngOnInit () {
+    this.markerClusterGroup = L.markerClusterGroup({removeOutsideVisibleBounds: true});
+  }
+
+  ngAfterViewInit(): void {
+    this.initMap();
+    this.addFigurinePlaceMarkers() ;
+  }
 
   private initMap(): void {
+
    this.map = L.map('map', {
       //center: [  46.485412,11.4767963],
       center: [46.438832, 12.389904],
@@ -35,57 +55,71 @@ export class MapComponent implements AfterViewInit {
 
 	  var openstreetmap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
-    const tiles = L.tileLayer(mapbox, {
+    var map = this.setMarker? openstreetmap : mapbox;
+
+    const tiles = L.tileLayer(map, {
       id: 'mapbox/light-v9',
       maxZoom: 18,
       minZoom: 3,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap | figurine by neboxduke</a>'
     });
 
     tiles.addTo(this.map);
 
-    if(this.lat != null && typeof this.lat != undefined){
-      const nlat = Number.parseFloat(this.lat!);
-      const nlng = Number.parseFloat(this.lng!);
-      
-      
-      const customIcon = L.icon({
-        iconUrl: 'assets/marker/marker-red-hole.jpg',
-        iconSize:     [40, 40], // size of the icon
-        iconAnchor:   [20,40], // point of the icon which will correspond to marker's location
-        popupAnchor:  [0, -30] // point from which the popup should open relative to the iconAnchor
-      });
-      
-      const marker = L.marker([nlat, nlng],{icon: customIcon});
-      
-      marker.addTo(this.map);
+    if((this.lat != null && typeof this.lat != undefined) || this.setMarker ){
+      this.setLocationMarker();//this.setFigurineMarker();
     }
     
-    
-    
-       //parse(data, {Point: ['lat', 'lng'], include: ['name']});
-
-    /*if(this.showGeocoder){
-      (L.Control as any).geocoder().addTo(this.map);
-      this.geocoder = (L.Control as any).geocoder({
-        defaultMarkGeocode: false
-      })
-        
-      
-    }*/
     this.geocoder = (L.Control as any).geocoder();
 
     this.geocoder.addTo(this.map);
 
-    /*this.map.on('click',  (e:any) => {
-      this.geocoder.reverse().latlng(e.latlng).run(function (error: any, result: { latlng: any; }) {
-        if (error) {
-          return;
-        }
-        alert(result.latlng)
-      });*/
-    
-  
+    /*if(this.setMarker){
+      this.setLocationMarker();
+    }*/
+  }
+
+
+  setFigurineMarker(): void{
+      const nlat = Number.parseFloat(this.lat!);
+      const nlng = Number.parseFloat(this.lng!);      
+      const marker = L.marker([nlat, nlng],{icon: this.getDefaultIcon()});      
+      marker.addTo(this.map);
+
+  }
+
+  setLocationMarker():void{
+    var layerGroup = L.layerGroup().addTo(this.map);
+    if(this.lat != null && typeof this.lat != undefined){
+      const nlat = Number.parseFloat(this.lat!);
+      const nlng = Number.parseFloat(this.lng!);      
+      const marker = L.marker([nlat, nlng],{icon: this.getDefaultIcon()});      
+      marker.addTo(layerGroup);
+    }
+
+    if(this.setMarker){
+        this.map.on('click', (e: { latlng: any; }) =>{          
+        layerGroup.clearLayers();
+        var coord = e.latlng;
+        var latout = coord.lat;
+        var lngout = coord.lng;
+        this.newCoordinate.emit({ newCoordinate: latout + "," + lngout });
+      
+        const marker = L.marker([latout!, lngout!],{icon: this.getDefaultIcon()});      
+        marker.addTo(layerGroup);
+        console.log("You clicked the map at latitude: " + latout + " and longitude: " + lngout);
+      });
+    }
+  }
+
+  getDefaultIcon(): L.Icon {
+    const defaultIcon = L.icon({
+      iconUrl: 'assets/marker/marker-red-hole.jpg',
+      iconSize:     [40, 40], // size of the icon
+      iconAnchor:   [20,40], // point of the icon which will correspond to marker's location
+      popupAnchor:  [0, -30] // point from which the popup should open relative to the iconAnchor
+    });
+    return defaultIcon;
   }
 
   getCustomIcon(icon:string):L.Icon{
@@ -96,30 +130,27 @@ export class MapComponent implements AfterViewInit {
       popupAnchor:  [0, -20] // point from which the popup should open relative to the iconAnchor
     });
     return customIcon;
-
-
   }
 
-  addGeoJsonFigurines() {
-    
-
+  addFigurinePlaceMarkers() {
     if(this.figurines!.length > 0){
-      //const markers = new L.MarkerClusterGroup();
+      
       for(let f of this.figurines!){
         const customIcon = this.getCustomIcon(f.icon);
 
         const marker = L.marker([f.lat, f.lng],{icon: customIcon});
         const popupText = "<p><a href='"+f.url+"'>"+f.title+"</a><br/>"+f.location+"</p>";
         marker.bindPopup(popupText);
-        //marker.addTo(markers);
-        marker.addTo(this.map);
-        //markers.addLayer(marker);
+
+        //marker.addTo(this.map);
+        this.markerClusterGroup!.addLayer(marker);
         
       }
-      //markers.addTo(this.map);
+      this.markerClusterGroup!.addTo(this.map);
 
     }
-    
+
+  }
 
     /*var geoJsonFeatures: geojson.FeatureCollection = {
       "type": "FeatureCollection",
@@ -179,12 +210,7 @@ export class MapComponent implements AfterViewInit {
     });
     marker.addTo(this.map);*/
     
-  }
+  
 
-  constructor() { }
-
-  ngAfterViewInit(): void {
-    this.initMap();
-    this.addGeoJsonFigurines() ;
-  }
+  
 }

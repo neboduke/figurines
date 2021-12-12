@@ -28,6 +28,7 @@ import { FigurineComponent } from './components/figurines/figurine/figurine.comp
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { MapComponent } from './components/map/map.component';
 import { SkechfabComponent } from './components/skechfab/skechfab.component';
+import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import { SkechfabComponent } from './components/skechfab/skechfab.component';
     NgbModule,
     RxReactiveFormsModule,
     CommonModule,
-    NgSelectModule
+    NgSelectModule,
+    LeafletMarkerClusterModule
   ],
   providers: [ChronologyService,FigurineService,LocationService, LiteratureService, FigurineService, NgbActiveModal],
   bootstrap: [AppComponent]

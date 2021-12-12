@@ -155,11 +155,11 @@
               </button>
             </div>
         </div>
-        <button type="button" (click)="setDefaultValues()">Set Default</button>
+        <!--button type="button" (click)="setDefaultValues()">Set Default</button-->
 
     </form>
     <div class="root">
-      <app-map [showGeocoder]="true"></app-map>
+      <app-map [showGeocoder]="true" [setMarker]="true" [lat]="location?.coordinateLat" [lng]="location?.coordinateLng"  (newCoordinate)='setNewCoordinate($event)'></app-map>
     </div>
   </div>
 </div>

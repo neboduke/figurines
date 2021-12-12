@@ -189,6 +189,15 @@ public onRemoveLocation(): void {
     )
 }
 
+setNewCoordinate(newCoordinate: any):void{
+    var newVal: string = newCoordinate.newCoordinate;
+
+    var latlng: string[] = newVal.split(',');
+
+    this.locationForm!.get('coordinateLat')!.setValue(latlng[0]);
+    this.locationForm!.get('coordinateLng')!.setValue(latlng[1]);
+}
+
 }
 
 
