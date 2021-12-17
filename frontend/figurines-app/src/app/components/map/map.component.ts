@@ -20,7 +20,7 @@ export class MapComponent implements AfterViewInit {
   @Input() showGeocoder:boolean = false;
   @Input() lat:string | undefined;
   @Input() lng:string | undefined;
-  @Input() figurines: FigurinePoint[] = [];
+  @Input() figurinesPoints: FigurinePoint[] = [];
   @Input() setMarker: boolean = false;
   @Input() mapLegend: MapLegend[] = [];
 
@@ -39,11 +39,10 @@ export class MapComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initMap();
-    this.addFigurinePlaceMarkers() ;
+    this.addFigurinePlaceMarkers(this.figurinesPoints) ;
   }
 
   private initMap(): void {
-
    this.map = L.map('map', {
       //center: [  46.485412,11.4767963],
       center: [46.438832, 12.389904],
@@ -73,7 +72,7 @@ export class MapComponent implements AfterViewInit {
 
     this.geocoder.addTo(this.map);
     
-    if(this.figurines.length>0){
+    if(this.figurinesPoints.length>0){
       this.addMapLegend();
     }
 
@@ -122,10 +121,11 @@ export class MapComponent implements AfterViewInit {
     return customIcon;
   }
 
-  addFigurinePlaceMarkers(): void {
-    if(this.figurines!.length > 0){
+  addFigurinePlaceMarkers(figurines: FigurinePoint[]): void {
+    this.markerClusterGroup?.clearLayers();
+    if(figurines!.length > 0){
       
-      for(let f of this.figurines!){
+      for(let f of figurines!){
         const customIcon = this.getCustomIcon(f.icon);
 
         const marker = L.marker([f.lat, f.lng],{icon: customIcon});
@@ -148,8 +148,7 @@ export class MapComponent implements AfterViewInit {
 
     var div = L.DomUtil.create('div', 'fig-map-legend')
 
-
-            div.innerHTML =
+        div.innerHTML =
             '<i style="background:red"></i><span style="float:left"> HA&nbsp;&nbsp;&nbsp;</span><i style="background:black"></i><span> LT</span> <hr>';
            
         // loop through our density intervals and generate a label with a colored square for each interval
