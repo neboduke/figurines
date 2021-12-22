@@ -43,8 +43,8 @@
 					<ul class="dropdown-menu " aria-labelledby="dropdownMenuClickableInside">
 					<li><!-- white-space: nowrap;-->
 						<ul class="list-group">
-							<li class="list-group-item" style="white-space: nowrap;" *ngFor="let m of motifs"  >
-								<input class="form-check-input me-1" type="checkbox" value="{{m.motifId}}" aria-label="..."  (click)="onMotif($event)">
+							<li class="list-group-item" style="white-space: nowrap;" *ngFor="let m of motifs;index as i"  >
+								<input class="form-check-input me-1" type="checkbox" value="{{doPotenz(i)}}" aria-label="..."  (click)="onMotif($event)">
 								{{m.title}}
 							</li>
 							
@@ -60,8 +60,8 @@
 					<ul class="dropdown-menu " aria-labelledby="dropdownMenuClickableInside">
 					<li>
 						<ul class="list-group">
-							<li class="list-group-item" style="white-space: nowrap;" *ngFor="let cx of contextes"  >
-								<input class="form-check-input me-1" type="checkbox" value="{{cx.contextId}}" aria-label="..."  (click)="onContext($event)">
+							<li class="list-group-item" style="white-space: nowrap;" *ngFor="let cx of contextes;index as i"  >
+								<input class="form-check-input me-1" type="checkbox" value="{{doPotenz(i)}}" aria-label="..."  (click)="onContext($event)">
 								{{cx.title}}
 							</li>
 							

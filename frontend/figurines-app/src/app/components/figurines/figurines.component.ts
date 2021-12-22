@@ -253,6 +253,18 @@ export class FigurinesComponent implements OnInit {
 
   }
 
+  private useFilter():void{
+    let chFig: Figurine[] = Array.from(this.figurinesSetFiltered)
+    .filter( ch =>{
+      
+      const index = this.chronologyMap!.get(ch.chronology!.chronologyId)
+      let pot: number = Math.pow(2,index!);
+      if(( pot &= this.countChronology )){
+      return ch}else{return ''}
+    });
+
+  }
+
   doPotenz(p:number):number{
     return Math.pow(2,p);
   }
@@ -271,14 +283,7 @@ export class FigurinesComponent implements OnInit {
       this.countChronology = this.countChronology - cid;
     }
 
-    let chFig: Figurine[] = Array.from(this.figurinesSetFiltered)
-                    .filter( ch =>{
-                      
-                      const index = this.chronologyMap!.get(ch.chronology!.chronologyId)
-                      let pot: number = Math.pow(2,index!);
-                      if(( pot &= this.countChronology )){
-                      return ch}else{return ''}
-                    });
+    
   }
 
   /*
@@ -286,7 +291,14 @@ export class FigurinesComponent implements OnInit {
 
   */
   onContext(e:any): void{
-    
+    let cid:number = e.target.value;
+    let checked: boolean = e.target.checked;
+
+    if(checked){
+      this.countContext = +this.countContext + +cid ;
+    }else{
+      this.countContext = this.countContext - cid;
+    }
   }
 
   /*
@@ -294,7 +306,14 @@ export class FigurinesComponent implements OnInit {
 
   */
   onMotif(e:any): void{
-    
+    let cid:number = e.target.value;
+    let checked: boolean = e.target.checked;
+
+    if(checked){
+      this.countMotif = +this.countMotif + +cid ;
+    }else{
+      this.countMotif = this.countMotif - cid;
+    }
   }
 
 }
