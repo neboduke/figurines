@@ -31,10 +31,12 @@ export class FigurinesComponent implements OnInit {
   points: FigurinePoint[] = [];
   mapLegend: MapLegend[] = [];
   contextes: Context[] = [];
+  contextMap= new Map<number, number>() ;
   figurinesSetFiltered = new Set<Figurine>();
 
   countries: Country[] = [];
   motifs: Motif[] = [];
+  motifMap= new Map<number, number>() ;
   chronologies: Chronology[] = [];
   chronologyMap= new Map<number, number>() ;
 
@@ -108,12 +110,18 @@ export class FigurinesComponent implements OnInit {
       this.motifService.getMotifs().subscribe(
           responseData => {
               this.motifs = responseData;
+              this.mapMotifs();
               
           },
           (error: HttpErrorResponse) => {
               alert(error.message)
           }
       );
+    }
+    private mapMotifs():void{
+      for(let i=0; i<  this.motifs.length; i++){
+        this.motifMap?.set(this.motifs[i].motifId!,i)
+      }
     }
     private getChronologies():void{
       this.chronologyService.getChronologies().subscribe(
@@ -136,11 +144,17 @@ export class FigurinesComponent implements OnInit {
       this.contextService.getContext().subscribe(
           responseData => {
               this.contextes = responseData;
+              this.mapContext();
           },
           (error: HttpErrorResponse) => {
               alert(error.message)
           }
       );
+    }
+    private mapContext():void{
+      for(let i=0; i<  this.contextes.length; i++){
+        this.contextMap?.set(this.contextes[i].contextId!,i)
+      }
     }
   
     /*--- END---*/
