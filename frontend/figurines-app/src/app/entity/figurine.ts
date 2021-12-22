@@ -27,4 +27,5 @@ export class Figurine {
     images: Image[] = [];
     imageUrl: string | undefined;
     motif: Motif | undefined;
+    show: boolean = true;
 }

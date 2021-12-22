@@ -19,16 +19,16 @@
 
 		<div class="row">
 			<div class="col-sm-4 mb-3">
-				<div class="btn-group">
+				<div class="btn-group" style="margin: 0 20px 0 0">
 					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 					Datierung
 					</button>
-					<ul class="dropdown-menu " aria-labelledby="dropdownMenuClickableInside">
+					<ul class="dropdown-menu " aria-labelledby="dropdownMenuClickableInside" style="z-index:10000;" >
 					<li>
 						<ul class="list-group">
-							<li class="list-group-item">
-							<input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-							First checkbox
+							<li  class="list-group-item" style="white-space: nowrap;"  *ngFor="let c of chronologies;index as i"  >
+								<input class="form-check-input me-1" type="checkbox" value="{{doPotenz(i)}}" aria-label="..." (change)="onChronology($event)">
+								{{c.name}}
 							</li>
 							
 						</ul>
@@ -36,16 +36,16 @@
 					</ul>
 				</div>
 			
-				<div class="btn-group">
+				<div class="btn-group" style="margin: 0 20px 0 0">
 					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 					Motiv
 					</button>
 					<ul class="dropdown-menu " aria-labelledby="dropdownMenuClickableInside">
 					<li><!-- white-space: nowrap;-->
 						<ul class="list-group">
-							<li class="list-group-item">
-							<input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-							First checkbox
+							<li class="list-group-item" style="white-space: nowrap;" *ngFor="let m of motifs"  >
+								<input class="form-check-input me-1" type="checkbox" value="{{m.motifId}}" aria-label="..."  (click)="onMotif($event)">
+								{{m.title}}
 							</li>
 							
 						</ul>
@@ -53,16 +53,16 @@
 					</ul>
 				</div>
 			
-				<div class="btn-group">
+				<div class="btn-group" style="margin: 0 20px 0 0">
 					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 					Kontext
 					</button>
 					<ul class="dropdown-menu " aria-labelledby="dropdownMenuClickableInside">
 					<li>
 						<ul class="list-group">
-							<li class="list-group-item">
-							<input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
-							First checkbox
+							<li class="list-group-item" style="white-space: nowrap;" *ngFor="let cx of contextes"  >
+								<input class="form-check-input me-1" type="checkbox" value="{{cx.contextId}}" aria-label="..."  (click)="onContext($event)">
+								{{cx.title}}
 							</li>
 							
 						</ul>
@@ -92,7 +92,7 @@
 	
 	<div class="row row-cols-1 row-cols-md-4 g-4">
 		<div class="col" *ngFor="let f of figurinesSetFiltered">
-			<div class="lc-block bg-white rounded shadow card h-100">
+			<div class="lc-block bg-white rounded shadow card h-100" *ngIf="f.show">
 				<a class="image-link" [routerLink]="['/figurine',f.figurineId]">
 					<img *ngIf="f.images[0]" [src]="imageBaseUrl + f.images[0]?.imagePath + f.images[0]?.imageTitle"   height="200">
 				</a>
