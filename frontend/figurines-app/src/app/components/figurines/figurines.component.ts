@@ -220,6 +220,7 @@ export class FigurinesComponent implements OnInit {
     let arr:Figurine[][] = searchItems.map(s =>{
       return this.figurines
       .filter(f => (
+        f.title?.includes(s) ||
         f.materialDescription?.includes(s) || 
         f.descriptionIconography?.includes(s) || 
         f.descriptionIconology?.includes(s) ||
@@ -253,17 +254,6 @@ export class FigurinesComponent implements OnInit {
 
   }
 
-  private useFilter():void{
-    let chFig: Figurine[] = Array.from(this.figurinesSetFiltered)
-    .filter( ch =>{
-      
-      const index = this.chronologyMap!.get(ch.chronology!.chronologyId)
-      let pot: number = Math.pow(2,index!);
-      if(( pot &= this.countChronology )){
-      return ch}else{return ''}
-    });
-
-  }
 
   doPotenz(p:number):number{
     return Math.pow(2,p);
@@ -283,7 +273,7 @@ export class FigurinesComponent implements OnInit {
       this.countChronology = this.countChronology - cid;
     }
 
-    
+    this.useFilter();
   }
 
   /*
@@ -299,6 +289,7 @@ export class FigurinesComponent implements OnInit {
     }else{
       this.countContext = this.countContext - cid;
     }
+    this.useFilter();
   }
 
   /*
@@ -314,6 +305,24 @@ export class FigurinesComponent implements OnInit {
     }else{
       this.countMotif = this.countMotif - cid;
     }
+    this.useFilter();
+  }
+
+  private useFilter():void{
+    let chFig: Figurine[] = Array.from(this.figurinesSetFiltered)
+    .filter( f =>{
+      
+      const indexChronology = this.chronologyMap!.get(f.chronology!.chronologyId);
+      const indexContext = this.contextMap!.get(f.context!.contextId!);
+      const indexMotif = this.motifMap!.get(f.motif!.motifId!);
+      let potChronology: number = Math.pow(2,indexChronology!);
+      let potContext: number = Math.pow(2,indexContext!);
+      let potMotif: number = Math.pow(2,indexMotif!);
+      return ((this.countChronology==0?true:(potChronology &= this.countChronology)) ) 
+      && ((this.countContext==0?true:(potContext &= this.countContext))
+      && ((this.countMotif==0)?true:(potMotif &= this.countMotif)))
+    });
+
   }
 
 }
