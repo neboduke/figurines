@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `archaeodb_figurines` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `archaeodb_figurines`;
 -- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
 --
 -- Host: localhost    Database: archaeodb_figurines
@@ -53,7 +55,7 @@ CREATE TABLE `chronology` (
   `year_from` int DEFAULT NULL,
   `year_to` int DEFAULT NULL,
   PRIMARY KEY (`chronology_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +64,7 @@ CREATE TABLE `chronology` (
 
 LOCK TABLES `chronology` WRITE;
 /*!40000 ALTER TABLE `chronology` DISABLE KEYS */;
-INSERT INTO `chronology` VALUES (1,'LT A',450,380),(2,'LT B',380,250),(3,'LT C',250,150),(4,'LT D',150,15),(5,'Ha C',778,620),(6,'Ha D1',621,550),(7,'Ha D2',550,510),(8,'Ha D3',510,450),(12,'Este II',342,NULL),(13,'Este I',34,45),(15,'Javorani I',720,652),(17,'Javorani II',650,580),(20,'julis',2005,2121),(21,'Zetwas',NULL,NULL);
+INSERT INTO `chronology` VALUES (1,'LT A',450,380),(2,'LT B',380,250),(3,'LT C',250,150),(4,'LT D',150,15),(5,'Ha C',778,620),(6,'Ha D1',621,550),(7,'Ha D2',550,510),(8,'Ha D3',510,450),(12,'Este II',342,NULL),(13,'Este I',34,45),(15,'Javorani I',720,652),(17,'Javorani II',650,580);
 /*!40000 ALTER TABLE `chronology` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,6 +92,30 @@ LOCK TABLES `chronology_parallel` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `context`
+--
+
+DROP TABLE IF EXISTS `context`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `context` (
+  `context_id` int NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`context_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `context`
+--
+
+LOCK TABLES `context` WRITE;
+/*!40000 ALTER TABLE `context` DISABLE KEYS */;
+INSERT INTO `context` VALUES (1,'Unbekannt'),(2,'Grab'),(3,'Siedlung'),(4,'Heiligtum'),(5,'Depot'),(6,'Wasser'),(7,'Moor');
+/*!40000 ALTER TABLE `context` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `country`
 --
 
@@ -103,7 +129,7 @@ CREATE TABLE `country` (
   `coordinate_lat` varchar(255) DEFAULT NULL,
   `coordinate_lng` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`country_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -112,7 +138,7 @@ CREATE TABLE `country` (
 
 LOCK TABLES `country` WRITE;
 /*!40000 ALTER TABLE `country` DISABLE KEYS */;
-INSERT INTO `country` VALUES (1,'Tirol / AT',NULL,NULL,NULL),(2,'Vorarlberg / AT',NULL,NULL,NULL),(3,'Schweiz',NULL,NULL,NULL),(4,'Südtirol / IT',NULL,NULL,NULL),(5,'Trentino / IT',NULL,NULL,NULL),(6,'Italien',NULL,NULL,NULL),(7,'Salzburg / AT',NULL,NULL,NULL),(8,'Kärnten / AT',NULL,NULL,NULL),(9,'Steiermark / AT',NULL,NULL,NULL);
+INSERT INTO `country` VALUES (1,'Tirol / AT',NULL,NULL,NULL),(2,'Vorarlberg / AT',NULL,NULL,NULL),(3,'Schweiz',NULL,NULL,NULL),(4,'Südtirol / IT',NULL,NULL,NULL),(5,'Trentino / IT',NULL,NULL,NULL),(6,'Italien',NULL,NULL,NULL),(7,'Salzburg / AT',NULL,NULL,NULL),(8,'Kärnten / AT',NULL,NULL,NULL),(9,'Steiermark / AT',NULL,NULL,NULL),(10,'Liechtenstein',NULL,NULL,NULL),(11,'Slowenien',NULL,NULL,NULL),(12,'Veneto / IT',NULL,NULL,NULL),(13,'Frankreich',NULL,NULL,NULL),(14,'Deutchland',NULL,NULL,NULL),(15,'Oberösterreich / AT',NULL,NULL,NULL),(16,'Niederösterreich / AT',NULL,NULL,NULL),(17,'Burgenland / AT',NULL,NULL,NULL),(18,'Steiermark / AT',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `country` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,16 +162,28 @@ CREATE TABLE `figurine` (
   `carrier_id` int NOT NULL,
   `location_id` int NOT NULL,
   `exibit_location_id` int DEFAULT NULL,
+  `motif_id` int DEFAULT NULL,
+  `image_url` varchar(500) DEFAULT NULL,
+  `context_id` int DEFAULT NULL,
   PRIMARY KEY (`figurine_id`),
   KEY `fk_chronology_idx_idx` (`chronology_id`),
   KEY `fk_carrier_idx_idx` (`carrier_id`),
   KEY `fk_location_idx` (`location_id`),
   KEY `fk_exibit_location_idx` (`exibit_location_id`),
+  KEY `fk_motif_idx` (`motif_id`),
+  KEY `FKehsttid5dnaprwaxyvfxiw006` (`context_id`),
+  CONSTRAINT `FK2q52tep7t3wk471d0ayrlk1cg` FOREIGN KEY (`motif_id`) REFERENCES `motif` (`motif_id`),
+  CONSTRAINT `FK84qhro87tkh80ukd5x87r8391` FOREIGN KEY (`exibit_location_id`) REFERENCES `location` (`location_id`),
   CONSTRAINT `fk_carrier_idx` FOREIGN KEY (`carrier_id`) REFERENCES `carrier` (`carrier_id`),
   CONSTRAINT `fk_chronology_idx` FOREIGN KEY (`chronology_id`) REFERENCES `chronology` (`chronology_id`) ON UPDATE CASCADE,
   CONSTRAINT `fk_exibit_location` FOREIGN KEY (`exibit_location_id`) REFERENCES `location` (`location_id`),
-  CONSTRAINT `fk_location` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_location` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`),
+  CONSTRAINT `fk_motif` FOREIGN KEY (`motif_id`) REFERENCES `motif` (`motif_id`) ON UPDATE CASCADE,
+  CONSTRAINT `FKehsttid5dnaprwaxyvfxiw006` FOREIGN KEY (`context_id`) REFERENCES `context` (`context_id`),
+  CONSTRAINT `FKlpbjf0tb2svt7a3q5kr38f0b7` FOREIGN KEY (`chronology_id`) REFERENCES `chronology` (`chronology_id`),
+  CONSTRAINT `FKmbcjt1tl4de71envvusb8j9a0` FOREIGN KEY (`carrier_id`) REFERENCES `carrier` (`carrier_id`),
+  CONSTRAINT `FKp959uqpxhif4cjkncjnso78o6` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -154,7 +192,7 @@ CREATE TABLE `figurine` (
 
 LOCK TABLES `figurine` WRITE;
 /*!40000 ALTER TABLE `figurine` DISABLE KEYS */;
-INSERT INTO `figurine` VALUES (1,'Sänger aus Oberhofen','ikonologie','ikonografie',3,'4567','123','description of material','sänger horn trinker figur',1,2,1),(2,'Krieger aus Oberhofen',NULL,'Figur einer Person mit einem Neaguer Helm am Kopf. In der rechten Hand hält sie ein ovales Objekt das als eine Maske oder als ein Kopf assoziert wird. ',3,NULL,'321','bronze','krieger maske figur',2,1,NULL);
+INSERT INTO `figurine` VALUES (1,'Sänger aus Oberhofen','ikonologie','ikonografie',3,'4567','123','description of material','sänger horn trinker figur',1,2,NULL,10,NULL,3),(2,'Krieger aus Oberhofen','Ikonologische Beschreibung ist nicht vorhanden da keine schriftliche Hinterlassenschaften vorhanden. Warum aber die Maske : wei\'ls dem so ist..','Figur einer Person mit einem Neaguer Helm am Kopf. In der rechten Hand hält sie ein ovales Objekt das als eine Maske oder als ein Kopf assoziert wird. ',3,NULL,'321','bronze','krieger | maske | figur | negauerhelm ',2,1,NULL,1,NULL,1),(39,'Herkules',NULL,NULL,4,NULL,NULL,NULL,'herkules | krieger',4,8,NULL,7,NULL,2),(41,'Jupiter',NULL,NULL,2,NULL,NULL,NULL,NULL,4,29,NULL,2,NULL,4),(44,'Kouros von Pillersattel','','',8,'','','','kouros | ertursker | pillersattel | heiligtum | brandopferplatz ',4,43,NULL,12,'https://sketchfab.com/models/4106b97a905f4dca886dff772ec21539/embed',4),(52,'Krieger aus Leisach',NULL,NULL,4,NULL,NULL,NULL,'krieger',4,29,NULL,1,NULL,4),(55,'Mars von Guttenberg',NULL,NULL,3,NULL,NULL,NULL,'Negauerhelm | Lanze | Brustpanzer | Krieger',4,54,NULL,1,NULL,4),(58,'Adorant von Pillersattel','','',1,'','','','adorant | kreisaugen | dekoration | pillersattel |',4,43,NULL,11,'https://sketchfab.com/models/48c15516feb84cf38d7d1055b5f72d67/embed',4),(70,'Musiker aus Idrija','','',3,'','','','musiker | negauerhelm | kleid | armreifen | fußreifen',4,69,NULL,10,'https://sketchfab.com/models/22510ac9e6764a87bc00cb502242938e/embed',5);
 /*!40000 ALTER TABLE `figurine` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,7 +210,9 @@ CREATE TABLE `figurine_literature` (
   KEY `pk_fl_figurine_literature_idx` (`figurine_id`,`literature_id`),
   KEY `fk_fl_literatur_idx` (`literature_id`),
   CONSTRAINT `fk_fl_figurine` FOREIGN KEY (`figurine_id`) REFERENCES `figurine` (`figurine_id`),
-  CONSTRAINT `fk_fl_literatur` FOREIGN KEY (`literature_id`) REFERENCES `literature` (`literature_id`)
+  CONSTRAINT `fk_fl_literatur` FOREIGN KEY (`literature_id`) REFERENCES `literature` (`literature_id`),
+  CONSTRAINT `FKn9evxwf9jw9devm3iv4aknf9r` FOREIGN KEY (`literature_id`) REFERENCES `literature` (`literature_id`),
+  CONSTRAINT `FKrw6xg2m247h3a1i6uhg2jnvrd` FOREIGN KEY (`figurine_id`) REFERENCES `figurine` (`figurine_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -182,7 +222,7 @@ CREATE TABLE `figurine_literature` (
 
 LOCK TABLES `figurine_literature` WRITE;
 /*!40000 ALTER TABLE `figurine_literature` DISABLE KEYS */;
-INSERT INTO `figurine_literature` VALUES (1,1),(2,2);
+INSERT INTO `figurine_literature` VALUES (1,1),(2,2),(39,3),(52,24);
 /*!40000 ALTER TABLE `figurine_literature` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,8 +239,10 @@ CREATE TABLE `figurine_material` (
   PRIMARY KEY (`figurine_id`,`material_id`),
   KEY `pk_fm_embedded` (`figurine_id`,`material_id`),
   KEY `fk_figmat_material_idx` (`material_id`) /*!80000 INVISIBLE */,
+  CONSTRAINT `FK68h13gftdom45uwjo1e817rxs` FOREIGN KEY (`figurine_id`) REFERENCES `figurine` (`figurine_id`),
   CONSTRAINT `fk_figmat_figurine` FOREIGN KEY (`figurine_id`) REFERENCES `figurine` (`figurine_id`),
-  CONSTRAINT `fk_figmat_material` FOREIGN KEY (`material_id`) REFERENCES `material` (`material_id`)
+  CONSTRAINT `fk_figmat_material` FOREIGN KEY (`material_id`) REFERENCES `material` (`material_id`),
+  CONSTRAINT `FKgy2rq4xm3h7mlvk93w2w7e0f` FOREIGN KEY (`material_id`) REFERENCES `material` (`material_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -210,7 +252,7 @@ CREATE TABLE `figurine_material` (
 
 LOCK TABLES `figurine_material` WRITE;
 /*!40000 ALTER TABLE `figurine_material` DISABLE KEYS */;
-INSERT INTO `figurine_material` VALUES (1,1),(1,2),(1,8),(2,2);
+INSERT INTO `figurine_material` VALUES (1,1),(1,2),(2,8),(39,2),(41,2),(44,2),(52,2),(55,2),(58,2),(70,2);
 /*!40000 ALTER TABLE `figurine_material` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -232,8 +274,37 @@ CREATE TABLE `hibernate_sequence` (
 
 LOCK TABLES `hibernate_sequence` WRITE;
 /*!40000 ALTER TABLE `hibernate_sequence` DISABLE KEYS */;
-INSERT INTO `hibernate_sequence` VALUES (2);
+INSERT INTO `hibernate_sequence` VALUES (91),(1),(1),(1),(1);
 /*!40000 ALTER TABLE `hibernate_sequence` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `image`
+--
+
+DROP TABLE IF EXISTS `image`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `image` (
+  `image_id` int NOT NULL,
+  `image_base64` longtext,
+  `image_path` varchar(300) DEFAULT NULL,
+  `image_title` varchar(255) DEFAULT NULL,
+  `figurine_id` int DEFAULT NULL,
+  PRIMARY KEY (`image_id`),
+  KEY `FKbcepiy86l4ke2xml0bh88l2n1` (`figurine_id`),
+  CONSTRAINT `FKbcepiy86l4ke2xml0bh88l2n1` FOREIGN KEY (`figurine_id`) REFERENCES `figurine` (`figurine_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `image`
+--
+
+LOCK TABLES `image` WRITE;
+/*!40000 ALTER TABLE `image` DISABLE KEYS */;
+INSERT INTO `image` VALUES (57,NULL,'/images/','gutenberg-mars.jpg',55),(73,NULL,'/images/','idrija.png',70),(75,'','/images/','sänger.png',1),(78,NULL,'/images/','kouros_f_ps.jpg',44),(82,NULL,'/images/','jupiter-klosterfrauenbichl.jpg',41),(84,NULL,'/images/','herkules-sanzeno.png',39),(87,NULL,'/images/','waschl.jpg',52),(88,'','/images/','oberhofen.jpg',2),(90,NULL,'/images/','adorant_f_ps.jpg',58);
+/*!40000 ALTER TABLE `image` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -272,10 +343,12 @@ CREATE TABLE `literature` (
   `isin` varchar(100) DEFAULT NULL,
   `citation` varchar(1500) DEFAULT NULL,
   `parent_id` int DEFAULT NULL,
+  `author` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`literature_id`),
   KEY `fk_l_parent_idx` (`parent_id`),
-  CONSTRAINT `fk_l_parent` FOREIGN KEY (`parent_id`) REFERENCES `literature` (`literature_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_l_parent` FOREIGN KEY (`parent_id`) REFERENCES `literature` (`literature_id`),
+  CONSTRAINT `FKt78cw6ofhv0rt3j8o4v8mvr91` FOREIGN KEY (`parent_id`) REFERENCES `literature` (`literature_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -284,7 +357,7 @@ CREATE TABLE `literature` (
 
 LOCK TABLES `literature` WRITE;
 /*!40000 ALTER TABLE `literature` DISABLE KEYS */;
-INSERT INTO `literature` VALUES (1,'Neuer Fund aus Oberhofen / Tirol',NULL,NULL,3),(2,'Ein weiterer Fund aus Oberhofen in Tirol',NULL,NULL,3),(3,'Funde aus Tirol',NULL,NULL,NULL);
+INSERT INTO `literature` VALUES (1,'Neuer Fund aus Oberhofen / Tirol',NULL,NULL,3,'N. Đukanović'),(2,'Ein weiterer Fund aus Oberhofen in Tirol',NULL,NULL,3,'Gerhard Tomedi'),(3,'Funde aus Tirol',NULL,NULL,NULL,'Gerhard Tomedi'),(24,'Der jugendliche Jupiter aus dem Heiligtum in Lienz','','',NULL,'Barbara Kainrath'),(25,'Figürliche Bronzen aus Tirol','','',NULL,'Elisabeth Walde-Psenner'),(26,'Brandopferplatz am Pillersattel ober Fließ','112233445','',NULL,'W. von Sydow');
 /*!40000 ALTER TABLE `literature` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -304,10 +377,12 @@ CREATE TABLE `location` (
   `country_id` int DEFAULT NULL,
   `coordinate_lat` varchar(255) DEFAULT NULL,
   `coordinate_lng` varchar(255) DEFAULT NULL,
+  `location_type` int DEFAULT '1',
   PRIMARY KEY (`location_id`),
   KEY `fk_location_country_idx` (`country_id`),
-  CONSTRAINT `fk_location_country` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_location_country` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`),
+  CONSTRAINT `FKn5m6ve3ryy2r25qvisdrg0aos` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -316,7 +391,7 @@ CREATE TABLE `location` (
 
 LOCK TABLES `location` WRITE;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
-INSERT INTO `location` VALUES (1,'Acker',NULL,'Oberhofen',NULL,1,NULL,NULL),(2,'Wald',NULL,'Oberhofen',NULL,4,NULL,NULL);
+INSERT INTO `location` VALUES (1,'Acker','fghfgh','Oberhofen','2452645',1,'47.30292321322043','11.100096702575685',1),(2,'Wald','','Oberhofen','',1,'47.30444','11.09480',1),(8,'Sanzeno','','Sanzeno','',5,'46.369172','11.080070',1),(29,'Frauenbichl','','Leisach','',1,'46.820653','12.753148',1),(43,'Pillersattel','','Fliess','',1,'47.116220','10.668557',1),(54,'Guttenberg','','Liechtenstein','',10,'47.065313576250446','9.500179505979437',1),(69,'Idrija','','Idrija ob Bači','',11,'46.000693','14.018495',1),(85,'Kröllkogel','','Kleinklein','',9,'46.743077265698496','15.427945554256441',1);
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -369,26 +444,27 @@ INSERT INTO `material` VALUES (1,'Bein'),(2,'Bronze'),(8,'Eisen'),(9,'Holz'),(10
 UNLOCK TABLES;
 
 --
--- Table structure for table `motif_type`
+-- Table structure for table `motif`
 --
 
-DROP TABLE IF EXISTS `motif_type`;
+DROP TABLE IF EXISTS `motif`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `motif_type` (
-  `motifTypeId` int NOT NULL,
+CREATE TABLE `motif` (
+  `motif_id` int NOT NULL,
   `title` varchar(500) NOT NULL,
-  PRIMARY KEY (`motifTypeId`)
+  PRIMARY KEY (`motif_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `motif_type`
+-- Dumping data for table `motif`
 --
 
-LOCK TABLES `motif_type` WRITE;
-/*!40000 ALTER TABLE `motif_type` DISABLE KEYS */;
-/*!40000 ALTER TABLE `motif_type` ENABLE KEYS */;
+LOCK TABLES `motif` WRITE;
+/*!40000 ALTER TABLE `motif` DISABLE KEYS */;
+INSERT INTO `motif` VALUES (1,'Krieger'),(2,'Gottheit'),(3,'Fabeltier'),(4,'Vogel'),(5,'Stier'),(6,'Pferd'),(7,'Herkules'),(8,'Boxer'),(9,'Wagenlenker'),(10,'Musiker'),(11,'Adorant'),(12,'Mann'),(13,'Frau'),(14,'Reiter'),(15,'Widder'),(16,'Hirsch');
+/*!40000 ALTER TABLE `motif` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -400,4 +476,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-17 21:44:00
+-- Dump completed on 2021-12-25 17:55:30
