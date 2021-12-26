@@ -2,7 +2,23 @@
 	<form [formGroup]="searchForm" class="contact-form form-validate" novalidate="novalidate">
 		<div class="row">
 			
-				<label class="required-field" for="title">Suche</label>
+				<div>
+					<div><label class="required-field" for="title">Suchbegriffe: </label></div>
+					<div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" formControlName="searchType" id="und" [value]=1>
+							<label class="form-check-label" for="und">
+							  und
+							</label>
+						  </div>
+						  <div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" formControlName="searchType" id="oder" [value]=2>
+							<label class="form-check-label" for="oder">
+							  oder
+							</label>
+						  </div>
+					</div>
+				</div>
 				<div class="col-sm-12 mb-3">
 				<div class="form-group col-sm-11" style="text-align:right;float:left;">
 					

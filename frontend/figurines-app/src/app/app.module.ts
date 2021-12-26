@@ -20,7 +20,7 @@ import { SortableDirective } from './directives/sortable.directive';
 import { LocationComponent } from './components/location/location.component';
 import { LocationModalComponent } from './components/location/location-modal/location-modal.component';
 import { CountryComponent } from './components/country/country.component';
-import { LiteratureService } from './services/literature.service';{}
+import { LiteratureService } from './services/literature.service';
 import { LiteratureComponent } from './components/literature/literature.component';
 import { LiteratureModalComponent } from './components/literature/literature-modal/literature-modal.component';
 import { FigurineEditComponent } from './components/figurines/figurine/figurine-edit/figurine-edit.component';
@@ -29,6 +29,7 @@ import { FileUploadComponent } from './components/file-upload/file-upload.compon
 import { MapComponent } from './components/map/map.component';
 import { SkechfabComponent } from './components/skechfab/skechfab.component';
 import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
+import { NavbarComponent } from './common/navbar/navbar.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluste
     FigurineComponent,
     FileUploadComponent,
     MapComponent,
-    SkechfabComponent
+    SkechfabComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
