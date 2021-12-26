@@ -32,6 +32,7 @@ export class FigurinesComponent implements OnInit {
   mapLegend: MapLegend[] = [];
   contextes: Context[] = [];
   contextMap= new Map<number, number>() ;
+  figurinesSetSearched = new Set<Figurine>();
   figurinesSetFiltered = new Set<Figurine>();
 
   countries: Country[] = [];
@@ -216,7 +217,8 @@ export class FigurinesComponent implements OnInit {
   private searchFigurineForString(searchString: string): void {  //Figurine[][]
    
     let searchItems:string[] = searchString.split(' ');
-    this.figurinesSetFiltered.clear();
+    this.figurinesSetSearched.clear();
+   
     let arr:Figurine[][] = searchItems.map(s =>{
       return this.figurines
       .filter(f => (
@@ -230,18 +232,24 @@ export class FigurinesComponent implements OnInit {
     
     for(let i=0; i< arr.length;i++){
         for(let a of arr[i]){
+          this.figurinesSetSearched.add(a)
           this.figurinesSetFiltered.add(a);
         }
     }
+    this.useFilter()
+
+  }
+
+  private doFinishViewObjects(arr?:Figurine[]):void {
     
-    this.filterFigurines();
+    //this.filterFigurines();
 
     this.filterPoints (Array.from(this.figurinesSetFiltered));
     this.figurinesMap.addFigurinePlaceMarkers(this.points);
-    
   }
 
-  private filterFigurines(): void{
+
+  private filterFigurines(arr?:Figurine[]): void{
     this.setVisible(false);
 
     for(let f of this.figurines){
@@ -309,7 +317,7 @@ export class FigurinesComponent implements OnInit {
   }
 
   private useFilter():void{
-    let chFig: Figurine[] = Array.from(this.figurinesSetFiltered)
+    let filteredFigurines: Figurine[] = Array.from(this.figurinesSetSearched)
     .filter( f =>{
       
       const indexChronology = this.chronologyMap!.get(f.chronology!.chronologyId);
@@ -322,6 +330,12 @@ export class FigurinesComponent implements OnInit {
       && ((this.countContext==0?true:(potContext &= this.countContext))
       && ((this.countMotif==0)?true:(potMotif &= this.countMotif)))
     });
+    this.figurinesSetFiltered.clear();
+    for(let f of filteredFigurines){
+      this.figurinesSetFiltered.add(f);
+    }
+
+    this.doFinishViewObjects();
 
   }
 
