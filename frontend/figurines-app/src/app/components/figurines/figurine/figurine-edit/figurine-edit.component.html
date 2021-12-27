@@ -214,44 +214,46 @@
 
 
                 <div class="row">
-                    <div class="col-sm-6 mb-3">
-                    <!-- HTML markup for Create button -->
-                    <button
-                        (click)="onAddFigurine()"
-                        class="btn btn-primary w-20"
-                        type="submit"
-                        [disabled]="figurineForm?.invalid || !isAddNew"
-                        *ngIf="this.isAddNew"
-                    >
-                        <span translate><i class="fas fa-plus"></i> Hinzufügen</span>
-                    </button>
-                    <!-- HTML markup for Update button -->
-                    <button
-                        (click)="onEditFigurine(figurineForm.value)"
-                        class="btn btn-primary w-20"
-                        type="submit"
-                        [disabled]="figurineForm?.invalid || isAddNew"
-                        *ngIf="!this.isAddNew"
-                        style="margin-right:15px"
-                    >
-                        <span translate><i class="fas fa-edit"></i> Speichern</span>
-                    </button>
-                    <!-- HTML markup for Delete button -->
-                    <button
-                        (click)="onRemoveFigurine()"
-                        class="btn btn-danger w-20"
-                        type="submit"
-                        [disabled]="figurineForm?.invalid || isAddNew"
-                        *ngIf="!this.isAddNew"
-                    >
-                        <span translate><i class="fas fa-trash-alt"></i> Löschen</span>
-                    </button>
-                    </div>
-                    <div class="col-sm-6 mb-3" style="text-align:right">
-                    <!-- HTML markup for Back button -->
-                    <button  class="btn btn-secondary w-20" type="submit">
-                        <span translate><i class="fa fa-arrow-left"></i> Abbrechen</span>
-                    </button>
+                    <div class="hstack gap-3">
+                        <div class="col-sm-6 mb-3 hstack gap-3">
+                            <!-- HTML markup for Create button -->
+                            <button
+                                (click)="onAddFigurine()"
+                                class="btn btn-primary w-20"
+                                type="submit"
+                                [disabled]="figurineForm?.invalid || !isAddNew"
+                                *ngIf="this.isAddNew"
+                            >
+                                <span translate><i class="fas fa-plus"></i> Hinzufügen</span>
+                            </button>
+                            <!-- HTML markup for Update button -->
+                            <button
+                                (click)="onEditFigurine(figurineForm.value)"
+                                class="btn btn-primary w-20"
+                                type="submit"
+                                [disabled]="figurineForm?.invalid || isAddNew"
+                                *ngIf="!this.isAddNew"
+                                style="margin-right:15px"
+                            >
+                                <span translate><i class="fas fa-edit"></i> Speichern</span>
+                            </button>
+                            <!-- HTML markup for Delete button -->
+                            <button
+                                (click)="onRemoveFigurine()"
+                                class="btn btn-danger w-20"
+                                type="submit"
+                                [disabled]="figurineForm?.invalid || isAddNew"
+                                *ngIf="!this.isAddNew"
+                            >
+                                <span translate><i class="fas fa-trash-alt"></i> Löschen</span>
+                            </button>
+                        </div>
+                        <div class="col-sm-6 mb-3 ms-auto" style="text-align:right" >
+                            <!-- HTML markup for Back button -->
+                            <button  class="btn btn-secondary w-20" type="submit">
+                                <span translate><i class="fa fa-arrow-left"></i> Abbrechen</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

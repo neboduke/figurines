@@ -2,7 +2,7 @@
 	<form [formGroup]="searchForm" class="contact-form form-validate" novalidate="novalidate">
 		<div class="row">
 			
-				<div>
+				<div class="hstack gap-3">
 					<div><label class="required-field" for="title">Suchbegriffe: </label></div>
 					<div>
 						<div class="form-check form-check-inline">
@@ -19,24 +19,27 @@
 						  </div>
 					</div>
 				</div>
-				<div class="col-sm-12 mb-3">
-				<div class="form-group col-sm-11" style="text-align:right;float:left;">
-					
-					<input type="text" class="form-control" formControlName="search" placeholder="Suche nach:" (keyup.enter)="search()">
+				<div class="col-sm-12 mb-5 hstack gap-3">
+					<div class="form-group col-sm-10 me-auto" >
+						
+						<input type="text" class="form-control" formControlName="search" placeholder="Suche nach:" (keyup.enter)="search()">
+					</div>
+			
+					<div class="form-group ms-auto">
+						<button class="btn btn-sm btn-outline-primary" (click)="search()">Suche</button>
+					</div>
+					<div class="vr"></div>
+					<div>
+						<a class="btn btn-sm btn-outline-primary " [routerLink]="['/figurine/edit',-1]">Neu</a>
+					</div>
 				</div>
-		
-				<div class="form-group col-sm-1" style="text-align:right;float:right;">
-					
-					<button class="btn btn-sm btn-outline-primary" (click)="search()">Suche</button>
-				</div>
-			</div>
 			
 		</div>
 
 		<div class="row">
-			<div class="col-sm-4 mb-3">
+			<div class="col-sm-4 mb-3 hstack gap-3">
 				<div class="btn-group" style="margin: 0 20px 0 0">
-					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+					<button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 					Datierung
 					</button>
 					<ul class="dropdown-menu " aria-labelledby="dropdownMenuClickableInside" style="z-index:10000;" >
@@ -53,7 +56,7 @@
 				</div>
 			
 				<div class="btn-group" style="margin: 0 20px 0 0">
-					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+					<button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 					Motiv
 					</button>
 					<ul class="dropdown-menu " aria-labelledby="dropdownMenuClickableInside">
@@ -70,7 +73,7 @@
 				</div>
 			
 				<div class="btn-group" style="margin: 0 20px 0 0">
-					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+					<button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 					Kontext
 					</button>
 					<ul class="dropdown-menu " aria-labelledby="dropdownMenuClickableInside">
@@ -85,18 +88,13 @@
 					</li>
 					</ul>
 				</div>
+				<div >
+					<button class="btn btn-sm btn-outline-primary" (click)="acc.toggle('map')">Mappe</button>	
+				</div>
 			</div>
 		</div>
 	</form>
-    <div class="row">
-		<div class="col-sm-6 mb-3">
-			<button class="btn btn-sm btn-outline-primary" (click)="acc.toggle('map')">Mappe</button>
-			
-		</div>
-		<div class="col-sm-6 mb-3">
-			<a class="btn btn-outline-primary " href="#" role="button" [routerLink]="['/figurine/edit',-1]">Neu</a>
-		</div>
-	</div>
+    
 	<ngb-accordion #acc="ngbAccordion">
 		<ngb-panel id="map" >
 		  <ng-template ngbPanelContent>

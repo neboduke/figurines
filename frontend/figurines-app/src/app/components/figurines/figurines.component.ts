@@ -70,6 +70,7 @@ export class FigurinesComponent implements OnInit {
   private createForm() {
     this.searchForm = this.formBuilder.group({
       search: [''],
+      searchType: 1,
     });
   }
 
@@ -80,7 +81,7 @@ export class FigurinesComponent implements OnInit {
             this.figurines = responseData;
             //this.filterPoints(this.figurines);
             //this.setVisible(true);
-            this.searchFigurineForString("");
+            this.searchFigurineForString("",1);
             
         },
         (error: HttpErrorResponse) => {
@@ -204,7 +205,8 @@ export class FigurinesComponent implements OnInit {
 
   public search():void{
     let searchString:string = this.searchForm.get('search')?.value;
-    this.searchFigurineForString(searchString);
+    let searchType:number = this.searchForm?.get('searchType')?.value;
+    this.searchFigurineForString(searchString,searchType);
   }
 
 
@@ -214,30 +216,36 @@ export class FigurinesComponent implements OnInit {
     * searchString are one or more words, separated by ' '
     * 
   */
-  private searchFigurineForString(searchString: string): void {  //Figurine[][]
+  private searchFigurineForString(searchString: string, searchType: number): void {  //Figurine[][]
    
-    let searchItems:string[] = searchString.split(' ');
+    let searchItems:string[] = searchString.toLowerCase().split(' ');
     this.figurinesSetSearched.clear();
    
-    let arr:Figurine[][] = searchItems.map(s =>{
-      return this.figurines
-      .filter(f => (
-        f.title?.includes(s) ||
-        f.materialDescription?.includes(s) || 
-        f.descriptionIconography?.includes(s) || 
-        f.descriptionIconology?.includes(s) ||
-        f.keyword?.includes(s))
-      )
-    })
+    let arr:Figurine[][] = this.filterSearchItems(searchItems); 
     
     for(let i=0; i< arr.length;i++){
         for(let a of arr[i]){
-          this.figurinesSetSearched.add(a)
-          this.figurinesSetFiltered.add(a);
+          //if(searchType==1){
+            this.figurinesSetSearched.add(a)
+            this.figurinesSetFiltered.add(a);
+          /*}*/
         }
     }
     this.useFilter()
 
+  }
+
+  private filterSearchItems(searchItems: string[]): Figurine[][]{
+      return searchItems.map(s =>{
+        return this.figurines
+        .filter(f => (
+          f.title?.toLowerCase().includes(s) ||
+          f.materialDescription?.toLowerCase().includes(s) || 
+          f.descriptionIconography?.toLowerCase().includes(s) || 
+          f.descriptionIconology?.toLowerCase().includes(s) ||
+          f.keyword?.toLowerCase().includes(s))
+        )
+      })
   }
 
   private doFinishViewObjects(arr?:Figurine[]):void {
