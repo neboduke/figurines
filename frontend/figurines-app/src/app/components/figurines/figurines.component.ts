@@ -253,7 +253,9 @@ export class FigurinesComponent implements OnInit {
     //this.filterFigurines();
 
     this.filterPoints (Array.from(this.figurinesSetFiltered));
-    this.figurinesMap.addFigurinePlaceMarkers(this.points);
+    if(this.figurinesMap != null) {
+      this.figurinesMap.addFigurinePlaceMarkers(this.points);
+    }
   }
 
 
