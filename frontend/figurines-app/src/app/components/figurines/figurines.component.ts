@@ -70,7 +70,7 @@ export class FigurinesComponent implements OnInit {
   private createForm() {
     this.searchForm = this.formBuilder.group({
       search: [''],
-      searchType: 1,
+      searchType: false,
     });
   }
 
