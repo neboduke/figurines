@@ -12,7 +12,7 @@
 							<label ngbButtonLabel class="btn-primary-outline">
 							  <input ngbButton type="radio" [value]="false"> oder
 							</label>
-						  </div>
+						</div>
 					</div>
 				</div>
 				<div class="col-sm-12 mb-5 hstack gap-3">
@@ -34,55 +34,40 @@
 
 		<div class="row">
 			<div class="col-sm-4 mb-3 hstack gap-3">
-				<div class="btn-group" style="margin: 0 20px 0 0">
+				<div ngbDropdown  class="btn-group" style="margin: 0 20px 0 0">
 					<button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 					Datierung
 					</button>
-					<ul class="dropdown-menu " aria-labelledby="dropdownMenuClickableInside" style="z-index:10000;" >
-					<li>
-						<ul class="list-group">
-							<li  class="list-group-item" style="white-space: nowrap;"  *ngFor="let c of chronologies;index as i"  >
-								<input class="form-check-input me-1" type="checkbox" value="{{doPotenz(i)}}" aria-label="..." (change)="onChronology($event)">
-								{{c.name}}
-							</li>
-							
-						</ul>
-					</li>
-					</ul>
+					<div ngbDropdownMenu  class="dropdown-menu "  formControlName="chronologyType" aria-labelledby="dropdownMenuClickableInside" style="z-index:10000;" >
+						<label ngbDropdownItem ngbButtonLabel class="btn-secondary-outline" *ngFor="let c of chronologies;index as i">
+							<input ngbButton type="checkbox"  value="{{doPotenz(i)}}" aria-label="..." (change)="onChronology($event)" > {{c.name}}
+						</label>
+
+					</div>
 				</div>
 			
-				<div class="btn-group" style="margin: 0 20px 0 0">
+				<div ngbDropdown  class="btn-group" style="margin: 0 20px 0 0">
 					<button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 					Motiv
 					</button>
-					<ul class="dropdown-menu " aria-labelledby="dropdownMenuClickableInside">
-					<li><!-- white-space: nowrap;-->
-						<ul class="list-group">
-							<li class="list-group-item" style="white-space: nowrap;" *ngFor="let m of motifs;index as i"  >
-								<input class="form-check-input me-1" type="checkbox" value="{{doPotenz(i)}}" aria-label="..."  (click)="onMotif($event)">
-								{{m.title}}
-							</li>
-							
-						</ul>
-					</li>
-					</ul>
+					<div ngbDropdownMenu  class="dropdown-menu "  formControlName="motifType" aria-labelledby="dropdownMenuClickableInside" style="z-index:10000;" >
+						<label ngbDropdownItem ngbButtonLabel class="btn-secondary-outline" *ngFor="let m of motifs;index as i">
+							<input ngbButton type="checkbox"  value="{{doPotenz(i)}}" aria-label="..." (change)="onMotif($event)" > {{m.title}}
+						</label>
+					</div>
+					
 				</div>
 			
-				<div class="btn-group" style="margin: 0 20px 0 0">
+				<div ngbDropdown class="btn-group" style="margin: 0 20px 0 0">
 					<button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 					Kontext
 					</button>
-					<ul class="dropdown-menu " aria-labelledby="dropdownMenuClickableInside">
-					<li>
-						<ul class="list-group">
-							<li class="list-group-item" style="white-space: nowrap;" *ngFor="let cx of contextes;index as i"  >
-								<input class="form-check-input me-1" type="checkbox" value="{{doPotenz(i)}}" aria-label="..."  (click)="onContext($event)">
-								{{cx.title}}
-							</li>
-							
-						</ul>
-					</li>
-					</ul>
+					<div ngbDropdownMenu  class="dropdown-menu "  formControlName="contextType" aria-labelledby="dropdownMenuClickableInside" style="z-index:10000;" >
+						<label ngbDropdownItem ngbButtonLabel class="btn-secondary-outline" *ngFor="let cx of contextes;index as i">
+							<input ngbButton type="checkbox"  value="{{doPotenz(i)}}" aria-label="..." (change)="onContext($event)" > {{cx.title}}
+						</label>
+					</div>
+					
 				</div>
 				<div >
 					<button class="btn btn-sm btn-outline-primary" (click)="acc.toggle('map')">Mappe</button>	
