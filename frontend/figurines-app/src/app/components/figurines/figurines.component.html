@@ -5,16 +5,12 @@
 				<div class="hstack gap-3">
 					<div><label class="required-field" for="title">Suchbegriffe: </label></div>
 					<div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="radio" formControlName="searchType" id="und" [value]=1>
-							<label class="form-check-label" for="und">
-							  und
+						<div class="btn-group btn-group-toggle" ngbRadioGroup name="radioAndOr" formControlName="searchType">
+							<label ngbButtonLabel class="btn-primary-outline">
+							  <input ngbButton type="radio"  [value]="true"> und
 							</label>
-						  </div>
-						  <div class="form-check form-check-inline">
-							<input class="form-check-input" type="radio" formControlName="searchType" id="oder" [value]=2>
-							<label class="form-check-label" for="oder">
-							  oder
+							<label ngbButtonLabel class="btn-primary-outline">
+							  <input ngbButton type="radio" [value]="false"> oder
 							</label>
 						  </div>
 					</div>
