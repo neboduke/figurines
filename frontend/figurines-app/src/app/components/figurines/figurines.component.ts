@@ -45,6 +45,10 @@ export class FigurinesComponent implements OnInit {
   countMotif: number = 0;
   countContext: number = 0;
 
+  //ngModel
+  searchString: string = "";
+  searchType: number = 1;
+
 
   @ViewChild(MapComponent) 
   figurinesMap!: MapComponent;
@@ -81,7 +85,7 @@ export class FigurinesComponent implements OnInit {
             this.figurines = responseData;
             //this.filterPoints(this.figurines);
             //this.setVisible(true);
-            this.searchFigurineForString("",1);
+            this.searchFigurineForString();
             
         },
         (error: HttpErrorResponse) => {
@@ -204,9 +208,9 @@ export class FigurinesComponent implements OnInit {
 
 
   public search():void{
-    let searchString:string = this.searchForm.get('search')?.value;
-    let searchType:number = this.searchForm?.get('searchType')?.value;
-    this.searchFigurineForString(searchString,searchType);
+    //let searchString:string = this.searchForm.get('search')?.value;
+   // let searchType:number = this.searchForm?.get('searchType')?.value;
+    this.searchFigurineForString();
   }
 
 
@@ -216,9 +220,9 @@ export class FigurinesComponent implements OnInit {
     * searchString are one or more words, separated by ' '
     * 
   */
-  private searchFigurineForString(searchString: string, searchType: number): void {  //Figurine[][]
+  private searchFigurineForString(): void {  //Figurine[][]
    
-    let searchItems:string[] = searchString.toLowerCase().split(' ');
+    let searchItems:string[] = this.searchString.toLowerCase().split(' ');
     this.figurinesSetSearched.clear();
    
     let arr:Figurine[][] = this.filterSearchItems(searchItems); 
