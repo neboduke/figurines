@@ -1,4 +1,5 @@
 export class Motif {
-    motifId: number | undefined;
-    title: string | undefined;
+    motifId!: number ;
+    title!: string ;
+    checked: boolean = true;
 }

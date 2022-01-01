@@ -3,6 +3,7 @@ export class Chronology{
     name!: string ;
     yearFrom!: number ;
     yearTo!: number;
+    checked: boolean = false;
     /*constructor(private _chronologyId: number,
         private _name: string ,
         private _yearFrom: number ,

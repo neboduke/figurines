@@ -31,15 +31,13 @@ export class FigurinesComponent implements OnInit {
   points: FigurinePoint[] = [];
   mapLegend: MapLegend[] = [];
   contextes: Context[] = [];
-  contextMap= new Map<number, number>() ;
+
   figurinesSetSearched = new Set<Figurine>();
   figurinesSetFiltered = new Set<Figurine>();
 
   countries: Country[] = [];
   motifs: Motif[] = [];
-  motifMap= new Map<number, number>() ;
   chronologies: Chronology[] = [];
-  chronologyMap= new Map<number, number>() ;
 
   countChronology: number = 0;
   countMotif: number = 0;
@@ -74,7 +72,7 @@ export class FigurinesComponent implements OnInit {
   private createForm() {
     this.searchForm = this.formBuilder.group({
       search: [''],
-      searchType: false,
+     // searchType: 1,
     });
   }
 
@@ -94,12 +92,6 @@ export class FigurinesComponent implements OnInit {
     );
   }
 
-  setVisible(show:boolean): void {
-    for(let l of this.figurines){
-      l.show = show;
-    }
-  }
-
     /*--- SERVICES---*/
     
     private getCountries():void{
@@ -115,57 +107,39 @@ export class FigurinesComponent implements OnInit {
     private getMotifs():void{
       this.motifService.getMotifs().subscribe(
           responseData => {
-              this.motifs = responseData;
-              this.mapMotifs();
-              
+              this.motifs = responseData;              
           },
           (error: HttpErrorResponse) => {
               alert(error.message)
           }
       );
     }
-    private mapMotifs():void{
-      for(let i=0; i<  this.motifs.length; i++){
-        this.motifMap?.set(this.motifs[i].motifId!,i)
-      }
-    }
+
     private getChronologies():void{
       this.chronologyService.getChronologies().subscribe(
           responseData => {
               this.chronologies = responseData;
-              this.mapChronologies();
           },
           (error: HttpErrorResponse) => {
               alert(error.message)
           }
       );
-    }
-    private mapChronologies():void{
-       for(let i=0; i<  this.chronologies.length; i++){
-         this.chronologyMap?.set(this.chronologies[i].chronologyId,i)
-       }
     }
     
     private getContextes():void{
       this.contextService.getContext().subscribe(
           responseData => {
               this.contextes = responseData;
-              this.mapContext();
           },
           (error: HttpErrorResponse) => {
               alert(error.message)
           }
       );
     }
-    private mapContext():void{
-      for(let i=0; i<  this.contextes.length; i++){
-        this.contextMap?.set(this.contextes[i].contextId!,i)
-      }
-    }
   
     /*--- END---*/
 
-
+ /*----- START MAP ------*/
   private filterPoints(pfigurines:  Figurine[]){
     this.points = pfigurines.map( f =>{
         let point: FigurinePoint = new FigurinePoint();
@@ -205,7 +179,7 @@ export class FigurinesComponent implements OnInit {
       return ml;
     })
   }
-
+  /* ---- END MAP ------ */
 
   public search():void{
     //let searchString:string = this.searchForm.get('search')?.value;
@@ -263,36 +237,22 @@ export class FigurinesComponent implements OnInit {
   }
 
 
-  private filterFigurines(arr?:Figurine[]): void{
-    this.setVisible(false);
-
-    for(let f of this.figurines){
-        for(let s of this.figurinesSetFiltered){
-          if(f.figurineId == s.figurineId){
-            f.show = true;
-          }
-        }
-    }
-
-  }
-
-
   doPotenz(p:number):number{
     return Math.pow(2,p);
   }
 
-  /*
-    * 
-
-  */
+ 
   onChronology(e:any): void{
-    let cid:number = e.target.value;
     let checked: boolean = e.target.checked;
-
+    let cid:number = e.target.value;
+    //new methods
     if(checked){
-      this.countChronology = +this.countChronology + +cid ;
+      this.countChronology++ ; 
     }else{
-      this.countChronology = this.countChronology - cid;
+      this.countChronology-- ; 
+    }
+    for(let c of this.chronologies){
+        if(c.chronologyId==cid){c.checked = checked;}
     }
 
     this.useFilter();
@@ -307,10 +267,14 @@ export class FigurinesComponent implements OnInit {
     let checked: boolean = e.target.checked;
 
     if(checked){
-      this.countContext = +this.countContext + +cid ;
+      this.countContext++ ; 
     }else{
-      this.countContext = this.countContext - cid;
+      this.countContext-- ; 
     }
+    for(let c of this.contextes){
+        if(c.contextId==cid){c.checked = checked;}
+    }
+
     this.useFilter();
   }
 
@@ -323,15 +287,24 @@ export class FigurinesComponent implements OnInit {
     let checked: boolean = e.target.checked;
 
     if(checked){
-      this.countMotif = +this.countMotif + +cid ;
+      this.countMotif++ ; 
     }else{
-      this.countMotif = this.countMotif - cid;
+      this.countMotif-- ; 
     }
+    for(let m of this.motifs){
+        if(m.motifId==cid){m.checked = checked;}
+    }
+
     this.useFilter();
   }
 
   private useFilter():void{
-    let filteredFigurines: Figurine[] = Array.from(this.figurinesSetSearched)
+    let tmpChonologies: number[] = this.chronologies.map(c => {if(c.checked){return c.chronologyId}else{return 0} })
+    let tmpContextes: number[] = this.contextes.map(c => {if(c.checked){return c.contextId}else{return 0} })
+    let tmpMotifs: number[] = this.motifs.map(c => {if(c.checked){return c.motifId}else{return 0} })
+
+
+    /*let filteredFigurines: Figurine[] = Array.from(this.figurinesSetSearched)
     .filter( f =>{
       
       const indexChronology = this.chronologyMap!.get(f.chronology!.chronologyId);
@@ -343,7 +316,16 @@ export class FigurinesComponent implements OnInit {
       return ((this.countChronology==0?true:(potChronology &= this.countChronology)) ) 
       && ((this.countContext==0?true:(potContext &= this.countContext))
       && ((this.countMotif==0)?true:(potMotif &= this.countMotif)))
+    });*/
+    let filteredFigurines: Figurine[] = Array.from(this.figurinesSetSearched)
+    .filter( f =>{
+      return  (this.countChronology>0) ?  tmpChonologies.includes(f.chronology!.chronologyId) :  true;
+    }).filter( f =>{
+      return  (this.countMotif>0) ?  tmpMotifs.includes(f.motif!.motifId) :  true;
+    }).filter ( f =>{
+      return (this.countContext>0) ?  tmpContextes.includes(f.context!.contextId) :  true;
     });
+
     this.figurinesSetFiltered.clear();
     for(let f of filteredFigurines){
       this.figurinesSetFiltered.add(f);

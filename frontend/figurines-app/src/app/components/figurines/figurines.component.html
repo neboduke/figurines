@@ -5,12 +5,12 @@
 				<div class="hstack gap-3">
 					<div><label class="required-field" for="title">Suchbegriffe: </label></div>
 					<div>
-						<div class="btn-group btn-group-toggle" ngbRadioGroup name="radioAndOr" formControlName="searchType">
+						<div class="btn-group btn-group-toggle" ngbRadioGroup  >
 							<label ngbButtonLabel class="btn-primary-outline">
-							  <input ngbButton type="radio"  [value]="true"> und
+							  <input ngbButton type="radio"  name="searchType" [ngModel]="searchType" value=0 #searchType="ngModel"> und
 							</label>
 							<label ngbButtonLabel class="btn-primary-outline">
-							  <input ngbButton type="radio" [value]="false"> oder
+							  <input ngbButton type="radio"  name="searchType" [ngModel]="searchType" value=1 #searchType="ngModel"> oder
 							</label>
 						</div>
 					</div>
@@ -38,9 +38,11 @@
 					<button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 					Datierung
 					</button>
-					<div ngbDropdownMenu  class="dropdown-menu "  formControlName="chronologyType" aria-labelledby="dropdownMenuClickableInside" style="z-index:10000;" >
+					
+					<div ngbDropdownMenu  class="dropdown-menu "  aria-labelledby="dropdownMenuClickableInside" style="z-index:10000;" >
 						<label ngbDropdownItem ngbButtonLabel class="btn-secondary-outline" *ngFor="let c of chronologies;index as i">
-							<input ngbButton type="checkbox"  value="{{doPotenz(i)}}" aria-label="..." (change)="onChronology($event)" > {{c.name}}
+							<!--{{doProzent(index i)}}-->
+							<input ngbButton type="checkbox"  value="{{c.chronologyId}}" aria-label="..." (change)="onChronology($event)" > {{c.name}}
 						</label>
 
 					</div>
@@ -50,9 +52,9 @@
 					<button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 					Motiv
 					</button>
-					<div ngbDropdownMenu  class="dropdown-menu "  formControlName="motifType" aria-labelledby="dropdownMenuClickableInside" style="z-index:10000;" >
+					<div ngbDropdownMenu  class="dropdown-menu "   aria-labelledby="dropdownMenuClickableInside" style="z-index:10000;" >
 						<label ngbDropdownItem ngbButtonLabel class="btn-secondary-outline" *ngFor="let m of motifs;index as i">
-							<input ngbButton type="checkbox"  value="{{doPotenz(i)}}" aria-label="..." (change)="onMotif($event)" > {{m.title}}
+							<input ngbButton type="checkbox"  value="{{m.motifId}}" aria-label="..." (change)="onMotif($event)" > {{m.title}}
 						</label>
 					</div>
 					
@@ -62,9 +64,9 @@
 					<button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 					Kontext
 					</button>
-					<div ngbDropdownMenu  class="dropdown-menu "  formControlName="contextType" aria-labelledby="dropdownMenuClickableInside" style="z-index:10000;" >
+					<div ngbDropdownMenu  class="dropdown-menu "   aria-labelledby="dropdownMenuClickableInside" style="z-index:10000;" >
 						<label ngbDropdownItem ngbButtonLabel class="btn-secondary-outline" *ngFor="let cx of contextes;index as i">
-							<input ngbButton type="checkbox"  value="{{doPotenz(i)}}" aria-label="..." (change)="onContext($event)" > {{cx.title}}
+							<input ngbButton type="checkbox"  value="{{cx.contextId}}" aria-label="..." (change)="onContext($event)" > {{cx.title}}
 						</label>
 					</div>
 					
