@@ -86,6 +86,7 @@ export class MapComponent implements AfterViewInit {
       const nlng = Number.parseFloat(this.lng!);      
       const marker = L.marker([nlat, nlng],{icon: this.getDefaultIcon()});      
       marker.addTo(layerGroup);
+      this.map.panTo(new L.LatLng(nlat, nlng));
     }
 
     if(this.setMarker){

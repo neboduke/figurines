@@ -31,7 +31,8 @@
 				</div>
 			
 		</div>
-
+	</form>	
+	<form [formGroup]="filterForm" class="contact-form form-validate" novalidate="novalidate">
 		<div class="row">
 			<div class="col-sm-4 mb-3 hstack gap-3">
 				<div ngbDropdown  class="btn-group" style="margin: 0 20px 0 0">
@@ -40,9 +41,9 @@
 					</button>
 					
 					<div ngbDropdownMenu  class="dropdown-menu "  aria-labelledby="dropdownMenuClickableInside" style="z-index:10000;" >
-						<label ngbDropdownItem ngbButtonLabel class="btn-secondary-outline" *ngFor="let c of chronologies;index as i">
+						<label ngbDropdownItem ngbButtonLabel formArrayName="filterChronology" class="btn-secondary-outline" *ngFor="let c of chronologyFormArray.controls;index as i">
 							<!--{{doProzent(index i)}}-->
-							<input ngbButton type="checkbox"  value="{{c.chronologyId}}" aria-label="..." (change)="onChronology($event)" > {{c.name}}
+							<input ngbButton type="checkbox"  value="{{chronologies[i].chronologyId}}" aria-label="..." (change)="onChronology($event)" > {{chronologies[i].name}}
 						</label>
 
 					</div>
@@ -53,8 +54,8 @@
 					Motiv
 					</button>
 					<div ngbDropdownMenu  class="dropdown-menu "   aria-labelledby="dropdownMenuClickableInside" style="z-index:10000;" >
-						<label ngbDropdownItem ngbButtonLabel class="btn-secondary-outline" *ngFor="let m of motifs;index as i">
-							<input ngbButton type="checkbox"  value="{{m.motifId}}" aria-label="..." (change)="onMotif($event)" > {{m.title}}
+						<label ngbDropdownItem ngbButtonLabel  class="btn-secondary-outline" *ngFor="let m of motifs;index as i">
+							<input ngbButton type="checkbox"  value="{{m.motifId}}" aria-label="..." (change)="onMotif($event)"  > {{m.title}}
 						</label>
 					</div>
 					

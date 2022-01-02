@@ -9,7 +9,7 @@ import { MapLegend } from 'src/app/entity/map-legend';
 import { Context } from 'src/app/entity/context';
 import { ContextService } from 'src/app/services/context.service';
 import { point } from 'leaflet';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MapComponent } from '../map/map.component';
 import { ChronologyService } from 'src/app/services/chronology.service';
 import { CountryService } from 'src/app/services/country.service';
@@ -27,6 +27,7 @@ export class FigurinesComponent implements OnInit {
   figurines: Figurine[] = [];
   figurinesToShow : Figurine[] = [];
   searchForm!: FormGroup;
+  filterForm!: FormGroup;
   imageBaseUrl: string = environment.imageBaseUrl;
   points: FigurinePoint[] = [];
   mapLegend: MapLegend[] = [];
@@ -69,11 +70,32 @@ export class FigurinesComponent implements OnInit {
     this.getContextes();
   }
 
+  //https://coryrylan.com/blog/creating-a-dynamic-checkbox-list-in-angular
+  get chronologyFormArray() {
+    return this.filterForm.controls.filterChronology as FormArray;
+  }
+  get motifFormArray() {
+    return this.filterForm.controls.filterMotif as FormArray;
+  }
+  get contextFormArray() {
+    return this.filterForm.controls.filterContext as FormArray;
+  }
+
   private createForm() {
     this.searchForm = this.formBuilder.group({
       search: [''],
      // searchType: 1,
     });
+
+    //https://coryrylan.com/blog/creating-a-dynamic-checkbox-list-in-angular
+    this.filterForm = this.formBuilder.group({
+      filterChronology: new FormArray([])
+    });
+    
+  }
+  //https://coryrylan.com/blog/creating-a-dynamic-checkbox-list-in-angular
+  private addCheckboxesToForm() {
+    this.chronologies.forEach(() => this.chronologyFormArray.push(new FormControl(false)));
   }
 
   /*--- SERVICES---*/
@@ -81,9 +103,7 @@ export class FigurinesComponent implements OnInit {
     this.figurineService.getFigurines().subscribe(
         responseData => {
             this.figurines = responseData;
-            //this.filterPoints(this.figurines);
-            //this.setVisible(true);
-            this.searchFigurineForString();
+            this.search();
             
         },
         (error: HttpErrorResponse) => {
@@ -119,6 +139,7 @@ export class FigurinesComponent implements OnInit {
       this.chronologyService.getChronologies().subscribe(
           responseData => {
               this.chronologies = responseData;
+              this.addCheckboxesToForm();
           },
           (error: HttpErrorResponse) => {
               alert(error.message)
@@ -181,20 +202,13 @@ export class FigurinesComponent implements OnInit {
   }
   /* ---- END MAP ------ */
 
-  public search():void{
-    //let searchString:string = this.searchForm.get('search')?.value;
-   // let searchType:number = this.searchForm?.get('searchType')?.value;
-    this.searchFigurineForString();
-  }
-
-
 
   /* 
     * search all figurines for a search strings
     * searchString are one or more words, separated by ' '
     * 
   */
-  private searchFigurineForString(): void {  //Figurine[][]
+  public search(): void {  //Figurine[][]
    
     let searchItems:string[] = this.searchString.toLowerCase().split(' ');
     this.figurinesSetSearched.clear();
@@ -246,11 +260,8 @@ export class FigurinesComponent implements OnInit {
     let checked: boolean = e.target.checked;
     let cid:number = e.target.value;
     //new methods
-    if(checked){
-      this.countChronology++ ; 
-    }else{
-      this.countChronology-- ; 
-    }
+    (checked)? this.countChronology++ :this.countChronology-- ; 
+  
     for(let c of this.chronologies){
         if(c.chronologyId==cid){c.checked = checked;}
     }
@@ -258,19 +269,12 @@ export class FigurinesComponent implements OnInit {
     this.useFilter();
   }
 
-  /*
-    * 
-
-  */
   onContext(e:any): void{
     let cid:number = e.target.value;
     let checked: boolean = e.target.checked;
 
-    if(checked){
-      this.countContext++ ; 
-    }else{
-      this.countContext-- ; 
-    }
+    (checked)?  this.countContext++ : this.countContext-- ; 
+    
     for(let c of this.contextes){
         if(c.contextId==cid){c.checked = checked;}
     }
@@ -278,19 +282,13 @@ export class FigurinesComponent implements OnInit {
     this.useFilter();
   }
 
-  /*
-    * 
 
-  */
   onMotif(e:any): void{
     let cid:number = e.target.value;
     let checked: boolean = e.target.checked;
 
-    if(checked){
-      this.countMotif++ ; 
-    }else{
-      this.countMotif-- ; 
-    }
+    (checked)? this.countMotif++ : this.countMotif-- ; 
+    
     for(let m of this.motifs){
         if(m.motifId==cid){m.checked = checked;}
     }

@@ -1,5 +1,5 @@
 export class Motif {
     motifId!: number ;
     title!: string ;
-    checked: boolean = true;
+    checked: boolean = false;
 }
