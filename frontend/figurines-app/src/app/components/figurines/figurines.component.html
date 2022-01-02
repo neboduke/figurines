@@ -91,7 +91,7 @@
 	<div class="row row-cols-1 row-cols-md-4 g-4">
 		<div class="col" *ngFor="let f of figurinesSetFiltered">
 			<div class="lc-block bg-white rounded shadow card h-100" >
-				<a class="image-link" [routerLink]="['/figurine',f.figurineId]">
+				<a class="image-link" [routerLink]="['/figurine',f.figurineId]" target="_blank">
 					<img *ngIf="f.images[0]" [src]="imageBaseUrl + f.images[0]?.imagePath + f.images[0]?.imageTitle"   height="200">
 				</a>
 				<div class="card-body">
