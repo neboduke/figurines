@@ -70,33 +70,37 @@ export class FigurinesComponent implements OnInit {
     this.getContextes();
   }
 
-  //https://coryrylan.com/blog/creating-a-dynamic-checkbox-list-in-angular
-  get chronologyFormArray() {
-    return this.filterForm.controls.filterChronology as FormArray;
-  }
-  get motifFormArray() {
-    return this.filterForm.controls.filterMotif as FormArray;
-  }
-  get contextFormArray() {
-    return this.filterForm.controls.filterContext as FormArray;
-  }
-
-  private createForm() {
-    this.searchForm = this.formBuilder.group({
-      search: [''],
-     // searchType: 1,
-    });
+  //try to crete checkbox list as form/control array
 
     //https://coryrylan.com/blog/creating-a-dynamic-checkbox-list-in-angular
-    this.filterForm = this.formBuilder.group({
-      filterChronology: new FormArray([])
-    });
-    
-  }
-  //https://coryrylan.com/blog/creating-a-dynamic-checkbox-list-in-angular
-  private addCheckboxesToForm() {
-    this.chronologies.forEach(() => this.chronologyFormArray.push(new FormControl(false)));
-  }
+    get chronologyFormArray() {
+      return this.filterForm.controls.filterChronology as FormArray;
+    }
+    get motifFormArray() {
+      return this.filterForm.controls.filterMotif as FormArray;
+    }
+    get contextFormArray() {
+      return this.filterForm.controls.filterContext as FormArray;
+    }
+
+    private createForm() {
+      this.searchForm = this.formBuilder.group({
+        search: [''],
+        searchType: 1,
+      });
+
+      //https://coryrylan.com/blog/creating-a-dynamic-checkbox-list-in-angular
+      this.filterForm = this.formBuilder.group({
+        filterChronology: new FormArray([])
+      });
+      
+    }
+    //https://coryrylan.com/blog/creating-a-dynamic-checkbox-list-in-angular
+    private addCheckboxesToForm() {
+      this.chronologies.forEach(() => this.chronologyFormArray.push(new FormControl(false)));
+    }
+
+  //end
 
   /*--- SERVICES---*/
   private getFigurines():void{
@@ -213,32 +217,53 @@ export class FigurinesComponent implements OnInit {
     let searchItems:string[] = this.searchString.toLowerCase().split(' ');
     this.figurinesSetSearched.clear();
    
-    let arr:Figurine[][] = this.filterSearchItems(searchItems); 
+    let arr:Figurine[][] = (this.searchType==1)?
+                            this.filterSearchItemsOr(searchItems):
+                            this.filterSearchItemsAnd(searchItems); 
     
     for(let i=0; i< arr.length;i++){
         for(let a of arr[i]){
-          //if(searchType==1){
             this.figurinesSetSearched.add(a)
             this.figurinesSetFiltered.add(a);
-          /*}*/
         }
     }
     this.useFilter()
 
   }
 
-  private filterSearchItems(searchItems: string[]): Figurine[][]{
+  private filterSearchItemsOr(searchItems: string[]): Figurine[][]{
       return searchItems.map(s =>{
         return this.figurines
         .filter(f => (
-          f.title?.toLowerCase().includes(s) ||
-          f.materialDescription?.toLowerCase().includes(s) || 
-          f.descriptionIconography?.toLowerCase().includes(s) || 
-          f.descriptionIconology?.toLowerCase().includes(s) ||
-          f.keyword?.toLowerCase().includes(s))
+          this.filterOr(f,s))
         )
       })
   }
+
+  private filterOr(f:Figurine, s:string): boolean {
+    return  (f.title?.toLowerCase().includes(s) ||
+    f.materialDescription?.toLowerCase().includes(s) || 
+    f.descriptionIconography?.toLowerCase().includes(s) || 
+    f.descriptionIconology?.toLowerCase().includes(s) ||
+    f.keyword?.toLowerCase().includes(s))!;
+  }
+
+  private filterSearchItemsAnd(searchItems: string[]): Figurine[][]{
+    let tmpFigArr:Figurine[] = this.figurines;
+    for(let s of searchItems){
+      let tmpFilterFigArr:Figurine[] = tmpFigArr.filter(f => (
+        this.filterOr(f,s)
+      ))
+      tmpFigArr =  tmpFilterFigArr;//this.compareArrays(tmpFigArr,tmpFilterFigArr)
+    }
+    let returnArray:Figurine[][] = [[...tmpFigArr]];
+    return returnArray;
+  }
+
+  private compareArrays(arr1:Figurine[], arr2:Figurine[]): Figurine[] {
+    return arr1.filter(figurine => arr2.includes(figurine)).filter((figurine, index, self) => self.indexOf(figurine) === index);
+  }
+
 
   private doFinishViewObjects(arr?:Figurine[]):void {
     

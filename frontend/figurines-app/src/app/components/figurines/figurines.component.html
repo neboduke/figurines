@@ -5,12 +5,12 @@
 				<div class="hstack gap-3">
 					<div><label class="required-field" for="title">Suchbegriffe: </label></div>
 					<div>
-						<div class="btn-group btn-group-toggle" ngbRadioGroup  >
+						<div class="btn-group btn-group-toggle" ngbRadioGroup formControlName="searchType" [(ngModel)]="searchType">
 							<label ngbButtonLabel class="btn-primary-outline">
-							  <input ngbButton type="radio"  name="searchType" [ngModel]="searchType" value=0 #searchType="ngModel"> und
+							  <input ngbButton type="radio"   [value]="0" > und
 							</label>
 							<label ngbButtonLabel class="btn-primary-outline">
-							  <input ngbButton type="radio"  name="searchType" [ngModel]="searchType" value=1 #searchType="ngModel"> oder
+							  <input ngbButton type="radio"   [value]="1" > oder
 							</label>
 						</div>
 					</div>
