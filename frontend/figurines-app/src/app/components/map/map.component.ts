@@ -86,6 +86,7 @@ export class MapComponent implements AfterViewInit {
       const nlng = Number.parseFloat(this.lng!);      
       const marker = L.marker([nlat, nlng],{icon: this.getDefaultIcon()});      
       marker.addTo(layerGroup);
+      this.map.panTo(new L.LatLng(nlat, nlng));
     }
 
     if(this.setMarker){
@@ -129,7 +130,7 @@ export class MapComponent implements AfterViewInit {
         const customIcon = this.getCustomIcon(f.icon);
 
         const marker = L.marker([f.lat, f.lng],{icon: customIcon});
-        const popupText = "<p><a href='"+f.url+"'>"+f.title+"</a><br/>"+f.location+"</p>";
+        const popupText = "<p><a href='"+f.url+"' target='_blank'>"+f.title+"</a><br/>"+f.location+"</p>";
         marker.bindPopup(popupText);
 
         //marker.addTo(this.map);
