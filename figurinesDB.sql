@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `archaeodb_figurines` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `archaeodb_figurines`;
 -- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
 --
 -- Host: localhost    Database: archaeodb_figurines
@@ -29,7 +27,7 @@ CREATE TABLE `carrier` (
   `title` varchar(500) NOT NULL,
   `description` text,
   PRIMARY KEY (`carrier_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +36,7 @@ CREATE TABLE `carrier` (
 
 LOCK TABLES `carrier` WRITE;
 /*!40000 ALTER TABLE `carrier` DISABLE KEYS */;
-INSERT INTO `carrier` VALUES (1,'Situla',NULL),(2,'Jar',NULL),(3,'Sword',NULL),(4,'Soliter',NULL),(5,'Knife',NULL),(6,'Fibulae',NULL);
+INSERT INTO `carrier` VALUES (1,'Situla',NULL),(2,'Gefäß',NULL),(3,'Schwert',NULL),(4,'Figur',NULL),(5,'Messer',NULL),(6,'Fibula',NULL),(7,'Scheide',NULL),(8,'Gürtelblech',NULL),(9,'Attache',NULL);
 /*!40000 ALTER TABLE `carrier` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,7 +53,7 @@ CREATE TABLE `chronology` (
   `year_from` int DEFAULT NULL,
   `year_to` int DEFAULT NULL,
   PRIMARY KEY (`chronology_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -183,7 +181,7 @@ CREATE TABLE `figurine` (
   CONSTRAINT `FKlpbjf0tb2svt7a3q5kr38f0b7` FOREIGN KEY (`chronology_id`) REFERENCES `chronology` (`chronology_id`),
   CONSTRAINT `FKmbcjt1tl4de71envvusb8j9a0` FOREIGN KEY (`carrier_id`) REFERENCES `carrier` (`carrier_id`),
   CONSTRAINT `FKp959uqpxhif4cjkncjnso78o6` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -192,7 +190,7 @@ CREATE TABLE `figurine` (
 
 LOCK TABLES `figurine` WRITE;
 /*!40000 ALTER TABLE `figurine` DISABLE KEYS */;
-INSERT INTO `figurine` VALUES (1,'Sänger aus Oberhofen','ikonologie','ikonografie',3,'4567','123','description of material','sänger horn trinker figur',1,2,NULL,10,NULL,3),(2,'Krieger aus Oberhofen','Ikonologische Beschreibung ist nicht vorhanden da keine schriftliche Hinterlassenschaften vorhanden. Warum aber die Maske : wei\'ls dem so ist..','Figur einer Person mit einem Neaguer Helm am Kopf. In der rechten Hand hält sie ein ovales Objekt das als eine Maske oder als ein Kopf assoziert wird. ',3,NULL,'321','bronze','krieger | maske | figur | negauerhelm ',2,1,NULL,1,NULL,1),(39,'Herkules',NULL,NULL,4,NULL,NULL,NULL,'herkules | krieger',4,8,NULL,7,NULL,2),(41,'Jupiter',NULL,NULL,2,NULL,NULL,NULL,NULL,4,29,NULL,2,NULL,4),(44,'Kouros von Pillersattel','','',8,'','','','kouros | ertursker | pillersattel | heiligtum | brandopferplatz ',4,43,NULL,12,'https://sketchfab.com/models/4106b97a905f4dca886dff772ec21539/embed',4),(52,'Krieger aus Leisach',NULL,NULL,4,NULL,NULL,NULL,'krieger',4,29,NULL,1,NULL,4),(55,'Mars von Guttenberg',NULL,NULL,3,NULL,NULL,NULL,'Negauerhelm | Lanze | Brustpanzer | Krieger',4,54,NULL,1,NULL,4),(58,'Adorant von Pillersattel','','',1,'','','','adorant | kreisaugen | dekoration | pillersattel |',4,43,NULL,11,'https://sketchfab.com/models/48c15516feb84cf38d7d1055b5f72d67/embed',4),(70,'Musiker aus Idrija','','',3,'','','','musiker | negauerhelm | kleid | armreifen | fußreifen',4,69,NULL,10,'https://sketchfab.com/models/22510ac9e6764a87bc00cb502242938e/embed',5);
+INSERT INTO `figurine` VALUES (1,'Sänger aus Oberhofen','ikonologie','ikonografie',3,'4567','123','description of material','sänger horn trinker figur',1,2,NULL,10,NULL,3),(2,'Krieger aus Oberhofen','Ikonologische Beschreibung ist nicht vorhanden da keine schriftliche Hinterlassenschaften vorhanden. Warum aber die Maske : wei\'ls dem so ist..','Figur einer Person mit einem Neaguer Helm am Kopf. In der rechten Hand hält sie ein ovales Objekt das als eine Maske oder als ein Kopf assoziert wird. ',3,NULL,'321','bronze','krieger | maske | figur | negauerhelm ',2,1,NULL,1,NULL,1),(39,'Herkules',NULL,' Der r. Arm ist nach oben gebogen und hielt Keule, von der nur mehr ein kleines Fragment erhalten ist. Über den waagerecht nach vorne gestrecktem l. Arm hängt ein Stück des Löwenfelles. Der l. Fuß ist leicht vorgestellt. Der schlanke Körper zeigt keine Differenzierung der einzelnen Muskelpartien. Das grob angelegte Gesicht besitzt asymmetrisch gestaltete Augen. Bei dem hornartigen Fortsatz am Kopf handelt es sich nicht um eine Frisur sondern um stilisierten Löwenkopf, den Herkules wie eine Kapuze trägt.\n',4,'4 -> 1 Jh.v.u.Z.','18.087','Glatte Oberfläche, mit dunkelgrüner, in den Vertiefungen hellgrüner Patina.','löwenkopf | herkules',4,94,91,7,NULL,1),(41,'Jupiter',NULL,NULL,2,NULL,NULL,NULL,NULL,4,29,NULL,2,NULL,4),(44,'Kouros von Pillersattel','','',8,'','','','kouros | ertursker | pillersattel | heiligtum | brandopferplatz ',4,43,NULL,12,'https://sketchfab.com/models/4106b97a905f4dca886dff772ec21539/embed',4),(52,'Krieger aus Leisach',NULL,NULL,4,NULL,NULL,NULL,'krieger',4,29,NULL,1,NULL,4),(55,'Mars von Guttenberg',NULL,NULL,3,NULL,NULL,NULL,'Negauerhelm | Lanze | Brustpanzer | Krieger',4,54,NULL,1,NULL,4),(58,'Adorant von Pillersattel','','',1,'','','','adorant | kreisaugen | dekoration | pillersattel |',4,43,NULL,11,'https://sketchfab.com/models/48c15516feb84cf38d7d1055b5f72d67/embed',4),(70,'Musiker aus Idrija','','',3,'','','','musiker | negauerhelm | kleid | armreifen | fußreifen',4,69,NULL,10,'https://sketchfab.com/models/22510ac9e6764a87bc00cb502242938e/embed',5),(95,'Herkules','','Die r. Hand mit der Keule über den Kopf erhoben, die l. mit stilisierten Löwenfell nach vorne gestreckt. Ausfall mit dem l. Bein. Die Haare sind in einer Art Pagenfrisuer geschnitten und durch Kerben angegeben. Das Gesicht wegen der starken Korosion recht undeutlich zu erkennen. Der Körper ist gut durchgebildet, die Muskulatur ist plastisch und gut wiedergegeben.\n',3,'4 ->1Jh.v.u.Z','5005','Hellgrüne bis bläuliche Pattina, stellenweise rauhe Oberfläche.\nTeilweise korodiert.','keule | fell',4,94,91,7,'',1),(97,'Herkules','','Obwohl diesem Figürchen jedes Attribut fehlt, kann es als Darstellung des Herkules verstanden werden. Das l. Bein ist vorgestellt, der r. Arm angehoben und nach dem Ellbogen abgebrochen. Der l. Arm ist vorgestreckt und schon über dem Ellbogen abgebrochen. Die Haare sind am Schädel nicht differenziert und bilden oberhalb des Gesichtes einen Wülst. Der Körper ist eher zart und ohne Angabe der Muskeln. Das Gesicht ist wegen der starken Abreibung nicht mehr richtig zu erkennen.\n',3,'4 -> 1 Jh.v.u.Z','5072','Grüner Patina, glatte Oberfläche, stellenweise abgerieben. ','ohne attribute',4,94,91,7,'',1);
 /*!40000 ALTER TABLE `figurine` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -222,7 +220,7 @@ CREATE TABLE `figurine_literature` (
 
 LOCK TABLES `figurine_literature` WRITE;
 /*!40000 ALTER TABLE `figurine_literature` DISABLE KEYS */;
-INSERT INTO `figurine_literature` VALUES (1,1),(2,2),(39,3),(52,24);
+INSERT INTO `figurine_literature` VALUES (1,1),(2,2),(52,24),(39,25),(95,25),(97,25);
 /*!40000 ALTER TABLE `figurine_literature` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -252,7 +250,7 @@ CREATE TABLE `figurine_material` (
 
 LOCK TABLES `figurine_material` WRITE;
 /*!40000 ALTER TABLE `figurine_material` DISABLE KEYS */;
-INSERT INTO `figurine_material` VALUES (1,1),(1,2),(2,8),(39,2),(41,2),(44,2),(52,2),(55,2),(58,2),(70,2);
+INSERT INTO `figurine_material` VALUES (1,1),(1,2),(2,8),(39,2),(41,2),(44,2),(52,2),(55,2),(58,2),(70,2),(95,2),(97,2);
 /*!40000 ALTER TABLE `figurine_material` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -274,7 +272,7 @@ CREATE TABLE `hibernate_sequence` (
 
 LOCK TABLES `hibernate_sequence` WRITE;
 /*!40000 ALTER TABLE `hibernate_sequence` DISABLE KEYS */;
-INSERT INTO `hibernate_sequence` VALUES (91),(1),(1),(1),(1);
+INSERT INTO `hibernate_sequence` VALUES (103),(1),(1),(1),(1);
 /*!40000 ALTER TABLE `hibernate_sequence` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -303,7 +301,7 @@ CREATE TABLE `image` (
 
 LOCK TABLES `image` WRITE;
 /*!40000 ALTER TABLE `image` DISABLE KEYS */;
-INSERT INTO `image` VALUES (57,NULL,'/images/','gutenberg-mars.jpg',55),(73,NULL,'/images/','idrija.png',70),(75,'','/images/','sänger.png',1),(78,NULL,'/images/','kouros_f_ps.jpg',44),(82,NULL,'/images/','jupiter-klosterfrauenbichl.jpg',41),(84,NULL,'/images/','herkules-sanzeno.png',39),(87,NULL,'/images/','waschl.jpg',52),(88,'','/images/','oberhofen.jpg',2),(90,NULL,'/images/','adorant_f_ps.jpg',58);
+INSERT INTO `image` VALUES (57,NULL,'/images/','gutenberg-mars.jpg',55),(73,NULL,'/images/','idrija.png',70),(75,'','/images/','sänger.png',1),(78,NULL,'/images/','kouros_f_ps.jpg',44),(82,NULL,'/images/','jupiter-klosterfrauenbichl.jpg',41),(87,NULL,'/images/','waschl.jpg',52),(88,'','/images/','oberhofen.jpg',2),(90,NULL,'/images/','adorant_f_ps.jpg',58),(96,NULL,'/images/','herkules_tlm_5005.png',95),(98,NULL,'/images/','herkules_tlm_5072.png',97),(102,NULL,'/images/','herkules-sanzeno.png',39);
 /*!40000 ALTER TABLE `image` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -382,7 +380,7 @@ CREATE TABLE `location` (
   KEY `fk_location_country_idx` (`country_id`),
   CONSTRAINT `fk_location_country` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`),
   CONSTRAINT `FKn5m6ve3ryy2r25qvisdrg0aos` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -391,7 +389,7 @@ CREATE TABLE `location` (
 
 LOCK TABLES `location` WRITE;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
-INSERT INTO `location` VALUES (1,'Acker','fghfgh','Oberhofen','2452645',1,'47.30292321322043','11.100096702575685',1),(2,'Wald','','Oberhofen','',1,'47.30444','11.09480',1),(8,'Sanzeno','','Sanzeno','',5,'46.369172','11.080070',1),(29,'Frauenbichl','','Leisach','',1,'46.820653','12.753148',1),(43,'Pillersattel','','Fliess','',1,'47.116220','10.668557',1),(54,'Guttenberg','','Liechtenstein','',10,'47.065313576250446','9.500179505979437',1),(69,'Idrija','','Idrija ob Bači','',11,'46.000693','14.018495',1),(85,'Kröllkogel','','Kleinklein','',9,'46.743077265698496','15.427945554256441',1);
+INSERT INTO `location` VALUES (1,'Acker','fghfgh','Oberhofen','2452645',1,'47.30292321322043','11.100096702575685',1),(2,'Wald','','Oberhofen','',1,'47.30444','11.09480',1),(8,'Sanzeno','','Sanzeno','',5,'46.369172','11.080070',1),(29,'Frauenbichl','','Leisach','',1,'46.820653','12.753148',1),(43,'Pillersattel','','Fliess','',1,'47.116220','10.668557',1),(54,'Guttenberg','','Liechtenstein','',10,'47.065313576250446','9.500179505979437',1),(69,'Idrija','','Idrija ob Bači','',11,'46.000693','14.018495',1),(85,'Kröllkogel','','Kleinklein','',9,'46.743077265698496','15.427945554256441',1),(91,'Tiroler Landesmuseum Ferdinandeum','Museumstrasse 15','Innsbruck','',1,'47.26726143067104','11.397800445556642',2),(94,'Unbekannt','','-','',1,'46.98025235521883','11.49169921875',1);
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -476,4 +474,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-25 17:55:30
+-- Dump completed on 2022-01-09 18:47:32
