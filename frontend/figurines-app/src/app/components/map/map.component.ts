@@ -53,7 +53,7 @@ export class MapComponent implements AfterViewInit {
     var basebox = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 	  var openstreetmap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
-    var map = this.setMarker? openstreetmap : basebox;
+    var map = this.setMarker? openstreetmap : mapbox;
 
     const tiles = L.tileLayer(map, {
       id: 'mapbox/light-v9',
@@ -63,6 +63,7 @@ export class MapComponent implements AfterViewInit {
     });
 
     tiles.addTo(this.map);
+    
 
     if((this.lat != null && typeof this.lat != undefined) || this.setMarker ){
       this.setLocationMarker();

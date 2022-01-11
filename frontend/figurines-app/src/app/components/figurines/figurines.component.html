@@ -37,7 +37,8 @@
 			<div class="col-sm-4 mb-3 hstack gap-3">
 				<div ngbDropdown  class="btn-group" style="margin: 0 20px 0 0">
 					<button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-					Datierung
+						<i id="fa_chronology" class="far fa-check-square"></i>
+						Datierung
 					</button>
 					
 					<div ngbDropdownMenu  class="dropdown-menu "  aria-labelledby="dropdownMenuClickableInside" style="z-index:10000;" >
@@ -51,7 +52,8 @@
 			
 				<div ngbDropdown  class="btn-group" style="margin: 0 20px 0 0">
 					<button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-					Motiv
+						<i id="fa_motif" class="far fa-check-square"></i>
+						Motiv
 					</button>
 					<div ngbDropdownMenu  class="dropdown-menu "   aria-labelledby="dropdownMenuClickableInside" style="z-index:10000;" >
 						<label ngbDropdownItem ngbButtonLabel  class="btn-secondary-outline" *ngFor="let m of motifs;index as i">
@@ -63,7 +65,8 @@
 			
 				<div ngbDropdown class="btn-group" style="margin: 0 20px 0 0">
 					<button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-					Kontext
+						<i id="fa_context" class="far fa-check-square"></i>
+						Kontext
 					</button>
 					<div ngbDropdownMenu  class="dropdown-menu "   aria-labelledby="dropdownMenuClickableInside" style="z-index:10000;" >
 						<label ngbDropdownItem ngbButtonLabel class="btn-secondary-outline" *ngFor="let cx of contextes;index as i">
@@ -101,9 +104,9 @@
 						Fundort: {{f.location!.name}},{{f.location!.country!.name}}</p>
 					
 				</div>
-				<div class="card-footer">
+				<!--div class="card-footer">
 					<small class="text-muted">Last updated 3 mins ago</small>
-				  </div>
+				  </div-->
 			</div>
 		</div>
 	</div>

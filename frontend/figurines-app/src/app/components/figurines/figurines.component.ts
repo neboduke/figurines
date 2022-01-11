@@ -286,6 +286,16 @@ export class FigurinesComponent implements OnInit {
     let cid:number = e.target.value;
     //new methods
     (checked)? this.countChronology++ :this.countChronology-- ; 
+
+    if(this.countChronology == 0){ 
+        document.getElementById("fa_chronology")?.classList.remove("fa");
+        document.getElementById("fa_chronology")?.classList.add("far");
+    }else{
+        document.getElementById("fa_chronology")?.classList.remove("fa");
+        document.getElementById("fa_chronology")?.classList.remove("far");
+        document.getElementById("fa_chronology")?.classList.add("fa");
+    }
+        
   
     for(let c of this.chronologies){
         if(c.chronologyId==cid){c.checked = checked;}
@@ -299,6 +309,15 @@ export class FigurinesComponent implements OnInit {
     let checked: boolean = e.target.checked;
 
     (checked)?  this.countContext++ : this.countContext-- ; 
+
+    if(this.countContext == 0){ 
+      document.getElementById("fa_context")?.classList.remove("fa");
+      document.getElementById("fa_context")?.classList.add("far");
+    }else{
+        document.getElementById("fa_context")?.classList.remove("fa");
+        document.getElementById("fa_context")?.classList.remove("far");
+        document.getElementById("fa_context")?.classList.add("fa");
+    }
     
     for(let c of this.contextes){
         if(c.contextId==cid){c.checked = checked;}
@@ -313,6 +332,15 @@ export class FigurinesComponent implements OnInit {
     let checked: boolean = e.target.checked;
 
     (checked)? this.countMotif++ : this.countMotif-- ; 
+
+    if(this.countMotif == 0){ 
+      document.getElementById("fa_motif")?.classList.remove("fa");
+      document.getElementById("fa_motif")?.classList.add("far");
+    }else{
+        document.getElementById("fa_motif")?.classList.remove("fa");
+        document.getElementById("fa_motif")?.classList.remove("far");
+        document.getElementById("fa_motif")?.classList.add("fa");
+    }
     
     for(let m of this.motifs){
         if(m.motifId==cid){m.checked = checked;}
