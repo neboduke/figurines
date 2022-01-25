@@ -28,4 +28,8 @@ export class Figurine {
     imageUrl: string | undefined;
     motif: Motif | undefined;
     show: boolean = true;
+    dimensionX: number | undefined;
+    dimensionY: number | undefined;
+    dimensionZ: number | undefined;
+
 }

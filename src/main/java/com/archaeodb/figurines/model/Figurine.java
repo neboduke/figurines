@@ -18,6 +18,9 @@ public class Figurine {
     private String exibitNr;
     private String keyword;
     private String imageUrl;
+    private double dimensionX;
+    private double dimensionY;
+    private double dimensionZ;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "figurine")
     private List<Image> images = new ArrayList<>();
@@ -215,6 +218,30 @@ public class Figurine {
         this.context = context;
     }
 
+    public double getDimensionX() {
+        return dimensionX;
+    }
+
+    public void setDimensionX(double dimensionX) {
+        this.dimensionX = dimensionX;
+    }
+
+    public double getDimensionY() {
+        return dimensionY;
+    }
+
+    public void setDimensionY(double dimensionY) {
+        this.dimensionY = dimensionY;
+    }
+
+    public double getDimensionZ() {
+        return dimensionZ;
+    }
+
+    public void setDimensionZ(double dimensionZ) {
+        this.dimensionZ = dimensionZ;
+    }
+
 
     public Figurine() {}
 
@@ -234,7 +261,10 @@ public class Figurine {
                     Location exibitLocation,
                     List<Image> images,
                     String imageUrl,
-                    Motif motif) {
+                    Motif motif,
+                    double dimensionX,
+                    double dimensionY,
+                    double dimensionZ) {
         this.title = title;
         this.descriptionIconography = descriptionIconography;
         this.descriptionIconology = descriptionIconology;
@@ -252,6 +282,9 @@ public class Figurine {
         this.images = images;
         this.imageUrl = imageUrl;
         this.motif = motif;
+        this.dimensionX = dimensionX;
+        this.dimensionY = dimensionY;
+        this.dimensionZ = dimensionZ;
     }
 
     @Override

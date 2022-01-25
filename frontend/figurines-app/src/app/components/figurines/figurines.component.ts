@@ -17,6 +17,9 @@ import { MotifService } from 'src/app/services/motif.service';
 import { Country } from 'src/app/entity/country';
 import { Motif } from 'src/app/entity/motif';
 import { Chronology } from 'src/app/entity/chronology';
+import { Query } from 'src/app/entity/query';
+import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
+import { QueryModalComponent } from '../query-modal/query-modal.component';
 
 @Component({
   selector: 'app-figurines',
@@ -32,6 +35,8 @@ export class FigurinesComponent implements OnInit {
   points: FigurinePoint[] = [];
   mapLegend: MapLegend[] = [];
   contextes: Context[] = [];
+  query?: Query;
+  modalOptions:NgbModalOptions | undefined;
 
   figurinesSetSearched = new Set<Figurine>();
   figurinesSetFiltered = new Set<Figurine>();
@@ -58,7 +63,13 @@ export class FigurinesComponent implements OnInit {
     private contextService: ContextService,
     private chronologyService: ChronologyService,
     private countryService: CountryService,
-    private motifService: MotifService) { }
+    private motifService: MotifService, 
+    public modalService: NgbModal)  {
+      this.modalOptions = {
+          backdrop:'static',
+          backdropClass:'customBackdrop'
+        }  
+  }
 
   ngOnInit(): void {
     this.createForm();
@@ -175,7 +186,7 @@ export class FigurinesComponent implements OnInit {
         let chrono: string = f.chronology!.name.substring(0,2).toLowerCase();
         let contx: string = f.context!.title!.toLowerCase();
         point!.icon = contx+"-"+chrono+".svg";
-        point.url = "http://localhost:4200/figurine/"+f.figurineId;
+        point.url = environment.imageBaseUrl + environment.imageBasePort + "/figurine/"+ f.figurineId;
         return point;
       }
     )
@@ -384,6 +395,20 @@ export class FigurinesComponent implements OnInit {
 
     this.doFinishViewObjects();
 
+  }
+
+  onSaveQuery():void{
+    const modalRef = this.modalService.open(QueryModalComponent);
+    let tmpChonologies: number[] = this.chronologies.filter(c => {return c.checked ? true:false}).map(c => {return c.chronologyId} )
+    let tmpContextes: number[] = this.contextes.filter(c => {return c.checked ? true:false}).map(c => {return c.contextId} )
+    let tmpMotifs: number[] = this.motifs.filter(c => {return c.checked ? true:false}).map(c => {return c.motifId} )
+        // @Input query
+        modalRef.componentInstance.search = this.searchForm.get("search")?.value;
+        modalRef.componentInstance.operator = this.searchForm.get("searchType")?.value;
+        modalRef.componentInstance.chronology = tmpChonologies.join();
+        modalRef.componentInstance.motif = tmpMotifs.join();
+        modalRef.componentInstance.context = tmpContextes.join();
+        
   }
 
 }

@@ -1,0 +1,78 @@
+<div class="modal-header  bg-dark">
+    <h5 class="modal-title" style="color: white;" id="modal-basic-title">Query</h5>
+    <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+  
+    <div class="container-fluid">
+      <!-- HTML form mark up -->
+      <form [formGroup]="queryForm" novalidate>
+          <input type="hidden" formControlName="queryId" >
+              
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Query</label>
+                <div class="col-sm-10">
+                  <input type="text" formControlName="queryName" class="form-control" placeholder="ein eindeutiger Name">
+                  <span hidden translate>Query Name</span>
+                  <small
+                  [hidden]="queryForm?.controls?.name?.valid || queryForm?.controls?.name?.untouched"
+                      class="text-danger"
+                      translate
+                      >
+                      Query Name darf nicht leer sein
+                  </small>
+                </div>
+              </div>
+             <span>search: {{search}}</span><br>
+             <span>operator: {{operator}}</span><br>
+             <span>chronology: {{chronology}}</span><br>
+             <span>motif: {{motif}}</span><br>
+             <span>context: {{context}}</span><br>
+            </div> 
+          </div>
+          <div class="modal-footer">
+              <div class="float-left">
+                <!-- HTML markup for Create button -->
+                <button
+                  (click)="onAddQuery()"
+                  class="btn btn-primary w-20"
+                  type="submit"
+                  [disabled]="queryForm?.invalid"
+                  
+                >
+                  <span translate><i class="fas fa-plus"></i> Speichern</span>
+                </button>
+                <!-- HTML markup for Update button -->
+                <!--button
+                  (click)="onEditChronology(chronologyForm.value)"
+                  class="btn btn-primary w-20"
+                  type="submit"
+                  [disabled]="chronologyForm?.invalid || isAddNew"
+                  *ngIf="!this.isAddNew"
+                >
+                  <span translate><i class="fas fa-edit"></i> Speichern</span>
+                </button-->
+                <!-- HTML markup for Delete button -->
+                <!--button
+                  (click)="onRemoveChronology()"
+                  class="btn btn-danger w-20"
+                  type="submit"
+                  [disabled]="chronologyForm?.invalid || isAddNew"
+                  *ngIf="!this.isAddNew"
+                >
+                  <span translate><i class="fas fa-trash-alt"></i> Löschen</span>
+                </button-->
+              </div>
+              <div class="float-right">
+                <!-- HTML markup for Back button -->
+                <button  class="btn btn-secondary w-20" (click)="activeModal.dismiss()">
+                  <span translate><i class="fa fa-arrow-left"></i> Abbrechen</span>
+                </button>
+              </div>
+          </div>
+  
+      </form>
+    </div>
+  </div>

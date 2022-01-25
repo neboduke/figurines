@@ -30,6 +30,8 @@ import { MapComponent } from './components/map/map.component';
 import { SkechfabComponent } from './components/skechfab/skechfab.component';
 import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluster';
 import { NavbarComponent } from './common/navbar/navbar.component';
+import { QueryModalComponent } from './components/query-modal/query-modal.component';
+import { QueryService } from './services/query.service';
 
 
 @NgModule({
@@ -51,7 +53,8 @@ import { NavbarComponent } from './common/navbar/navbar.component';
     FileUploadComponent,
     MapComponent,
     SkechfabComponent,
-    NavbarComponent
+    NavbarComponent,
+    QueryModalComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +68,7 @@ import { NavbarComponent } from './common/navbar/navbar.component';
     NgSelectModule,
     LeafletMarkerClusterModule
   ],
-  providers: [ChronologyService,FigurineService,LocationService, LiteratureService, FigurineService, NgbActiveModal],
+  providers: [ChronologyService,FigurineService,LocationService, LiteratureService, QueryService, NgbActiveModal],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

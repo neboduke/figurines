@@ -171,32 +171,7 @@ public class FigurinesController {
         return figurineService.getLiterature();
     }
 
-    @GetMapping(value = "/literature/{literatureId}")
-    @ResponseBody
-    public LiteratureDto getLiterature(@PathVariable int literatureId){
-        return figurineService.getLiterature(literatureId);
-    }
 
-    @PostMapping(value = "/literature/add")
-    @ResponseBody
-    public  LiteratureDto addLiterature(@RequestBody LiteratureDto literatureDto){
-        LiteratureDto newLiterature = figurineService.saveLiterature(literatureDto);
-        return newLiterature;
-    }
-
-    @PutMapping(value = "/literature/edit")
-    @ResponseBody
-    public LiteratureDto updateLiterature(@RequestBody LiteratureDto literatureDto){
-        LiteratureDto newLiterature = figurineService.saveLiterature(literatureDto);
-        return newLiterature;
-    }
-
-    @DeleteMapping(value = "/literature/remove/{literatureId}")
-    @Transactional
-    public ResponseEntity<?> deleteLiterature(@PathVariable int literatureId){
-        figurineService.deleteLiterature(literatureId);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 
     /*CARRIER*/
     @GetMapping(value = "/carrier")
@@ -217,6 +192,40 @@ public class FigurinesController {
     @ResponseBody
     public  List<ContextDto> getContext() {
         return figurineService.getContext();
+    }
+
+    /*QUERY*/
+    @GetMapping(value = "/query")
+    @ResponseBody
+    public List<QueryDto> getQueries(){
+        return figurineService.getQueries();
+    }
+
+    @GetMapping(value = "/query/{queryname}")
+    @ResponseBody
+    public QueryDto getQuery(@PathVariable String queryName){
+        return figurineService.getQueryByName(queryName);
+    }
+
+    @PostMapping(value = "/query/add")
+    @ResponseBody
+    public  QueryDto addQuery(@RequestBody QueryDto queryDto){
+        QueryDto newQuery = figurineService.saveQuery(queryDto);
+        return newQuery;
+    }
+
+    @PutMapping(value = "/query/edit")
+    @ResponseBody
+    public QueryDto updateQuery(@RequestBody QueryDto queryDto){
+        QueryDto newQuery = figurineService.saveQuery(queryDto);
+        return newQuery;
+    }
+
+    @DeleteMapping(value = "/query/remove/{queryid}")
+    @Transactional
+    public ResponseEntity<?> deleteQuery(@PathVariable int queryId){
+        figurineService.deleteQuery(queryId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     
     

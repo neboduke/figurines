@@ -139,6 +139,9 @@ export class FigurineEditComponent implements OnInit {
       image3: [''],
       imageUrl: [''],
       motif: [''],
+      dimensionX: [''],
+      dimensionY: [''],
+      dimensionZ: [''],
 
     });
   }
@@ -164,7 +167,10 @@ export class FigurineEditComponent implements OnInit {
             image2: responseData?.images[1] || [''],
             image3: responseData?.images[2] || [''],
             imageUrl: responseData?.imageUrl,
-            motif:  ['']
+            motif:  [''],
+            dimensionX: responseData?.dimensionX,
+            dimensionY: responseData?.dimensionY,
+            dimensionZ: responseData?.dimensionZ
 
     });
   }
@@ -419,7 +425,7 @@ public onAddFigurine(): void {
           console.log(response);
           this.toastService.show('Daten wurden erfolgreich gespeichert', { classname: 'bg-success text-light', delay: 4000 });
           //this.figurineForm?.reset();
-          window.location.href= "http://localhost:4200/figurine/" + response.figurineId! ; //guid return in data
+          window.location.href= environment.imageBaseUrl + environment.imageBasePort  + "/figurine/" + response.figurineId! ; //guid return in data
 
       },
       (error: HttpErrorResponse) => {
@@ -452,6 +458,9 @@ createFigurine(f?:Figurine):Figurine{
   newFigurine.dateAbs = this.figurineForm?.get('dateAbs')?.value;
   newFigurine.descriptionIconography = this.figurineForm?.get('descriptionIconography')?.value;
   newFigurine.descriptionIconology = this.figurineForm?.get('descriptionIconology')?.value;
+  newFigurine.dimensionX = this.figurineForm?.get('dimensionX')?.value;
+  newFigurine.dimensionY = this.figurineForm?.get('dimensionY')?.value;
+  newFigurine.dimensionZ = this.figurineForm?.get('dimensionZ')?.value;
 
   return newFigurine;
 }

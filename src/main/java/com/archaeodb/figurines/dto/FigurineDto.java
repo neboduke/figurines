@@ -24,6 +24,9 @@ public class FigurineDto {
     private List<ImageDto> images;
     private String imageUrl;
     private MotifDto motif;
+    private double dimensionX;
+    private double dimensionY;
+    private double dimensionZ;
 
 
     public FigurineDto() {
@@ -45,7 +48,10 @@ public class FigurineDto {
                        LocationDto exibitLocation,
                        List<ImageDto> images,
                        String imageUrl,
-                       MotifDto motif) {
+                       MotifDto motif,
+                       double dimensionX,
+                       double dimensionY,
+                       double dimensionZ) {
         this.figurineId = figurineId;
         this.title = title;
         this.descriptionIconography = descriptionIconography;
@@ -64,6 +70,9 @@ public class FigurineDto {
         this.images = images;
         this.imageUrl = imageUrl;
         this.motif = motif;
+        this.dimensionX = dimensionX;
+        this.dimensionY = dimensionY;
+        this.dimensionZ = dimensionZ;
     }
 
     public int getFigurineId() {
@@ -209,6 +218,29 @@ public class FigurineDto {
 
     public void setMotif(MotifDto motif) {
         this.motif = motif;
+    }
+    public double getDimensionX() {
+        return dimensionX;
+    }
+
+    public void setDimensionX(double dimensionX) {
+        this.dimensionX = dimensionX;
+    }
+
+    public double getDimensionY() {
+        return dimensionY;
+    }
+
+    public void setDimensionY(double dimensionY) {
+        this.dimensionY = dimensionY;
+    }
+
+    public double getDimensionZ() {
+        return dimensionZ;
+    }
+
+    public void setDimensionZ(double dimensionZ) {
+        this.dimensionZ = dimensionZ;
     }
 
     @Override

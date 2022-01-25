@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   apiBaseUrl: 'http://localhost:8080',
   imageBaseUrl: 'http://localhost',
-  imageBasePath: '/images/'
+  imageBasePath: '/images/',
+  imageBasePort: ':4200'
 };
 
 /*

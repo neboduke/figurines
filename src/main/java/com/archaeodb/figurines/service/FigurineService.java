@@ -28,12 +28,40 @@ public class FigurineService {
     private final ContextRepository contextRepository;
     private final MotifRepository motifRepository;
     private final ImageRepository imageRepository;
+    private final QueryRepository queryRepository;
     private final FigurineMapper figurineMapper = Mappers.getMapper(FigurineMapper.class);
     private final ChronologyMapper chronologyMapper = Mappers.getMapper(ChronologyMapper.class);
     private final MaterialMapper materialMapper = Mappers.getMapper(MaterialMapper.class);
     private final LiteratureMapper literatureMapper = Mappers.getMapper(LiteratureMapper.class);
     private final LocationMapper locationMapper = Mappers.getMapper(LocationMapper.class);
     private final CountryMapper countryMapper = Mappers.getMapper(CountryMapper.class);
+    private final QueryMapper queryMapper = Mappers.getMapper(QueryMapper.class);
+
+
+    @Inject
+    public FigurineService(FigurineRepository figurineRepository,
+                           ChronologyRepository chronologyRepository,
+                           MaterialRepository materialRepository,
+                           LiteratureRepository literatureRepository,
+                           LocationRepository locationRepository,
+                           CountryRepository countryRepository,
+                           CarrierReporitory carrierReporitory,
+                           ContextRepository contextRepository,
+                           MotifRepository motifRepository,
+                           ImageRepository imageRepository,
+                           QueryRepository queryRepository) {
+        this.figurineRepository = figurineRepository;
+        this.chronologyRepository = chronologyRepository;
+        this.materialRepository = materialRepository;
+        this.literatureRepository = literatureRepository;
+        this.locationRepository = locationRepository;
+        this.countryRepository = countryRepository;
+        this.carrierReporitory = carrierReporitory;
+        this.contextRepository = contextRepository;
+        this.motifRepository = motifRepository;
+        this.imageRepository = imageRepository;
+        this.queryRepository = queryRepository;
+    }
 
     public FigurineDto getFigurineById(Integer figurineId) {
 
@@ -140,29 +168,6 @@ public class FigurineService {
 
     public void deleteChronology(Integer chronologyId) {
         chronologyRepository.deleteChronologyByChronologyId(chronologyId);
-    }
-
-    @Inject
-    public FigurineService(FigurineRepository figurineRepository,
-                           ChronologyRepository chronologyRepository,
-                           MaterialRepository materialRepository,
-                           LiteratureRepository literatureRepository,
-                           LocationRepository locationRepository,
-                           CountryRepository countryRepository,
-                           CarrierReporitory carrierReporitory,
-                           ContextRepository contextRepository,
-                           MotifRepository motifRepository,
-                           ImageRepository imageRepository) {
-        this.figurineRepository = figurineRepository;
-        this.chronologyRepository = chronologyRepository;
-        this.materialRepository = materialRepository;
-        this.literatureRepository = literatureRepository;
-        this.locationRepository = locationRepository;
-        this.countryRepository = countryRepository;
-        this.carrierReporitory = carrierReporitory;
-        this.contextRepository = contextRepository;
-        this.motifRepository = motifRepository;
-        this.imageRepository = imageRepository;
     }
 
 
@@ -277,6 +282,33 @@ public class FigurineService {
         ContextDto contextDto = figurineMapper.contextFromDb(context);
 
         return contextDto;
+    }
+
+    public List<QueryDto> getQueries() {
+        List<Query> queries = queryRepository.findAll(Sort.by(Sort.Order.asc("queryName")));
+        List<QueryDto> queryDtos = queries.stream()
+                .map(query -> queryMapper.queryFromDb(query))
+                .collect(Collectors.toList());
+
+        return queryDtos;
+    }
+
+    public QueryDto saveQuery(QueryDto queryDto) {
+        Query query = queryMapper.queryToDb(queryDto);
+        Query newQuery = queryRepository.save(query);
+        QueryDto newQueryDto = queryMapper.queryFromDb(newQuery);
+        return newQueryDto;
+    }
+
+    public void deleteQuery(Integer queryId) {
+        queryRepository.deleteQueryByQueryId(queryId);
+    }
+
+    public QueryDto getQueryByName(String queryName) {
+
+        Query query = queryRepository.getQueryByQueryName(queryName);
+        QueryDto queryDto = queryMapper.queryFromDb(query);
+        return queryDto;
     }
 
 
