@@ -228,6 +228,12 @@ public class FigurinesController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     
-    
+    /*GeoJson*/
+    @GetMapping(value = "/figurines/query/{queryName}")
+    @ResponseBody
+    public String getFigurinesForQuery(@PathVariable String queryName){
+        return figurineService.getFigurinesForQuery(queryName);
+    }
+
 
 }

@@ -61,6 +61,12 @@ export class QueryModalComponent implements OnInit {
 
   private createQuery(): Query {
     let newQuery: Query = new Query();
+    newQuery.chronology = this.chronology;
+    newQuery.search = this.search;
+    newQuery.context = this.context;
+    newQuery.motif = this.motif;
+    newQuery.operator = (this.operator=="1")? "OR" : "AND";
+    newQuery.queryName = this.queryForm.get("queryName")?.value;
 
     return newQuery;
   } 

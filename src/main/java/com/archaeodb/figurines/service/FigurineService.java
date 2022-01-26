@@ -312,5 +312,121 @@ public class FigurineService {
     }
 
 
+    public String getFigurinesForQuery(String queryName) {
+
+        Query queryResult = queryRepository.getQueryByQueryName(queryName);
+
+        String rootSql = "select * from figurine f " +
+                " inner join chronology c " +
+                " on c.chronology_id = f.chronology_id" +
+                " inner join motif m" +
+                " on m.motif_id = f.motif_id" +
+                " inner join context x" +
+                " on x.context_id = f.context_id"+
+                " inner join carrier r" +
+                " on r.carrier_id = f.carrier_id" ;
+
+        String searchSql = "";
+        if(!queryResult.getSearch().isEmpty()){
+            searchSql = getSearchSql(queryResult.getSearch(), queryResult.getOperator());
+        }
+        String chronologySql = "";
+        if(!queryResult.getChronology().isEmpty()){
+            chronologySql = getFilterSql(queryResult.getChronology(), "chronology_id");
+        }
+        String motifSql = "";
+        if(!queryResult.getMotif().isEmpty()){
+            motifSql = getFilterSql(queryResult.getMotif(), "motif_id");
+        }
+        String contextSql = "";
+        if(!queryResult.getContext().isEmpty()){
+            contextSql = getFilterSql(queryResult.getContext(), "context_id");
+        }
+
+        if(!searchSql.isEmpty() || !chronologySql.isEmpty() || !motifSql.isEmpty() || !contextSql.isEmpty()){
+            rootSql = rootSql + " where ";
+        }
+        rootSql = rootSql + searchSql;
+
+        if(!searchSql.isEmpty()){
+            rootSql = rootSql + " AND " + chronologySql;
+        }else{
+            rootSql = rootSql + chronologySql;
+        }
+
+        if(!chronologySql.isEmpty()){
+            rootSql = rootSql + " AND " + motifSql;
+        }else{
+            rootSql = rootSql + motifSql;
+        }
+
+        if(!motifSql.isEmpty()){
+            rootSql = rootSql + " AND " + contextSql;
+        }else{
+            rootSql = rootSql + contextSql;
+        }
+
+        String queryResultx = "{\n" +
+                "  \"type\": \"FeatureCollection\",\n" +
+                "  \"features\": [\n" +
+                "    {\n" +
+                "      \"type\": \"Feature\",\n" +
+                "      \"properties\": {\n" +
+                "        \"location\": \"#d61f1f\",\n" +
+                "        \"place\": \"medium\",\n" +
+                "        \"image\": \"circle\",\n" +
+                "        \"context\": \"circle\",\n" +
+                "        \"chronology\": \"circle\",\n" +
+                "        \"motif\": \"circle\",\n" +
+                "        \"image\": \"circle\"\n" +
+                "      },\n" +
+                "      \"geometry\": {\n" +
+                "        \"type\": \"Point\",\n" +
+                "        \"coordinates\": [\n" +
+                "          11.412734985351562,\n" +
+                "          47.226096795477204\n" +
+                "        ]\n" +
+                "      }\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
+        return rootSql;
+    }
+
+    private String getSearchSql(String search, String operator){
+        String sql = "(";
+
+        String[] searches = search.split(" ");
+        for(int i=0; i < searches.length ; i++){
+            if(i > 0){
+                sql = sql + " " + operator + " (";
+            }else{
+                sql = sql + " (";
+            }
+            sql = sql + " f.title like '%"+searches[i]+"%'" +
+                    " or f.material_description like '%"+searches[i]+"%'" +
+                    " or f.description_iconography like '%"+searches[i]+"%'" +
+                    " or f.description_iconology like '%"+searches[i]+"%'" +
+                    " or f.keyword like '%"+searches[i]+"%'" ;
+            sql = sql + ")";
+        }
+        sql = sql + ")";
+
+        return sql;
+    }
+    private String getFilterSql(String search, String filterId){
+        String sql = "(";
+
+        String[] searches = search.split(",");
+        for(int i=0; i < searches.length ; i++){
+            if(i > 0){
+                sql = sql + " OR ";
+            }
+            sql = sql + " f." + filterId + " = "+searches[i] ;
+        }
+        sql = sql + ")";
+
+        return sql;
+    }
 
 }
