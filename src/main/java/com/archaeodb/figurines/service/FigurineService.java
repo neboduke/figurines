@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -348,19 +349,19 @@ public class FigurineService {
         }
         rootSql = rootSql + searchSql;
 
-        if(!searchSql.isEmpty()){
+        if(!searchSql.isEmpty() && !chronologySql.isEmpty()){
             rootSql = rootSql + " AND " + chronologySql;
         }else{
             rootSql = rootSql + chronologySql;
         }
 
-        if(!chronologySql.isEmpty()){
+        if(!chronologySql.isEmpty() && !motifSql.isEmpty()){
             rootSql = rootSql + " AND " + motifSql;
         }else{
             rootSql = rootSql + motifSql;
         }
 
-        if(!motifSql.isEmpty()){
+        if(!motifSql.isEmpty() && !contextSql.isEmpty()){
             rootSql = rootSql + " AND " + contextSql;
         }else{
             rootSql = rootSql + contextSql;
@@ -372,19 +373,188 @@ public class FigurineService {
                 "    {\n" +
                 "      \"type\": \"Feature\",\n" +
                 "      \"properties\": {\n" +
-                "        \"location\": \"#d61f1f\",\n" +
-                "        \"place\": \"medium\",\n" +
+                "\t\t\"name\": \"Krieger aus Oberhofen\",\n" +
+                "        \"location\": \"Acker\",\n" +
+                "        \"place\": \"Oberhofen\",\n" +
                 "        \"image\": \"circle\",\n" +
-                "        \"context\": \"circle\",\n" +
-                "        \"chronology\": \"circle\",\n" +
-                "        \"motif\": \"circle\",\n" +
-                "        \"image\": \"circle\"\n" +
+                "        \"context\": \"Unbekannt\",\n" +
+                "        \"chronology\": \"LT C\",\n" +
+                "        \"motif\": \"Krieger\",\n" +
+                "\t\t\"color\": \"red\"\n" +
                 "      },\n" +
                 "      \"geometry\": {\n" +
                 "        \"type\": \"Point\",\n" +
                 "        \"coordinates\": [\n" +
-                "          11.412734985351562,\n" +
-                "          47.226096795477204\n" +
+                "          11.100096702575685,\n" +
+                "          47.30292321322043\n" +
+                "        ]\n" +
+                "      }\n" +
+                "    },\n" +
+                "\t{\n" +
+                "      \"type\": \"Feature\",\n" +
+                "      \"properties\": {\n" +
+                "\t\t\"name\": \"Krieger aus Leisach\",\n" +
+                "        \"location\": \"Frauenbichl\",\n" +
+                "        \"place\": \"Leisach\",\n" +
+                "        \"image\": \"circle\",\n" +
+                "        \"context\": \"Heiligtum\",\n" +
+                "        \"chronology\": \"LT D\",\n" +
+                "        \"motif\": \"Krieger\",\n" +
+                "\t\t\"carrier\":\"Figur\",\n" +
+                "\t\t\"color\": \"blue\"\n" +
+                "      },\n" +
+                "      \"geometry\": {\n" +
+                "        \"type\": \"Point\",\n" +
+                "        \"coordinates\": [\n" +
+                "          12.753148,\n" +
+                "          46.820653\n" +
+                "        ]\n" +
+                "      }\n" +
+                "    },\n" +
+                "\t{\n" +
+                "      \"type\": \"Feature\",\n" +
+                "      \"properties\": {\n" +
+                "\t\t\"name\": \"Mars von Guttenberg\",\n" +
+                "        \"location\": \"Guttenberg\",\n" +
+                "        \"place\": \"Liechtenstein\",\n" +
+                "        \"image\": \"circle\",\n" +
+                "        \"context\": \"Heiligtum\",\n" +
+                "        \"chronology\": \"LT C\",\n" +
+                "        \"motif\": \"Krieger\",\n" +
+                "\t\t\"carrier\":\"Figur\",\n" +
+                "\t\t\"color\": \"red\"\n" +
+                "      },\n" +
+                "      \"geometry\": {\n" +
+                "        \"type\": \"Point\",\n" +
+                "        \"coordinates\": [\n" +
+                "          9.500179505979437,\n" +
+                "          47.065313576250446\n" +
+                "        ]\n" +
+                "      }\n" +
+                "    },\n" +
+                "\t{\n" +
+                "      \"type\": \"Feature\",\n" +
+                "      \"properties\":{ \n" +
+                "\t\t\"name\": \"Mars von Guttenberg\",\n" +
+                "        \"location\": \"Guttenberg\",\n" +
+                "        \"place\": \"Liechtenstein\",\n" +
+                "        \"image\": \"circle\",\n" +
+                "        \"context\": \"Heiligtum\",\n" +
+                "        \"chronology\": \"LT C\",\n" +
+                "        \"motif\": \"Krieger\",\n" +
+                "\t\t\"carrier\":\"Figur\",\n" +
+                "\t\t\"color\": \"blue\"\n" +
+                "      },\n" +
+                "      \"geometry\": {\n" +
+                "        \"type\": \"Point\",\n" +
+                "        \"coordinates\": [\n" +
+                "          9.500179505979437,\n" +
+                "          47.065313576250446\n" +
+                "        ]\n" +
+                "      }\n" +
+                "    },\n" +
+                "\t{\n" +
+                "      \"type\": \"Feature\",\n" +
+                "      \"properties\":{ \n" +
+                "\t\t\"name\": \"Krieger (Herkules)\",\n" +
+                "        \"location\": \"Unbekannt\",\n" +
+                "        \"place\": \"Tirol\",\n" +
+                "        \"image\": \"circle\",\n" +
+                "        \"context\": \"Unbekannt\",\n" +
+                "        \"chronology\": \"LT C\",\n" +
+                "        \"motif\": \"Krieger\",\n" +
+                "\t\t\"carrier\":\"Figur\",\n" +
+                "\t\t\"color\": \"black\"\n" +
+                "      },\n" +
+                "      \"geometry\": {\n" +
+                "        \"type\": \"Point\",\n" +
+                "        \"coordinates\": [\n" +
+                "          11.49169921875,\n" +
+                "          46.98025235521883\n" +
+                "        ]\n" +
+                "      }\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "      \"type\": \"Feature\",\n" +
+                "      \"properties\":{ \n" +
+                "\t\t\"name\": \"Krieger (Herkules)\",\n" +
+                "        \"location\": \"Unbekannt\",\n" +
+                "        \"place\": \"Tirol\",\n" +
+                "        \"image\": \"circle\",\n" +
+                "        \"context\": \"Unbekannt\",\n" +
+                "        \"chronology\": \"LT D\",\n" +
+                "        \"motif\": \"Krieger\",\n" +
+                "\t\t\"carrier\":\"Figur\",\n" +
+                "\t\t\"color\": \"black\"\n" +
+                "      },\n" +
+                "      \"geometry\": {\n" +
+                "        \"type\": \"Point\",\n" +
+                "        \"coordinates\": [\n" +
+                "          11.49169921875,\n" +
+                "          46.98025235521883\n" +
+                "        ]\n" +
+                "      }\n" +
+                "    },\n" +
+                "\t{\n" +
+                "      \"type\": \"Feature\",\n" +
+                "      \"properties\":{ \n" +
+                "\t\t\"name\": \"Krieger\",\n" +
+                "        \"location\": \"Lagole\",\n" +
+                "        \"place\": \" Calalzo di Cadore\",\n" +
+                "        \"image\": \"circle\",\n" +
+                "        \"context\": \"Heiligtum\",\n" +
+                "        \"chronology\": \"LT D\",\n" +
+                "        \"motif\": \"Krieger\",\n" +
+                "\t\t\"carrier\":\"Figur\",\n" +
+                "\t\t\"color\": \"blue\"\n" +
+                "      },\n" +
+                "      \"geometry\": {\n" +
+                "        \"type\": \"Point\",\n" +
+                "        \"coordinates\": [\n" +
+                "          12.386051415960539,\n" +
+                "          46.43702879658559\n" +
+                "        ]\n" +
+                "      }\n" +
+                "    },\n" +
+                "\t{\n" +
+                "      \"type\": \"Feature\",\n" +
+                "      \"properties\":{ \n" +
+                "\t\t\"name\": \"Krieger (Herkules)\",\n" +
+                "        \"location\": \"Sanzeno\",\n" +
+                "        \"place\": \"Sanzeno\",\n" +
+                "        \"image\": \"cross\",\n" +
+                "        \"context\": \"Unbekannt\",\n" +
+                "        \"chronology\": \"LT D\",\n" +
+                "        \"motif\": \"Krieger\",\n" +
+                "\t\t\"carrier\":\"Figur\",\n" +
+                "\t\t\"color\": \"black\"\n" +
+                "      },\n" +
+                "      \"geometry\": {\n" +
+                "        \"type\": \"Point\",\n" +
+                "        \"coordinates\": [\n" +
+                "          11.080070,\n" +
+                "          46.369172\n" +
+                "        ]\n" +
+                "      }\n" +
+                "    },\n" +
+                "\t{\n" +
+                "      \"type\": \"Feature\",\n" +
+                "      \"properties\":{ \n" +
+                "\t\t\"name\": \"Krieger (Herkules)\",\n" +
+                "        \"location\": \"Perjen\",\n" +
+                "        \"place\": \"Landeck\",\n" +
+                "        \"image\": \"cross\",\n" +
+                "        \"context\": \"Unbekannt\",\n" +
+                "        \"chronology\": \"LT D\",\n" +
+                "        \"motif\": \"Krieger\",\n" +
+                "\t\t\"carrier\":\"Figur\",\n" +
+                "\t\t\"color\": \"black\"\n" +
+                "      },\n" +
+                "      \"geometry\": {\n" +
+                "        \"type\": \"Point\",\n" +
+                "        \"coordinates\": [\n" +
+                "          10.57406186926528,\n" +
+                "          46.369172\n" +
                 "        ]\n" +
                 "      }\n" +
                 "    }\n" +
@@ -403,7 +573,7 @@ public class FigurineService {
             }else{
                 sql = sql + " (";
             }
-            sql = sql + " f.title like '%"+searches[i]+"%'" +
+            sql = sql + "f.title like '%"+searches[i]+"%'" +
                     " or f.material_description like '%"+searches[i]+"%'" +
                     " or f.description_iconography like '%"+searches[i]+"%'" +
                     " or f.description_iconology like '%"+searches[i]+"%'" +

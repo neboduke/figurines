@@ -137,6 +137,9 @@ export class FigurineEditComponent implements OnInit {
       image: [''],
       image2: [''],
       image3: [''],
+      imageSource: [''],
+      imageSource2: [''],
+      imageSource3: [''],
       imageUrl: [''],
       motif: [''],
       dimensionX: [''],
@@ -166,6 +169,9 @@ export class FigurineEditComponent implements OnInit {
             image: responseData?.images[0] ,
             image2: responseData?.images[1] || [''],
             image3: responseData?.images[2] || [''],
+            imageSource: responseData?.images[0].imageSource ,
+            imageSource2: responseData?.images[1]?.imageSource || [''],
+            imageSource3: responseData?.images[2]?.imageSource || [''],
             imageUrl: responseData?.imageUrl,
             motif:  [''],
             dimensionX: responseData?.dimensionX,
@@ -445,6 +451,15 @@ createFigurine(f?:Figurine):Figurine{
   
   
   newFigurine.images = this.figImages;
+  if(this.figImages.length >= 1){
+    newFigurine.images[0].imageSource = this.figurineForm?.get('imageSource')?.value;
+  }
+  if(this.figImages.length >= 2){
+    newFigurine.images[1].imageSource = this.figurineForm?.get('imageSource2')?.value;
+  }
+  if(this.figImages.length >= 3){
+    newFigurine.images[2].imageSource = this.figurineForm?.get('imageSource3')?.value;
+  }
   newFigurine.keyword = this.figurineForm?.get('keyword')?.value;
   newFigurine.literature = this.figurineForm?.get('literature')?.value;
   newFigurine.location = this.figurineForm?.get('location')?.value;

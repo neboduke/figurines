@@ -184,7 +184,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-12 mb-3">
+                <div class="col-sm-6 mb-3">
                     <div class="form-group">
                         <label class="required-field" for="image" *ngIf="!!figImages[0]">Bild: {{figImages[0].imageTitle}}</label>
                         <input type="file" class="form-control" id="image" formControlName="image" 
@@ -194,7 +194,14 @@
                             />
                     </div>
                 </div>
-                <div class="col-sm-12 mb-3">
+                <div class="col-sm-6 mb-3">
+                    <div class="form-group">
+                        <label class="required-field" for="imageSource">Quelle:</label>
+                        <input type="text" class="form-control" id="imageSource" formControlName="imageSource" >
+                    </div>
+                    
+                </div> 
+                <div class="col-sm-6 mb-3">
                     <div class="form-group">
                         <label class="required-field" for="image" >Bild: </label>
                         <label class="required-field" for="image" *ngIf="!!figImages[1]">&nbsp;{{figImages[1].imageTitle}}</label>
@@ -204,7 +211,14 @@
                             />
                     </div>
                 </div>
-                <div class="col-sm-12 mb-3">
+                <div class="col-sm-6 mb-3">
+                    <div class="form-group">
+                        <label class="required-field" for="imageSource">Quelle:</label>
+                        <input type="text" class="form-control" id="imageSource2" formControlName="imageSource2" >
+                    </div>
+                    
+                </div>
+                <div class="col-sm-6 mb-3">
                     <div class="form-group">
                         <label class="required-field" for="image" >Bild: </label>
                         <label class="required-field" for="image" *ngIf="!!figImages[2]">&nbsp;{{figImages[2].imageTitle}}</label>
@@ -212,6 +226,12 @@
                             accept=".png, .jpg, .jpeg" 
                             (change)="onUploadImages($event,'image3')" 
                             />
+                    </div>
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <div class="form-group">
+                        <label class="required-field" for="imageSource">Quelle:</label>
+                        <input type="text" class="form-control" id="imageSource3" formControlName="imageSource3" >
                     </div>
                 </div>
                 <div class="row" *ngIf="figImages">

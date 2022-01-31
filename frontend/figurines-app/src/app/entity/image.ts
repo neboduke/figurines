@@ -5,5 +5,6 @@ export class Image {
     imagePath?: string;
     imageTitle?: string;
     imageBase64?: string;
+    imageSource?: string;
     figurine?: Figurine;
 }
