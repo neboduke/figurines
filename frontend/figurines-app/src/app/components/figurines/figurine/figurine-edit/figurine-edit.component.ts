@@ -473,11 +473,16 @@ createFigurine(f?:Figurine):Figurine{
   newFigurine.dateAbs = this.figurineForm?.get('dateAbs')?.value;
   newFigurine.descriptionIconography = this.figurineForm?.get('descriptionIconography')?.value;
   newFigurine.descriptionIconology = this.figurineForm?.get('descriptionIconology')?.value;
-  newFigurine.dimensionX = this.figurineForm?.get('dimensionX')?.value;
-  newFigurine.dimensionY = this.figurineForm?.get('dimensionY')?.value;
-  newFigurine.dimensionZ = this.figurineForm?.get('dimensionZ')?.value;
+  newFigurine.dimensionX = Number(this._replace(this.figurineForm?.get('dimensionX')?.value,',','.'));
+  newFigurine.dimensionY = Number(this._replace(this.figurineForm?.get('dimensionY')?.value ,',','.'));
+  newFigurine.dimensionZ = Number(this._replace(this.figurineForm?.get('dimensionZ')?.value, ',','.'));
 
   return newFigurine;
+}
+
+_replace(str:string,from:string, to:string):string{
+  let changed:string = str.toString().replace(from,to);
+  return changed;
 }
 
 public onEditFigurine( figurine: Figurine): void {
@@ -489,7 +494,7 @@ public onEditFigurine( figurine: Figurine): void {
           //this.id = response.data; //guid return in data
 
           this.toastService.show('Daten wurden erfolgreich gespeichert', { classname: 'bg-success text-light', delay: 4000 });
-          //window.location.reload();
+          window.location.reload();
           
       },
       (error: HttpErrorResponse) => {

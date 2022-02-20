@@ -67,3 +67,9 @@ body{
 }
 
 .carousel-control{color:red;}
+
+img{
+    cursor: -moz-zoom-in; 
+    cursor: -webkit-zoom-in; 
+    cursor: zoom-in;
+}

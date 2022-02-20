@@ -25,6 +25,7 @@ import { LocationModalComponent } from '../../location/location-modal/location-m
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FigurineEditComponent } from './figurine-edit/figurine-edit.component';
+import { Lightbox } from 'ngx-lightbox';
 
 @Component({
   selector: 'app-figurine',
@@ -54,6 +55,8 @@ export class FigurineComponent implements OnInit {
   figImages:  any[] | undefined  ;
   figImage: any | undefined ;
 
+  _album: any[] = [];
+
   constructor(public activeModal: NgbActiveModal, 
     private formBuilder: FormBuilder, 
     private figurineService: FigurineService,
@@ -63,7 +66,10 @@ export class FigurineComponent implements OnInit {
     private countryService: CountryService,
     private materialService: MaterialService,
     private motifService: MotifService,
-    private carrierService: CarrierService, public modalService: NgbModal,private route: ActivatedRoute) { 
+    private carrierService: CarrierService, 
+    public modalService: NgbModal,
+    private route: ActivatedRoute, 
+    private _lightbox: Lightbox) { 
       this.modalOptions = {
           backdrop:'static',
           backdropClass:'customBackdrop'
@@ -119,52 +125,29 @@ export class FigurineComponent implements OnInit {
  
 
 
-
-  /*updateSelectedLocation(element: string):void{
-    let lid : number = this.figurineForm.get(element)?.value;
-    if(lid===-1){
-      this.openModalLocation();
-    }
-    //this.country = this.countries.find(c => c.countryId === cid)!;
-  }*/
-
-
+lightbox_open(index: number): void {
   
-  
+  for(let img of this.figurine?.images){
+      const src = this.imageBaseUrl + img.imagePath + img.imageTitle;
+      const caption = '';
+      const thumb = '';
+      const album = {
+          src: src,
+          caption: caption,
+          thumb: thumb
+      };
 
-  public openModalFigurine(figurine?: Figurine):void {
-      
-    const modalRef = this.modalService.open(FigurineEditComponent);
-    // @Input figurine
-    modalRef.componentInstance.figurine = figurine;
-    modalRef.componentInstance.isAddNew = false;
-    modalRef.componentInstance.formMode = 'Edit';
-    modalRef.result.then(
-        (result: FigurineFormResult) => {
-            if (result) {
-              if (result.crudType == 'u') {
-                if (result.status) {
-                  this.refreshPage();
-                  // toaster for CRUD\Update
-                  //this.displayToaster('Confirmation', 'Data is updated');
-                }
-              }
-              if (result.crudType == 'd') {
-                if (result.status) {
-                  this.refreshPage();
-                  // toaster for CRUD\Delete
-                  //this.displayToaster('Confirmation', 'Data is deleted');
-                }
-              }
-                if (result.crudType == '') {
-                    // toaster for cancel
-                    //this.displayToaster('Confirmation', 'Form is cancel');
-                }
-              }
-        },(reason) => {
-            
-          }
-    )
+      this._album.push(album);
+  }
+
+
+  // open lightbox
+  this._lightbox.open(this._album, index);
+}
+
+lightbox_close(): void {
+  // close lightbox programmatically
+  this._lightbox.close();
 }
 
 refreshPage() {

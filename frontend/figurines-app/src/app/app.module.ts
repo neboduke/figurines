@@ -32,6 +32,7 @@ import { LeafletMarkerClusterModule } from '@asymmetrik/ngx-leaflet-markercluste
 import { NavbarComponent } from './common/navbar/navbar.component';
 import { QueryModalComponent } from './components/query-modal/query-modal.component';
 import { QueryService } from './services/query.service';
+import { LightboxModule } from 'ngx-lightbox';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { QueryService } from './services/query.service';
     RxReactiveFormsModule,
     CommonModule,
     NgSelectModule,
-    LeafletMarkerClusterModule
+    LeafletMarkerClusterModule,
+    LightboxModule 
   ],
   providers: [ChronologyService,FigurineService,LocationService, LiteratureService, QueryService, NgbActiveModal],
   bootstrap: [AppComponent]

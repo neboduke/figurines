@@ -6,12 +6,11 @@
             <div class="mb-2 d-flex">
                 <h4 class="font-weight-normal">{{figurine?.title}}</h4> 
             </div>
-            <div class="mb-2" *ngIf="!figurine?.imageUrl">
-            
+            <div class="mb-2" *ngIf="!figurine?.imageUrl">            
                 <div id="carousel" class="carousel slide" data-bs-ride="carousel" >
                     <div class="carousel-inner">
-                    <div   *ngFor="let i of figurine?.images" [ngClass]="figurine!.images.indexOf(i) === 0 ? 'carousel-item active' : 'carousel-item'">
-                        <img height="300px" [src]="imageBaseUrl + i.imagePath + i.imageTitle">
+                    <div   *ngFor="let i of figurine?.images; let x=index" [ngClass]="figurine!.images.indexOf(i) === 0 ? 'carousel-item active' : 'carousel-item'">
+                        <img height="300px" [src]="imageBaseUrl + i.imagePath + i.imageTitle" (click)="lightbox_open(x)" >
                     </div>
                     
                     </div>
@@ -32,13 +31,12 @@
                 <li class="media">
                     <h6 class="w-50 text-black font-weight-normal">Dimension: </h6>
                     <label class="media-body"  >
-                        {{ figurine?.dimensionY}} x {{ figurine?.dimensionX}} x {{ figurine?.dimensionZ}}</label>
+                        {{ figurine?.dimensionY}} x {{ figurine?.dimensionX}} x {{ figurine?.dimensionZ}} cm</label>
                 </li>
                 
                 <li class="media">
                     <h6 class="w-50 text-black font-weight-normal">Material: </h6>
-                    <label class="media-body" *ngFor="let mt of materials"  >
-                        {{ mt?.title }}</label>
+                    <label class="media-body" *ngFor="let mt of figurine.materials" >{{ mt?.title }} </label>
                 </li>
                 <li class="media">
                     <h6 class="w-50 text-black font-weight-normal">Motiv: </h6>
@@ -75,7 +73,7 @@
             <h5 class="font-weight-normal">Ikonografische Beschreibung</h5>
             <p>{{figurine?.descriptionIconography}}</p>
             
-            <h5 class="font-weight-normal">Ikonologische Beschreibung</h5>
+            <h5 class="font-weight-normal">Deutung</h5>
             <p>{{figurine?.descriptionIconology}}</p>
             
             <p>&nbsp;</p>
