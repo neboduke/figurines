@@ -1,0 +1,50 @@
+
+ <div class="card-body container" id="location_container">
+  <form>
+    <div class="form-group form-inline">
+        <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="locationSortService.searchTerm"/>
+        
+        <div class="spinner-border spinner-border-sm" *ngIf="locationSortService.loading | async" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow spinner-grow-sm" *ngIf="locationSortService.loading | async" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <table class="table  table-hover">
+        <thead class="table">
+          <tr>
+            <th scope="col" ></th>
+            <th scope="col" sortable="name" (sort)="onSort($event)">Ort</th>
+            <th scope="col" sortable="place" (sort)="onSort($event)">Ortschaft</th>
+            <th scope="col" sortable="country" (sort)="onSort($event)">Land</th>
+            <th scope="col">
+              
+              <a class="btn btn-new tooltips" (click)="onOpenModal(true)" data-placement="top" data-toggle="tooltip">Neu</a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let location of locations | async">
+            <th scope="row"></th>
+            <td><ngb-highlight [result]="location?.name" [term]="locationSortService.searchTerm"></ngb-highlight></td>
+            <td><ngb-highlight [result]="location.place" [term]="locationSortService.searchTerm"></ngb-highlight></td>
+            <td><ngb-highlight [result]="location.country?.name" [term]="locationSortService.searchTerm"></ngb-highlight></td>
+            <td><a class="btn" (click)="onOpenModal(false, location)"><i class="fa fa-edit"></i> </a></td>
+          </tr>
+          
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination
+          [collectionSize]="(locationSortService.total | async)!" [(page)]="locationSortService.page" [pageSize]="locationSortService.pageSize">
+        </ngb-pagination>
+    
+        <select class="custom-select ng-valid ng-dirty ng-touched" style="width: auto" name="pageSize" [(ngModel)]="locationSortService.pageSize">
+          <option [ngValue]="25">25</option>
+          <option [ngValue]="50">50</option>
+          <option [ngValue]="100">100</option>
+        </select>
+      </div>
+    </form>
+  </div>
