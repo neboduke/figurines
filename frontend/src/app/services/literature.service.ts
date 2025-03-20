@@ -9,23 +9,23 @@ import { Literature } from '../entity/literature';
 })
 export class LiteratureService {
 
-  private apiBaseUrl = environment.apiBaseUrl;
+  private apiBaseUrl = environment.apiUrls.literature;
 
   constructor(private http: HttpClient) { console.log('---- CONSTRUCTOR SERVICE---')}
 
   public getLiterature(): Observable<Literature[]>{
-    return this.http.get<Literature[]>(`${this.apiBaseUrl}/literature`);
+    return this.http.get<Literature[]>(`${this.apiBaseUrl}`);
   }
 
   public addLiterature(literature: Literature): Observable<Literature>{
-    return this.http.post<Literature>(`${this.apiBaseUrl}/literature/add`, literature);
+    return this.http.post<Literature>(`${this.apiBaseUrl}/add`, literature);
   }
 
   public updateLiterature(literature: Literature): Observable<Literature>{
-    return this.http.put<Literature>(`${this.apiBaseUrl}/literature/edit`, literature);
+    return this.http.put<Literature>(`${this.apiBaseUrl}/edit`, literature);
   }
 
   public deleteLiterature(literatureId: number): Observable<void> {
-     return this.http.delete<void>(`${this.apiBaseUrl}/literature/remove/${literatureId}` );
+     return this.http.delete<void>(`${this.apiBaseUrl}/remove/${literatureId}` );
   }
 }

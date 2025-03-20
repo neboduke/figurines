@@ -9,27 +9,27 @@ import { Figurine } from '../entity/figurine';
 })
 export class FigurineService {
 
-  private apiBaseUrl = environment.apiBaseUrl;
+  private apiBaseUrl = environment.apiUrls.figurine;
 
   constructor(private http: HttpClient) { console.log('---- CONSTRUCTOR SERVICE---')}
 
   public getFigurines(): Observable<Figurine[]>{
-    return this.http.get<Figurine[]>(`${this.apiBaseUrl}/figurine`);
+    return this.http.get<Figurine[]>(`${this.apiBaseUrl}`);
   }
 
   public getFigurine(figurineId: number): Observable<Figurine>{
-    return this.http.get<Figurine>(`${this.apiBaseUrl}/figurine/id/${figurineId}`);
+    return this.http.get<Figurine>(`${this.apiBaseUrl}/id/${figurineId}`);
   }
 
   public addFigurine(figurine: Figurine): Observable<Figurine>{
-    return this.http.post<Figurine>(`${this.apiBaseUrl}/figurine/add`, figurine);
+    return this.http.post<Figurine>(`${this.apiBaseUrl}/add`, figurine);
   }
 
   public updateFigurine(figurine: Figurine): Observable<Figurine>{
-    return this.http.put<Figurine>(`${this.apiBaseUrl}/figurine/edit`, figurine);
+    return this.http.put<Figurine>(`${this.apiBaseUrl}/edit`, figurine);
   }
 
   public deleteFigurine(figurineId: number): Observable<void> {
-     return this.http.delete<void>(`${this.apiBaseUrl}/figurine/remove/${figurineId}` );
+     return this.http.delete<void>(`${this.apiBaseUrl}/remove/${figurineId}` );
   }
 }

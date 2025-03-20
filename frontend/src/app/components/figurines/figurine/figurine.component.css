@@ -73,3 +73,7 @@ img{
     cursor: -webkit-zoom-in; 
     cursor: zoom-in;
 }
+#figurine {
+    background: white;
+    padding: 20px;
+}

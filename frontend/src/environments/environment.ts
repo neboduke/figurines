@@ -2,9 +2,12 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { apiUrls } from "./api-urls";
+
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:8080',
+  //apiBaseUrl: 'http://localhost:8080',
+  apiUrls,
   imageBaseUrl: 'http://localhost',
   imageBasePath: '/images/',
   imageBasePort: ':4200'

@@ -9,12 +9,12 @@ import { Country } from '../entity/country';
 })
 export class CountryService {
 
-  private apiBaseUrl = environment.apiBaseUrl;
+  private apiBaseUrl = environment.apiUrls.country;
 
   constructor(private http: HttpClient) { console.log('---- CONSTRUCTOR SERVICE---')}
 
   public getCountries(): Observable<Country[]>{
-    return this.http.get<Country[]>(`${this.apiBaseUrl}/country`);
+    return this.http.get<Country[]>(`${this.apiBaseUrl}`);
   }
 
 }

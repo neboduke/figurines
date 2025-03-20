@@ -1,0 +1,48 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql_container
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db:/home/nebi/projects/figurines/db/
+    networks:
+      - app_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    networks:
+      - app_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app_network
+    volumes:
+      - ./images:/home/nebi/projects/figurines/images
+    
+
+volumes:
+  mysql_data:
+  
+
+networks:
+  app_network:
+    driver: bridge

@@ -9,11 +9,11 @@ import { Carrier } from '../entity/carrier';
 })
 export class CarrierService {
 
-  private apiBaseUrl = environment.apiBaseUrl;
+  private apiBaseUrl = environment.apiUrls.carrier;
 
   constructor(private http: HttpClient) { console.log('---- CONSTRUCTOR SERVICE---')}
 
   public getCarriers(): Observable<Carrier[]>{
-    return this.http.get<Carrier[]>(`${this.apiBaseUrl}/carrier`);
+    return this.http.get<Carrier[]>(`${this.apiBaseUrl}`);
   }
 }

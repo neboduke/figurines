@@ -1,6 +1,6 @@
-<div class="container py-5">
+<div  id='figurine' class="container py-5">
     <div class="row"><span></span></div>
-    <div class="row">
+    <div  class="row">
         
         <div class="col-lg-5 col-md-6">
             <div class="mb-2 d-flex">
@@ -10,7 +10,7 @@
                 <div id="carousel" class="carousel slide" data-bs-ride="carousel" >
                     <div class="carousel-inner">
                     <div   *ngFor="let i of figurine?.images; let x=index" [ngClass]="figurine!.images.indexOf(i) === 0 ? 'carousel-item active' : 'carousel-item'">
-                        <img height="300px" [src]="imageBaseUrl + i.imagePath + i.imageTitle" (click)="lightbox_open(x)" >
+                        <img  height="300px" [src]="imageBaseUrl + i.imagePath + i.imageTitle" (click)="lightbox_open(x)" >
                     </div>
                     
                     </div>
@@ -64,8 +64,9 @@
         <div class="col-lg-7 col-md-6 pl-xl-3">
             <div class="mb-2 d-flex">
                
-                <a class="btn btn-outline-primary" href="#" role="button" [routerLink]="['/figurine/edit',figurine!.figurineId]">Berabeiten</a>
+                <a class="btn btn-outline-primary" href="#" role="button" [routerLink]="['/figurine/edit',figurine!.figurineId]" [hidden]="isExporting">Berabeiten</a>
                 <!--button type="button" class="btn btn-outline-primary" (click)="openModalFigurine( figurine)">Berabeiten</button-->
+                <button id="pdfExport" class="btn btn-outline-primary" role="button" (click)="exportAsPDF()" [hidden]="isExporting">PDF Exportieren</button>
             </div>
             <h5 class="font-weight-normal">Beschreibung des Materials / der Beschaffenheit</h5>
             <p>{{figurine?.materialDescription}}</p>

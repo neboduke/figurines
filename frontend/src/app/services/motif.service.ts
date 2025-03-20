@@ -9,12 +9,12 @@ import { Motif } from '../entity/motif';
 })
 export class MotifService {
 
-  private apiBaseUrl = environment.apiBaseUrl;
+  private apiBaseUrl = environment.apiUrls.motif;
 
   constructor(private http: HttpClient) { console.log('---- CONSTRUCTOR SERVICE---')}
 
   public getMotifs(): Observable<Motif[]>{
-    return this.http.get<Motif[]>(`${this.apiBaseUrl}/motif`);
+    return this.http.get<Motif[]>(`${this.apiBaseUrl}`);
   }
 
 }

@@ -9,12 +9,12 @@ import { Material } from '../entity/material';
 })
 export class MaterialService {
 
-  private apiBaseUrl = environment.apiBaseUrl;
+  private apiBaseUrl = environment.apiUrls.material;
 
   constructor(private http: HttpClient) { console.log('---- CONSTRUCTOR SERVICE---')}
 
   public getMaterials(): Observable<Material[]>{
-    return this.http.get<Material[]>(`${this.apiBaseUrl}/material`);
+    return this.http.get<Material[]>(`${this.apiBaseUrl}`);
   }
 
  

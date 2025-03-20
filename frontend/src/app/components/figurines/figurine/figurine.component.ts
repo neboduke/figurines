@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscriber } from 'rxjs';
@@ -26,19 +26,24 @@ import { environment } from 'src/environments/environment';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FigurineEditComponent } from './figurine-edit/figurine-edit.component';
 import { Lightbox } from 'ngx-lightbox';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-figurine',
   templateUrl: './figurine.component.html',
   styleUrls: ['./figurine.component.css']
 })
+
 export class FigurineComponent implements OnInit {
+  //@ViewChild('figurine', { static: false }) exportContent!: ElementRef;
   
   figurine!: Figurine  ;
   figurineForm!: FormGroup;
   id: any;
   result!: FigurineFormResult;
   imageBaseUrl: string = environment.imageBaseUrl;
+  isExporting = false;
 
   /*---SERVICES---*/
   literature: Literature[] = [];
@@ -154,6 +159,26 @@ refreshPage() {
   window.location.reload();
 }
 
+exportAsPDF() {
+  //const element = this.exportContent.nativeElement; // ID des zu exportierenden Elements
+  const element =document.getElementById('figurine');
+  this.isExporting = true;
+  if (!element) return;
+  setTimeout(() => { // Warte, damit HTML aktualisiert wird
+    html2canvas(element, { useCORS: true }).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      
+      
+      const pdf = new jsPDF('p', 'mm', 'a4'); // Hochformat (p), Maßeinheit: mm, A4-Format
+      const imgWidth = 210; // A4 Breite in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width; // Höhe proportional berechnen
 
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      pdf.save(this.figurine.title + '.pdf'); // PDF speichern
+      this.isExporting = false;
+    });
+  }, 100);
+  
+}
 
 }

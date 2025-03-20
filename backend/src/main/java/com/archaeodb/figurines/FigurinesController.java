@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class FigurinesController {
     @Inject
     private FigurineService figurineService ;

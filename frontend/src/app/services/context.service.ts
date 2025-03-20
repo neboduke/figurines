@@ -10,11 +10,11 @@ import { Context } from '../entity/context';
 })
 export class ContextService {
 
-  private apiBaseUrl = environment.apiBaseUrl;
+  private apiBaseUrl = environment.apiUrls.context;
 
   constructor(private http: HttpClient) { console.log('---- CONSTRUCTOR SERVICE---')}
 
   public getContext(): Observable<Context[]>{
-    return this.http.get<Context[]>(`${this.apiBaseUrl}/context`);
+    return this.http.get<Context[]>(`${this.apiBaseUrl}`);
   }
 }

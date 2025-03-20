@@ -21,7 +21,7 @@ public class FigurinesApplication {
 		System.out.println("XXX");
 	}
 
-	@Bean
+	/*@Bean
 	public CorsFilter corsFilter() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowCredentials(true);
@@ -35,6 +35,6 @@ public class FigurinesApplication {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return new CorsFilter(source);
-	}
+	}*/
 
 }
