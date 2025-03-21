@@ -28,18 +28,23 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
       - name: Build Angular Docker image
         run: |
           cd frontend
           docker build -t frontend .
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest
 
       - name: Build Java Spring Docker image
         run: |
           cd backend
           docker build -t backend .
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/backend:latest
           
-      - name: GIT Container
-        run: |
-          docker push ghcr.io/neboduke/backend:latest
-          docker push ghcr.io/neboduke/frontend:latest 
+      
 
