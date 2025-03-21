@@ -37,4 +37,9 @@ jobs:
         run: |
           cd backend
           docker build -t backend .
+          
+      - name: GIT Container
+        run: |
+          docker push ghcr.io/neboduke/backend:latest
+          docker push ghcr.io/neboduke/frontend:latest 
 
