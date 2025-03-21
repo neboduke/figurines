@@ -27,13 +27,13 @@ jobs:
         run: |
           cd frontend
           docker build -t frontend .
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest
+          docker push frontend:latest
 
       - name: Build Java Spring Docker image
         run: |
           cd backend
           docker build -t backend .
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/backend:latest
+          docker push backend:latest
           
       
 
