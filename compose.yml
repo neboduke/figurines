@@ -40,7 +40,8 @@ services:
     
 
 volumes:
-  mysql_data:
+  db:
+  images:
   
 
 networks:
