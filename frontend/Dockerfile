@@ -2,10 +2,9 @@
 FROM node:16.13.1 as build
 WORKDIR /app
 COPY package*.json ./
-RUN rm -rf dist/
 RUN npm install
 COPY . .
-RUN npm run build --prod
+RUN rm -rf dist/ && npm run build --prod
 
 # Nginx Stage
 FROM nginx:stable
