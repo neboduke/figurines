@@ -9,11 +9,10 @@ services:
       - ./db:/home/nebi/projects/figurines/db/
     networks:
       - app_network
+    
 
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: thedjuke/backend:latest   
     container_name: backend
     restart: always
     ports:
@@ -22,11 +21,9 @@ services:
       - mysql
     networks:
       - app_network
-
+    
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: thedjuke/frontend:latest
     container_name: frontend
     restart: always
     ports:
@@ -47,3 +44,4 @@ volumes:
 networks:
   app_network:
     driver: bridge
+
