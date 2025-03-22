@@ -24,4 +24,6 @@ COPY --from=build /app/target/figurines-0.0.1-SNAPSHOT.war /usr/local/tomcat/web
 EXPOSE 8080
 
 # Starte Tomcat
+ENV CATALINA_OPTS="-Xms256m -Xmx512m"
 CMD ["catalina.sh", "run"]
+
