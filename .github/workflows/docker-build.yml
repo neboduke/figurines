@@ -26,15 +26,15 @@ jobs:
       - name: Build Angular Docker image
         run: |
           cd frontend
-          docker build -t frontend .
-          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest .
+          docker build --no-cache -t frontend .
+          docker build --no-cache -t ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest .
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/frontend:latest
 
       - name: Build Java Spring Docker image
         run: |
           cd backend
-          docker build -t backend .
-          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/backend:latest .
+          docker build --no-cache -t backend .
+          docker build --no-cache -t ${{ secrets.DOCKER_HUB_USERNAME }}/backend:latest .
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/backend:latest
           
       
