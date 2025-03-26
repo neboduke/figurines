@@ -6,11 +6,11 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./db:/home/nebi/projects/figurines/db/
+      - ./Data:/var/lib/mysql
+      - ./mysql_config:/etc/mysql/conf.d
     networks:
       - app_network
     
-
   backend:
     image: thedjuke/backend:latest   
     container_name: backend
@@ -33,13 +33,7 @@ services:
     networks:
       - app_network
     volumes:
-      - ./images:/home/nebi/projects/figurines/images
-    
-
-volumes:
-  db:
-  images:
-  
+      - ./images:/images
 
 networks:
   app_network:
