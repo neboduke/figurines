@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 public class Material {
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int materialId;
     private String title;
 

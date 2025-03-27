@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 public class Figurine {
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer figurineId;
     private String title;
     private String descriptionIconography;

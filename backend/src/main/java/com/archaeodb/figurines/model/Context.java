@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 public class Context  {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer contextId;
     private String title;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "context")

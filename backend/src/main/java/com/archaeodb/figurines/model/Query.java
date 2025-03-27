@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Query {
     @Id
     @Column(name = "query_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue //(strategy = GenerationType.IDENTITY)
     private Integer queryId;
 
     @Column(name = "query_name", length = 500)

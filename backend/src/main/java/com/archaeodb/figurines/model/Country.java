@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 public class Country {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int countryId;
     private String name;
     private String coordinate;
