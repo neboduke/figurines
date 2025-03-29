@@ -10,8 +10,8 @@ RUN rm -rf dist/ && npm run build --prod
 FROM nginx:stable
 COPY --from=build /app/dist/figurines-app /usr/share/nginx/html/figurines
 COPY nginx.conf /etc/nginx
-COPY figurines.at_ssl_certificate.cer /etc/ssl
-COPY _.figurines.at_private_key.key /etc/ssl
+COPY figurines.at_ssl_certificate.cer /etc/ssl/certs
+COPY _.figurines.at_private_key.key /etc/ssl/certs
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
