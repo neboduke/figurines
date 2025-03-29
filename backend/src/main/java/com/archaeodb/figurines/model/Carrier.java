@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 public class Carrier {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private int carrierId;
     private String title;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "carrier")

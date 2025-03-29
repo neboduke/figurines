@@ -342,33 +342,26 @@ export class FigurineEditComponent implements OnInit {
 
   updateSelectedMaterial(figMaterials:Material[]): void {
     let mt: Material []=[];
-    setTimeout(() => {
-      for(let figMaterial of figMaterials){
-          mt.push( this.materials.find(m => m.materialId === figMaterial.materialId)!);
-        
-      }
-    }, 10);  
+    for(let figMaterial of figMaterials){
+        mt.push( this.materials.find(m => m.materialId === figMaterial.materialId)!);
+      
+    }
     this.figurineForm!.get('materials')!.setValue(mt);
   }
 
   updateSelectedLiterature(figLiteratures:Literature[]): void {
     let lt: Literature []=[];
-    setTimeout(() => {
-      for(let figLiterature of figLiteratures){
-          lt.push( this.literature.find(l => l.literatureId === figLiterature.literatureId)!);
-        
-      }
-    }, 10);
+    for(let figLiterature of figLiteratures){
+        lt.push( this.literature.find(l => l.literatureId === figLiterature.literatureId)!);
+      
+    }
     this.figurineForm!.get('literature')!.setValue(lt);
   }
 
   updateSelectedLocation(lid:number): void {
-    setTimeout(() => {
-      this.figurineForm!.get('location')!.setValue(
-        this.locations.find(l => l.locationId === lid)!  
-      )
-    }, 10);
-    
+    this.figurineForm!.get('location')!.setValue(
+      this.locations.find(l => l.locationId === lid)!  
+    )
   }
 
   updateSelectedMuseum(lid:number): void {
@@ -399,12 +392,10 @@ export class FigurineEditComponent implements OnInit {
       this.motifs.find(m => m.motifId === mid)!     
     )*/
     let mid: Motif []=[];
-    setTimeout(() => {
-      for(let figMotif of figMotifs){
-          mid.push( this.motifs.find(l => l.motifId === figMotif.motifId)!);
-        
-      }
-    }, 10);
+    for(let figMotif of figMotifs){
+        mid.push( this.motifs.find(l => l.motifId === figMotif.motifId)!);
+      
+    }
     this.figurineForm!.get('motif')!.setValue(mid);
   }
   updateSelectedContext(cid:number): void {

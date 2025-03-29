@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 public class Image {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer imageId;
     private String imagePath;
     private String imageTitle;

@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 public class Literature {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue()
     private int literatureId;
     private String title;
     private String isin;

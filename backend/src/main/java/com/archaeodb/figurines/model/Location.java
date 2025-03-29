@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 public class Location {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private int locationId;
     private String name;
     private String address;
