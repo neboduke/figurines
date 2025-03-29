@@ -7,7 +7,7 @@ COPY . .
 RUN rm -rf dist/ && npm run build --prod
 
 # Nginx Stage
-FROM nginx:stable
+FROM nginx:latest
 COPY --from=build /app/dist/figurines-app /usr/share/nginx/html/figurines
 COPY nginx.conf /etc/nginx
 COPY figurines.at_ssl_certificate.cer /etc/ssl/certs
