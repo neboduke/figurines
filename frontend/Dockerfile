@@ -13,5 +13,5 @@ COPY nginx.conf /etc/nginx
 COPY figurines.at_ssl_certificate.cer /etc/ssl/certs
 COPY _.figurines.at_private_key.key /etc/ssl/certs
 
-EXPOSE 80
+EXPOSE 443 80
 CMD ["nginx", "-g", "daemon off;"]
