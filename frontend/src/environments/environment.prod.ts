@@ -4,7 +4,7 @@ export const environment = {
   production: true,
   //apiBaseUrl: 'http://localhost:8080',
   apiUrls,
-  imageBaseUrl: 'http://localhost',
+  imageBaseUrl: '',
   imageBasePath: '/images/',
   imageBasePort: ''
 };
