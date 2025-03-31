@@ -3,10 +3,16 @@
         <form [formGroup]="figurineForm" class="contact-form form-validate" novalidate="novalidate">
             <input type="hidden" formControlName="figurineId">
             <div class="row">
-                <div class="col-sm-12 mb-3">
+                <div class="col-sm-9 mb-3">
                     <div class="form-group">
                         <label class="required-field" for="title">Titel</label>
                         <input type="text" class="form-control" formControlName="title" placeholder="Titel des Objektes">
+                    </div>
+                </div>
+                <div class="col-sm-3 mb-3">
+                    <div class="form-group">
+                        <label class="required-field" for="catalogNumber">KatalogNr</label>
+                        <input type="text" class="form-control" formControlName="catalogNumber" placeholder="KatalogNummer">
                     </div>
                 </div>
                 <div class="col-sm-4 mb-3">

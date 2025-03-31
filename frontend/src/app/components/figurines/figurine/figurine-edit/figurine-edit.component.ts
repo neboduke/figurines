@@ -145,8 +145,28 @@ export class FigurineEditComponent implements OnInit {
       dimensionX: [''],
       dimensionY: [''],
       dimensionZ: [''],
+      catalogNumber: [''],
 
     });
+  }
+  ngOnAfterInit(): void {
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.id =  Number(params.get('id'));
+      this.isAddNew= (this.id === -1)?true:false;
+    });
+    if (this.id !== undefined && this.id !== -1){
+      this.getFigurine(this.id!);
+    }
+
+    this.getLiterature();
+    this.getMaterial();
+    this.getCountries();
+    this.getMotifs();
+    this.getChronologies();
+    this.getCarriers();
+    this.getContextes();
+    this.getLocations();
+
   }
 
   private setFigurineData(responseData:Figurine) {
@@ -176,7 +196,8 @@ export class FigurineEditComponent implements OnInit {
             motif:  [''],
             dimensionX: responseData?.dimensionX,
             dimensionY: responseData?.dimensionY,
-            dimensionZ: responseData?.dimensionZ
+            dimensionZ: responseData?.dimensionZ,
+            catalogNumber: responseData?.catalogNumber
 
     });
   }
@@ -491,6 +512,7 @@ createFigurine(f?:Figurine):Figurine{
   newFigurine.dimensionX = Number(this._replace(this.figurineForm?.get('dimensionX')?.value,',','.'));
   newFigurine.dimensionY = Number(this._replace(this.figurineForm?.get('dimensionY')?.value ,',','.'));
   newFigurine.dimensionZ = Number(this._replace(this.figurineForm?.get('dimensionZ')?.value, ',','.'));
+  newFigurine.catalogNumber = Number(this.figurineForm?.get('catalogNumber')?.value);
 
   return newFigurine;
 }

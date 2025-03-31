@@ -21,6 +21,7 @@ public class Figurine {
     private double dimensionX;
     private double dimensionY;
     private double dimensionZ;
+    private Integer catalogNumber;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "figurine")
     private List<Image> images = new ArrayList<>();
@@ -252,6 +253,10 @@ public class Figurine {
         this.dimensionZ = dimensionZ;
     }
 
+    public Integer getCatalogNumber() { return catalogNumber;}
+
+    public void setCatalogNumber(Integer catalogNumber) { this.catalogNumber = catalogNumber;}
+
 
     public Figurine() {}
 
@@ -274,7 +279,8 @@ public class Figurine {
                     List<Motif> motif,
                     double dimensionX,
                     double dimensionY,
-                    double dimensionZ) {
+                    double dimensionZ,
+                    Integer catalogNumber) {
         this.title = title;
         this.descriptionIconography = descriptionIconography;
         this.descriptionIconology = descriptionIconology;
@@ -295,6 +301,7 @@ public class Figurine {
         this.dimensionX = dimensionX;
         this.dimensionY = dimensionY;
         this.dimensionZ = dimensionZ;
+        this.catalogNumber = catalogNumber;
     }
 
     @Override

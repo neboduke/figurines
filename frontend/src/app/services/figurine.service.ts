@@ -21,6 +21,10 @@ export class FigurineService {
     return this.http.get<Figurine>(`${this.apiBaseUrl}/id/${figurineId}`);
   }
 
+  public getFigurineCatNr(cnr: number): Observable<Figurine>{
+    return this.http.get<Figurine>(`${this.apiBaseUrl}/cnr/${cnr}`);
+  }
+
   public addFigurine(figurine: Figurine): Observable<Figurine>{
     return this.http.post<Figurine>(`${this.apiBaseUrl}/add`, figurine);
   }

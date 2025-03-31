@@ -71,6 +71,13 @@ public class FigurineService {
         return figurineDto;
     }
 
+    public FigurineDto getFigurineByCatalogNumber(Integer catalogNumber) {
+
+        Figurine figurine = figurineRepository.getById(catalogNumber);
+        FigurineDto figurineDto = figurineMapper.figurineFromDb(figurine);
+        return figurineDto;
+    }
+
     public List<FigurineDto> getFigurinesByKeyword(String keyword) {
         List<Figurine> figurines = figurineRepository.findFigurinesByKeywordLike("%"+keyword+"%");
         return getFigurineDtos(figurines);

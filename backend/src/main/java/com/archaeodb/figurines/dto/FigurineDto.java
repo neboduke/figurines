@@ -27,6 +27,7 @@ public class FigurineDto {
     private double dimensionX;
     private double dimensionY;
     private double dimensionZ;
+    private Integer catalogNumber;
 
 
     public FigurineDto() {
@@ -51,7 +52,8 @@ public class FigurineDto {
                        List<MotifDto> motif,
                        double dimensionX,
                        double dimensionY,
-                       double dimensionZ) {
+                       double dimensionZ,
+                       Integer catalogNumber){
         this.figurineId = figurineId;
         this.title = title;
         this.descriptionIconography = descriptionIconography;
@@ -73,6 +75,7 @@ public class FigurineDto {
         this.dimensionX = dimensionX;
         this.dimensionY = dimensionY;
         this.dimensionZ = dimensionZ;
+        this.catalogNumber = catalogNumber;
     }
 
     public int getFigurineId() {
@@ -239,9 +242,9 @@ public class FigurineDto {
         return dimensionZ;
     }
 
-    public void setDimensionZ(double dimensionZ) {
-        this.dimensionZ = dimensionZ;
-    }
+    public Integer getCatalogNumber() { return catalogNumber;}
+
+    public void setCatalogNumber(Integer catalogNumber) { this.catalogNumber = catalogNumber;}
 
     @Override
     public String toString() {

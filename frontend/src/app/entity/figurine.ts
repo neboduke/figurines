@@ -31,5 +31,6 @@ export class Figurine {
     dimensionX: number | undefined;
     dimensionY: number | undefined;
     dimensionZ: number | undefined;
+    catalogNumber: number | undefined;
 
 }

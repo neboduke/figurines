@@ -27,6 +27,13 @@ public class FigurinesController {
         return figurineService.getFigurineById(figurineId);
     }
 
+    @GetMapping(value = "/figurine/cnr/{catalog_number}")
+    @ResponseBody
+    public FigurineDto getFigurineByCatalogNumber(@PathVariable Integer catalog_number) {
+
+        return figurineService.getFigurineByCatalogNumber(catalog_number);
+    }
+
     @GetMapping(value = "/figurine/keyword/{keyword}")
     @ResponseBody
     public  List<FigurineDto> getFigurinesByKeyword(@PathVariable String keyword) {
