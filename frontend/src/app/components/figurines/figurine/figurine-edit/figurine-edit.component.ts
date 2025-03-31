@@ -97,6 +97,7 @@ export class FigurineEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log ('---ngOnInit start');
     this.createForm();
     
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -115,6 +116,7 @@ export class FigurineEditComponent implements OnInit {
     this.getCarriers();
     this.getContextes();
     this.getLocations();
+    console.log ('---ngOnInit end');
   }
 
   private createForm() {
@@ -149,8 +151,16 @@ export class FigurineEditComponent implements OnInit {
 
     });
   }
+  ngDoCheck(): void {console.log ('ngDoCheck');}
+  ngOnChanges(): void {console.log ('ngOnChanges');}
+  ngAfterContentInit(): void {console.log ('ngAfterContentInit');}
+  ngAfterContentChecked(): void {console.log ('ngAfterContentChecked');}
+  ngAfterViewChecked(): void {console.log ('ngAfterViewChecked');}
+  
+
   ngAfterViewInit(): void {
-    console.log ('onAfterInit');
+    console.log ('------ngAfterViewInit');
+ 
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.id =  Number(params.get('id'));
       this.isAddNew= (this.id === -1)?true:false;
@@ -167,7 +177,8 @@ export class FigurineEditComponent implements OnInit {
     this.getCarriers();
     this.getContextes();
     this.getLocations();
-    console.log ('onAfterInit end');
+
+    console.log ('-----ngAfterViewInit end');
   }
 
   private setFigurineData(responseData:Figurine) {
