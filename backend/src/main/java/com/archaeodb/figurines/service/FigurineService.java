@@ -84,7 +84,7 @@ public class FigurineService {
     }
 
     public List<FigurineDto> getFigurines() {
-        List<Figurine> figurines = figurineRepository.findAll();
+        List<Figurine> figurines = figurineRepository.findAll(Sort.by(Sort.Direction.ASC, "catalogNumber"));
         return getFigurineDtos(figurines);
     }
 
