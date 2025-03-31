@@ -108,14 +108,7 @@ export class FigurineEditComponent implements OnInit {
       this.getFigurine(this.id!);
     }
 
-    this.getLiterature();
-    this.getMaterial();
-    this.getCountries();
-    this.getMotifs();
-    this.getChronologies();
-    this.getCarriers();
-    this.getContextes();
-    this.getLocations();
+
     console.log ('---ngOnInit end');
   }
 
@@ -161,14 +154,13 @@ export class FigurineEditComponent implements OnInit {
   ngAfterViewInit(): void {
     console.log ('------ngAfterViewInit');
  
-    this.route.paramMap.subscribe((params: ParamMap) => {
+   /* this.route.paramMap.subscribe((params: ParamMap) => {
       this.id =  Number(params.get('id'));
       this.isAddNew= (this.id === -1)?true:false;
     });
     if (this.id !== undefined && this.id !== -1){
       this.getFigurine(this.id!);
-    }
-
+    }*/
     this.getLiterature();
     this.getMaterial();
     this.getCountries();
