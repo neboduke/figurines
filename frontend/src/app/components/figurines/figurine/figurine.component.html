@@ -11,6 +11,7 @@
                     <div class="carousel-inner">
                     <div   *ngFor="let i of figurine?.images; let x=index" [ngClass]="figurine!.images.indexOf(i) === 0 ? 'carousel-item active' : 'carousel-item'">
                         <img  height="300px" [src]="imageBaseUrl + i.imagePath + i.imageTitle" (click)="lightbox_open(x)" >
+                        <br/><span>©{{i.imageSource}}</span>
                     </div>
                     
                     </div>
