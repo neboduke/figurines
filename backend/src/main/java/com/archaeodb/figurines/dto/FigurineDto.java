@@ -241,6 +241,9 @@ public class FigurineDto {
     public double getDimensionZ() {
         return dimensionZ;
     }
+    public void setDimensionZ(double dimensionZ) {
+        this.dimensionZ = dimensionZ;
+    }
 
     public Integer getCatalogNumber() { return catalogNumber;}
 
