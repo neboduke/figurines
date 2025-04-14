@@ -31,8 +31,10 @@
 
                 <li class="media">
                     <h6 class="w-50 text-black font-weight-normal">Dimension: </h6>
-                    <label class="media-body"  >
-                        {{ figurine?.dimensionY}} x {{ figurine?.dimensionX}} x {{ figurine?.dimensionZ}} cm</label>
+                    <label class="media-body" *ngIf="figurine | dimension as formattedDimensions">
+                            {{ formattedDimensions }} cm
+                          
+                    </label>
                 </li>
                 
                 <li class="media">

@@ -33,6 +33,7 @@ import { NavbarComponent } from './common/navbar/navbar.component';
 import { QueryModalComponent } from './components/query-modal/query-modal.component';
 import { QueryService } from './services/query.service';
 import { LightboxModule } from 'ngx-lightbox';
+import { DimensionPipe } from './pipe/dimension.pipe';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { LightboxModule } from 'ngx-lightbox';
     MapComponent,
     SkechfabComponent,
     NavbarComponent,
-    QueryModalComponent
+    QueryModalComponent,
+    DimensionPipe
   ],
   imports: [
     BrowserModule,

@@ -23,7 +23,7 @@ public class Figurine {
     private double dimensionZ;
     private Integer catalogNumber;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "figurine")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "figurine", cascade = CascadeType.REMOVE)
     private List<Image> images = new ArrayList<>();
 
     @ManyToOne(fetch=FetchType.LAZY)
