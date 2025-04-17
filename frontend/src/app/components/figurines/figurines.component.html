@@ -99,13 +99,15 @@
 		<div class="col" *ngFor="let f of figurinesSetFiltered">
 			<div class="lc-block bg-white rounded shadow card h-100" >
 				<a class="image-link" [routerLink]="['/figurine',f.figurineId]" target="_blank">
-					<div style="overflow:hidden">
+					<div style="overflow:hidden;text-align:center">
 						<img *ngIf="f.images[0]" [src]="imageBaseUrl + f.images[0]?.imagePath + f.images[0]?.imageTitle"   height="200">
 					</div>	
 				</a>
 				<div class="card-body">
 					
+					<a class="image-link" [routerLink]="['/figurine',f.figurineId]" target="_blank">
 						<h5 class="card-title">{{f.title}}</h5>
+					</a>
 						<p>KatalogNr: {{f.catalogNumber}}<br>
 						Fundort: {{f.location!.name}},{{f.location!.country!.name}}</p>
 					
