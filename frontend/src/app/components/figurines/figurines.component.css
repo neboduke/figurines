@@ -4,3 +4,11 @@
     -ms-transform: translateZ(0);
     transform: translateZ(0)
 }
+.h5-link {
+    color:black;
+    text-decoration: solid;
+}
+.h5-link:hover {
+    opacity: 0.50;
+    text-decoration: solid;
+}
