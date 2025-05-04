@@ -222,8 +222,8 @@ public class FigurinesController {
 
     @GetMapping(value = "/query/{queryname}")
     @ResponseBody
-    public QueryDto getQuery(@PathVariable String queryName){
-        return figurineService.getQueryByName(queryName);
+    public QueryDto getQuery(@PathVariable String queryname){
+        return figurineService.getQueryByName(queryname);
     }
 
     @PostMapping(value = "/query/add")
