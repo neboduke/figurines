@@ -160,25 +160,59 @@ refreshPage() {
 }
 
 exportAsPDF() {
-  //const element = this.exportContent.nativeElement; // ID des zu exportierenden Elements
-  const element =document.getElementById('figurine');
-  this.isExporting = true;
-  if (!element) return;
-  setTimeout(() => { // Warte, damit HTML aktualisiert wird
-    html2canvas(element, { useCORS: true }).then(canvas => {
-      const imgData = canvas.toDataURL('image/png');
-      
-      
-      const pdf = new jsPDF('p', 'mm', 'a4'); // Hochformat (p), Maßeinheit: mm, A4-Format
-      const imgWidth = 210; // A4 Breite in mm
-      const imgHeight = (canvas.height * imgWidth) / canvas.width; // Höhe proportional berechnen
+  const element = document.getElementById('figurine');
+  if (!element) {
+    console.error('Element #figurine nicht gefunden');
+    return;
+  }
 
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-      pdf.save(this.figurine.title + '.pdf'); // PDF speichern
+  this.isExporting = true;
+
+  setTimeout(() => {
+    html2canvas(element, {
+      useCORS: true,
+      scale: 1.5
+    })
+    .then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+
+      // PDF anlegen (Hochformat, mm, A4)
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageWidth  = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+
+      // Ränder in mm
+      const marginLeft = 15;
+      const marginTop  = 20;
+
+      // verfügbare Breite für das Bild
+      const imgWidth  = pageWidth - marginLeft * 2;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      // Schriftart und -größe setzen
+      pdf.setFont('times', 'normal');
+      pdf.setFontSize(16);
+
+      // Optional: Titel oder sonstigen Text oberhalb des Bildes einfügen
+      // const title = this.figurine.title || 'Export';
+      // pdf.text(title, marginLeft, marginTop);
+
+      // Bild ins PDF einfügen (unterhalb eventueller Texte)
+      const imgY = marginTop; // oder marginTop + 10, wenn Text vorhanden
+      pdf.addImage(imgData, 'PNG', marginLeft, imgY, imgWidth, imgHeight);
+
+      // PDF speichern
+      pdf.save(`${this.figurine.title || 'export'}.pdf`);
+    })
+    .catch(err => {
+      console.error('PDF-Export fehlgeschlagen', err);
+    })
+    .finally(() => {
       this.isExporting = false;
     });
   }, 100);
+}
   
 }
 
-}
+
