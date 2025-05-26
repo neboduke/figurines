@@ -171,13 +171,14 @@ exportAsPDF() {
   setTimeout(() => {
     html2canvas(element, {
       useCORS: true,
-      scale: 1.5
+      scale: 1
     })
     .then(canvas => {
-      const imgData = canvas.toDataURL('image/png');
+      const imgData = canvas.toDataURL('image/png', 0.5);
 
       // PDF anlegen (Hochformat, mm, A4)
-      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdf = new jsPDF('p', 'mm', 'a4',true);
+    
       const pageWidth  = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
 
