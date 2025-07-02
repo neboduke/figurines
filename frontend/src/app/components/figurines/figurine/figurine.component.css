@@ -76,4 +76,10 @@ img{
 #figurine {
     background: white;
     padding: 20px;
+    font-size: 16pt;
+
 }
+.figurine-export {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 16pt;
+  }

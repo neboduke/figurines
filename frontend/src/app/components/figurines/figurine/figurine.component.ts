@@ -168,6 +168,10 @@ exportAsPDF() {
 
   this.isExporting = true;
 
+  //element.style.fontSize     = '16pt';
+  // Schriftfamilie ändern
+  //element.style.fontFamily   = '"Times New Roman", Times, serif';
+
   setTimeout(() => {
     html2canvas(element, {
       useCORS: true,
@@ -192,7 +196,7 @@ exportAsPDF() {
 
       // Schriftart und -größe setzen
       pdf.setFont('times', 'normal');
-      pdf.setFontSize(16);
+      pdf.setFontSize(20);
 
       // Optional: Titel oder sonstigen Text oberhalb des Bildes einfügen
       // const title = this.figurine.title || 'Export';
@@ -210,6 +214,9 @@ exportAsPDF() {
     })
     .finally(() => {
       this.isExporting = false;
+      element.style.fontSize     = '';
+      // Schriftfamilie ändern
+      element.style.fontFamily   = '';
     });
   }, 100);
 }

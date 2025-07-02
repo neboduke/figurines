@@ -36,6 +36,7 @@ import { LightboxModule } from 'ngx-lightbox';
 import { DimensionPipe } from './pipe/dimension.pipe';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,

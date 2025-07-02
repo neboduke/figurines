@@ -5,13 +5,13 @@
             <div class="row">
                 <div class="col-sm-9 mb-3">
                     <div class="form-group">
-                        <label class="required-field" for="title">Titel</label>
+                        <label class="required-field" for="title">Titel*</label>
                         <input type="text" class="form-control" formControlName="title" placeholder="Titel des Objektes">
                     </div>
                 </div>
                 <div class="col-sm-3 mb-3">
                     <div class="form-group">
-                        <label class="required-field" for="catalogNumber">KatalogNr</label>
+                        <label class="required-field" for="catalogNumber">KatalogNr*</label>
                         <input type="text" class="form-control" formControlName="catalogNumber" placeholder="KatalogNummer">
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                 </div>
                 <div class="col-sm-6 mb-3">
                     <div class="form-group">
-                        <label  for="materials">Material</label>
+                        <label  for="materials">Material*</label>
                         <select  class="form-select" multiple formControlName="materials" >
                         
                             <option *ngFor="let mt of materials"  [ngValue]="mt">
@@ -56,7 +56,7 @@
 
                 <div class="col-sm-12 mb-3">
                     <div class="form-group">
-                        <label class="required-field" for="descriptionIconography">Vorikonografische Beschreibung</label>
+                        <label class="required-field" for="descriptionIconography">Vorikonografische Beschreibung*</label>
                         <textarea class="form-control" id="descriptionIconography" formControlName="descriptionIconography" rows="4" placeholder=""></textarea>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
 
                 <div class="col-sm-12 mb-3">
                     <div class="form-group">
-                        <label class="required-field" for="descriptionIconology">Ikonografische/Szenische Beschreibung</label>
+                        <label class="required-field" for="descriptionIconology">Ikonografische/Szenische Beschreibung*</label>
                         <textarea class="form-control" id="descriptionIconology" formControlName="descriptionIconology" rows="4" placeholder=""></textarea>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                 </div>
                 <div class="col-sm-6 mb-3">
                     <div class="form-group">
-                        <label  for="chronology">Datierung Relativ</label>
+                        <label  for="chronology">Datierung Relativ*</label>
                         
                         <select  class="form-select"  formControlName="chronology" >
                             <option [ngValue]="null" ></option>
@@ -91,7 +91,7 @@
 
                 <div class="col-sm-6 mb-3">
                     <div class="form-group">
-                        <label  for="carrier">Bildträger</label>
+                        <label  for="carrier">Bildträger*</label>
                         
                         <select  class="form-select"  formControlName="carrier" >
                             <option [ngValue]="null" ></option>
@@ -104,7 +104,7 @@
                 </div>
                 <div class="col-sm-6 mb-3">
                     <div class="form-group">
-                        <label  for="motif">Motiv</label>
+                        <label  for="motif">Motiv*</label>
                         <select  class="form-select" multiple formControlName="motif" >
                             <option [ngValue]="null" ></option>
                             <option *ngFor="let mf of motifs"  [ngValue]="mf">
@@ -116,7 +116,7 @@
                 </div>
                 <div class="col-sm-12 mb-3">
                     <div class="form-group">
-                        <label  for="motif">Fundkontext</label>
+                        <label  for="motif">Fundkontext*</label>
                         <select  class="form-select"  formControlName="context" >
                             <option *ngFor="let cx of contextes"  [ngValue]="cx">
                                 {{ cx.title }}
@@ -128,7 +128,7 @@
 
                 <div class="col-sm-12 mb-3">
                     <div class="form-group">
-                        <label  for="location">Fundort</label>                       
+                        <label  for="location">Fundort*</label>                       
                         <select  class="form-select"   formControlName="location" (change)="openLocation()">
                             <option [ngValue]="null" ></option>
                             <option [ngValue]="-1" >neuen Fundort eintragen</option>
@@ -142,7 +142,7 @@
 
                 <div class="col-sm-6 mb-3">
                     <div class="form-group">
-                        <label  for="exibitLocation" >Austellungsort</label>                       
+                        <label  for="exibitLocation" >Austellungsort*</label>                       
                         <select  class="form-select"  formControlName="exibitLocation" (change)="openMuseum()">
                             <option [ngValue]="null">kein Ausstellungsort vorhanden</option>
                             <option [ngValue]="-1" >neuen Ausstellungsort eintragen</option>
@@ -160,7 +160,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6 mb-3"><label  for="literature">Literatur</label></div>
+                <div class="col-sm-6 mb-3"><label  for="literature">Literatur*</label></div>
                 <div class="col-sm-6 mb-3"><a class="btn btn-new " (click)="onAddLiterature()" >Neu</a></div>
                     
                 <div class="col-sm-12 mb-3">
@@ -169,7 +169,7 @@
                         <select  class="form-select" multiple formControlName="literature" >
                             <option [ngValue]="null">keine Literatur vorhanden</option>
                             <option *ngFor="let l of literature"  [ngValue]="l">
-                                {{ l.title }}
+                               {{l.author}}: {{ l.title }}
                             </option>
                         </select>
                     </div>  
