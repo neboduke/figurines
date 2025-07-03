@@ -10,6 +10,8 @@ import { LocationComponent } from './components/location/location.component';
 import { MapComponent } from './components/map/map.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'figurines', pathMatch: 'full' },
+
   { path: 'chronology', component: ChronologyComponent},
   { path: 'location', component: LocationComponent },
   { path: 'country', component: CountryComponent },
