@@ -76,11 +76,24 @@ img{
 #figurine {
     background: white;
     padding: 20px;
-    font-size: 12pt;
-    
+    font-size: 14pt;
 
+}
+
+#figurine h6 {
+    font-size: 14pt;
 }
 .figurine-export {
     font-family: "Times New Roman", Times, serif;
     font-size: 16pt;
   }
+.kat-nr { 
+    width:40%;
+    float:right;
+    text-align:right;
+}
+.kat-nr h4 {
+    padding: 8px 0;
+    font-size: 14pt;
+
+}
