@@ -41,6 +41,7 @@ export class FigurineComponent implements OnInit {
   figurine!: Figurine  ;
   figurineForm!: FormGroup;
   id: any;
+  cnr: any;
   result!: FigurineFormResult;
   imageBaseUrl: string = environment.imageBaseUrl;
   isExporting = false;
@@ -84,9 +85,14 @@ export class FigurineComponent implements OnInit {
   ngOnInit(): void {    
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.id =  Number(params.get('id'));
-    });
+      this.cnr =  Number(params.get('cnr'));
 
-    this.getFigurine(this.id);
+    });
+    if(this.id !== 0){
+      this.getFigurine(this.id);
+    }else{
+      this.getFigurineByCatalogNumber(this.cnr);
+    }
 
     this.createForm();
   }
@@ -119,6 +125,16 @@ export class FigurineComponent implements OnInit {
 
   private getFigurine(figurineId: number):void{
     this.figurineService.getFigurine(figurineId).subscribe(
+        responseData => {
+            this.figurine = responseData;
+        },
+        (error: HttpErrorResponse) => {
+            alert(error.message)
+        }
+    );
+  }
+  private getFigurineByCatalogNumber(catalogNumber: number):void{
+    this.figurineService.getFigurineCatNr(catalogNumber).subscribe(
         responseData => {
             this.figurine = responseData;
         },

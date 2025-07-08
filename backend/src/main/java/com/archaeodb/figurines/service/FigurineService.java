@@ -73,7 +73,7 @@ public class FigurineService {
 
     public FigurineDto getFigurineByCatalogNumber(Integer catalogNumber) {
 
-        Figurine figurine = figurineRepository.getById(catalogNumber);
+        Figurine figurine = figurineRepository.getFigurineByCatalogNumber(catalogNumber);
         FigurineDto figurineDto = figurineMapper.figurineFromDb(figurine);
         return figurineDto;
     }

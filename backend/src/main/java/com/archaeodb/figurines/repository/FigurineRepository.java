@@ -12,6 +12,7 @@ import java.util.List;
 public interface FigurineRepository extends JpaRepository<Figurine, Integer> {
 
     public List<Figurine> getFigurinesByChronology(Chronology chronology);
+    public Figurine getFigurineByCatalogNumber(Integer catalogNumber);
     public List<Figurine> getFigurinesByMaterials(Material material);
     public List<Figurine> findFigurinesByKeywordLike(String keyword);
     public List<Figurine> getFigurinesByLiterature(Literature literature);

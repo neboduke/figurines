@@ -18,6 +18,7 @@ const routes: Routes = [
   { path: 'literature', component: LiteratureComponent },
   { path: 'figurine', component: FigurineComponent },
   { path: 'figurine/:id', component: FigurineComponent },
+  { path: 'figurine/cnr/:cnr', component: FigurineComponent },
   { path: 'figurines', component: FigurinesComponent },
   { path: 'figurine/edit/:id', component: FigurineEditComponent },
   { path: 'map', component: MapComponent }
