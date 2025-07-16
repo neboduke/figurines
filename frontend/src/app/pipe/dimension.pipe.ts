@@ -10,7 +10,7 @@ export class DimensionPipe implements PipeTransform {
 
     let dimensions = [];
     if (figurine.dimensionY) dimensions.push(`Höhe: ${figurine.dimensionY}`);
-    if (figurine.dimensionX) dimensions.push(`Breite: ${figurine.dimensionX}`);
+    if (figurine.dimensionX) dimensions.push(`Länge: ${figurine.dimensionX}`);
     if (figurine.dimensionZ) dimensions.push(`Tiefe: ${figurine.dimensionZ}`);
 
     return dimensions.join(' | ');
