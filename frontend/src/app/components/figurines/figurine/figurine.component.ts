@@ -223,7 +223,7 @@ exportAsPDF() {
       pdf.addImage(imgData, 'PNG', marginLeft, imgY, imgWidth, imgHeight);
 
       // PDF speichern
-      pdf.save(`${this.figurine.title || 'export'}.pdf`);
+      pdf.save(`${this.figurine.catalogNumber + "-" + this.figurine.title || 'export'}.pdf`);
     })
     .catch(err => {
       console.error('PDF-Export fehlgeschlagen', err);
