@@ -1,4 +1,4 @@
-<div  id='figurine' class="container py-5">
+<div  id='figurine' class="container py-5" [style.font-size]="fontSize">
     <div class="row"><span></span></div>
     <div  class="row">
         
@@ -101,13 +101,13 @@
                 <button id="pdfExport" class="btn btn-outline-primary" role="button" (click)="exportAsPDF()" [hidden]="isExporting">PDF Exportieren</button>
             </div>
             <h5 class="font-weight-normal">Beschreibung des Materials / der Beschaffenheit</h5>
-            <p>{{figurine?.materialDescription}}</p>
+            <p >{{figurine?.materialDescription}}</p>
             
             <h5 class="font-weight-normal">Vorikonografische Beschreibung</h5>
-            <p>{{figurine?.descriptionIconography}}</p>
+            <p style="text-align:justify">{{figurine?.descriptionIconography}}</p>
             
             <h5 class="font-weight-normal">Ikonografische/Szenische Beschreibung</h5>
-            <p>{{figurine?.descriptionIconology}}</p>
+            <p style="text-align:justify">{{figurine?.descriptionIconology}}</p>
             
             <p>&nbsp;</p>
            

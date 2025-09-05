@@ -37,6 +37,8 @@ import html2canvas from 'html2canvas';
 
 export class FigurineComponent implements OnInit {
   //@ViewChild('figurine', { static: false }) exportContent!: ElementRef;
+
+  fontSize='';
   
   figurine!: Figurine  ;
   figurineForm!: FormGroup;
@@ -184,9 +186,12 @@ exportAsPDF() {
 
   this.isExporting = true;
 
-  //element.style.fontSize     = '16pt';
+  this.fontSize='14pt';
+
+  //element.style.fontSize     = '14pt';
   // Schriftfamilie ändern
   //element.style.fontFamily   = '"Times New Roman", Times, serif';
+  
 
   setTimeout(() => {
     html2canvas(element, {
@@ -230,6 +235,7 @@ exportAsPDF() {
     })
     .finally(() => {
       this.isExporting = false;
+      this.fontSize='';
       element.style.fontSize     = '';
       // Schriftfamilie ändern
       element.style.fontFamily   = '';
