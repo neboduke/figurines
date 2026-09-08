@@ -49,7 +49,7 @@ export class MapComponent implements AfterViewInit {
       zoom: 8
     });
 
-    var mapbox= 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+    var mapbox= 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibmVib3hkdWtlIiwiYSI6ImNtdHQycHcyMTA1aHQyeXM3dTl2aXI5dmQifQ.GVOt2cE_4XL0ihyTUoZ-PA';
     var basebox = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 	  var openstreetmap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
