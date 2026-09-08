@@ -50,10 +50,10 @@ export class MapComponent implements AfterViewInit {
     });
 
     var mapbox= 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibmVib3hkdWtlIiwiYSI6ImNtdHQycHcyMTA1aHQyeXM3dTl2aXI5dmQifQ.GVOt2cE_4XL0ihyTUoZ-PA';
-    var basebox = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+    var basebox = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=cb1_32js_1_2a468fd2e906395d10e0257d';
 	  var openstreetmap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 
-    var map = this.setMarker? openstreetmap : basebox;
+    var map = this.setMarker? openstreetmap : mapbox;
 
     const tiles = L.tileLayer(map, {
       id: 'mapbox/light-v9',
